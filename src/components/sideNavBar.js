@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   RiMenuFold2Line,
   RiMenuFoldLine,
@@ -11,23 +11,43 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { LuUserRound, LuFolder } from "react-icons/lu";
 import { TbUsersGroup } from "react-icons/tb";
 import { CgLoadbarSound } from "react-icons/cg";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { AiOutlineUser } from "react-icons/ai";
 
 function SideNavBar({ setnavOpen, nav }) {
-  const menulist = [
-    { icon: MdOutlineDashboard, label: "Dashboard" },
-    { icon: LuUserRound, label: "Client" },
-    { icon: LuFolder, label: "Projects" },
-    { icon: RiTaskLine, label: "Tasks" },
-    { icon: TbUsersGroup, label: "Users" },
-    { icon: RiMoneyDollarCircleLine, label: "Finance" },
-    { icon: CgLoadbarSound, label: "Reports" },
-    { icon: RiBillLine, label: "Billing" },
-  ];
+  const [admin, setadmin] = useState(false);
+
+  const path = usePathname();
+  const segment = path.split("/").filter(Boolean);
+  useEffect(() => {
+    if (segment.includes("admin")) {
+      setadmin(true);
+    }
+  }, [path]);
+  const menulist = admin
+    ? [
+        {icon: MdOutlineDashboard,label: "Dashboard",page: "/admin/dashboard"},
+        { icon: LuUserRound, label: "Client", page: "/admin/clients" },
+        { icon: LuFolder, label: "Projects", page: "/admin/projects" },
+        { icon: RiTaskLine, label: "Tasks", page: "/admin/tasks" },
+        { icon: TbUsersGroup, label: "Users", page: "/admin/users" },
+        { icon: RiMoneyDollarCircleLine,label: "Finance",page: "/admin/finance"},
+        { icon: CgLoadbarSound, label: "Reports", page: "/admin/reports" },
+        { icon: RiBillLine, label: "Billing", page: "/admin/billing" },
+      ]
+    : [
+        {icon: MdOutlineDashboard,label: "Dashboard",page: "/team/dashboard"},
+        { icon: LuFolder, label: "My Projects", page: "/team/projects" },
+        { icon: RiTaskLine, label: "My Tasks", page: "/team/tasks" },
+        { icon: CgLoadbarSound, label: "Reports", page: "/team/reports" },
+        { icon: AiOutlineUser, label: "Profile", page: "/team/profile" },
+      ];
 
   return (
     <aside
       className={`
-    transition-all duration-500 ease-in-out bg-white border min-h-screen overflow-hidden z-50
+    transition-all duration-500 ease-in-out bg-white border border-gray-200 min-h-full overflow-hidden z-50
     fixed lg:relative
     ${nav ? "w-[70%] sm:w-[50%] md:w-[40%] lg:w-[16.6%]" : "w-0 lg:w-[5%]"}
     ${nav ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
@@ -51,10 +71,11 @@ function SideNavBar({ setnavOpen, nav }) {
           />
         )}
       </div>
-      <hr></hr>
+      <hr className="text-gray-200"></hr>
       <div className="text-gray-600 ps-2 pt-2">
         {menulist.map((menu, idx) => (
-          <div
+          <Link
+            href={menu.page}
             key={idx}
             className="flex justify-start gap-4 text-lg transition-all duration-200 ease-in h-[60px] ps-4 pe-4 py-4 items-center hover:bg-blue-100 rounded-xl mr-2 hover:border-r-4  hover:border-r-blue-700 hover:text-blue-600 border-0 border-r-2 border-r-transparent"
           >
@@ -66,7 +87,7 @@ function SideNavBar({ setnavOpen, nav }) {
                 {menu.label}
               </h2>
             )}
-          </div>
+          </Link>
         ))}
       </div>
     </aside>

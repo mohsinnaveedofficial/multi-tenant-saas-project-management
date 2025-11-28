@@ -1,0 +1,28 @@
+import React from 'react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+
+function RoleDropdown({value,onchange}) {
+  return (
+<div className="mt-4  text-start">
+      <label htmlFor="phone" className="font-semibold text-gray-800 ">
+        Role
+      </label>
+      
+      <Select value={value} onValueChange={onchange}  >
+        <SelectTrigger
+          id="priority"
+          className="border border-gray-300 w-full rounded-lg  py-2 px-3 input-style data-[placeholder]:text-black mt-1"
+        >
+          <SelectValue placeholder="Select team member" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="Admin">Admin</SelectItem>
+          <SelectItem value="Employee">Employee</SelectItem>
+          
+        </SelectContent>
+      </Select>
+    </div>
+  )
+}
+
+export default RoleDropdown
