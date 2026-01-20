@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import HomeTestimonialsCard from "@/components/homeTestimonialsCard";
 import HomeBillingcard from "@/components/homeBillingcard";
 import Homefooter from "@/components/homefooter";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -34,12 +35,16 @@ export default function Home() {
             productivity, and grow your bussiness
           </p>
           <div className="space-x-6 mt-5">
-            <Button className={"text-white bg-blue-600 py-6 "}>
-              Get started Free
+             <Link href={"/auth/signup"}>
+            <Button  variant={"primary"} className={"text-white cursor-pointer bg-blue-600 py-6 "}>
+               Get started Free 
             </Button>
-            <Button className="text-blue-700 border py-6 border-blue-700 bg-white">
+            </Link>
+            <Link href={"https://www.linkedin.com/posts/mohsinnaveedofficial_saas-startup-webdevelopment-activity-7411990759052156928-8t42?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEYde6EBTbGL7OdXsUQtYL6TZVvgYHElFb0"}>
+            <Button variant={"secondary"} className="cursor-pointer text-blue-700 border py-6 border-blue-700 bg-white">
               Watch Demo
             </Button>
+            </Link>
           </div>
         </div>
         <div>
