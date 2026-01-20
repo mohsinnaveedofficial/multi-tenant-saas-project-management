@@ -13,7 +13,6 @@ const [projectdetail,setProjectDetail]=useState();
   const getDetails=async () => {
     const res=await api.get("/project/"+project);
   setProjectDetail(await(res).data);
-  console.log(res.data);
   }
 
 

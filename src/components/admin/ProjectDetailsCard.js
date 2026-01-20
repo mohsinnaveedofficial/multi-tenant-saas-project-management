@@ -39,8 +39,7 @@ function ProjectDetailsCard({ project }) {
         comment,
       });
       toast.success("Commnet added successfully");
-      console.log(res.data)
-      console.log(comments)
+    
       setComments((prev) => [...prev, res.data]);
       setComment("");
       setOpen(false);

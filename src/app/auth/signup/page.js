@@ -40,9 +40,9 @@ const sendData = {
     password: formData.password
   }
 }
-        console.log(sendData)
+        
       const res=await api.post("/auth/signup",sendData )
-      console.log(res);
+     
   if(res.status===201){
     setformData(emptydata)
           toast.success("Register Successfully")

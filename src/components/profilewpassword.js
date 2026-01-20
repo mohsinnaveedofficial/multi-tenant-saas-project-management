@@ -61,7 +61,7 @@ const initialData = useMemo(
         return toast.info("No changes to update");
       }
 
-      console.log(payload)
+    
       const res = await api.patch("/user", payload);
 
       if (res.status === 200 || res.status === 201) {

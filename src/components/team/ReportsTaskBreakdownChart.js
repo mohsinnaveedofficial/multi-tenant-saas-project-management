@@ -11,7 +11,7 @@ function ReportsTaskBreakdownChart({ chartData }) {
     value: project.tasks.reduce((sum, t) => sum + t.value, 0),
   }));
   let [activeProject, setActiveProject] = useState(chartData[0]);
-  console.log(activeProject)
+
 
   return (
     <div>

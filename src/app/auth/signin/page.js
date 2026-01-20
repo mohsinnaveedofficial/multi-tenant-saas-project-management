@@ -58,7 +58,7 @@ function Login() {
         router.push("/team/dashboard");
       }
     } catch (err) {
-      console.log(err);
+     
       toast.error(
         err.response?.data?.message || "Login failed. Please try again."
       );
@@ -68,14 +68,12 @@ function Login() {
   return (
     <div className="flex flex-col justify-center items-center font-sans min-h-screen bg-gray-50 px-4 bg-gradient-to-br from-blue-200 via-white to-purple-200 relative">
       
-      {/* Side Home Button */}
+      
       <button
         onClick={() => router.push("/")}
         className="fixed top-20 left-0 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-r-lg shadow-lg flex items-center gap-2 z-50 transition-colors"
       >
-        <Home size={20} /> {/* optional icon */}
-      
-      
+        <Home size={20} /> 
       </button>
 
       <div className="w-full max-w-md border border-gray-200 m-8 p-6 sm:p-10 rounded-lg shadow-lg bg-white">

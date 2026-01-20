@@ -14,7 +14,7 @@ function Projects() {
 const [data,setData]=useState([]);
 const getData=async () => {
   const res=await api.get("/project/project-assigned-users")
-  console.log(res.data);
+
   setData(await(res).data);
 }
 
