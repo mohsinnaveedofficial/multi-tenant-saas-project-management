@@ -1,55 +1,46 @@
 "use client";
-import React from "react";
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-
-// import required modules
 import { Pagination, Autoplay } from "swiper/modules";
+import Image from "next/image";
+
 
 function Slide() {
+  const images = Array.from({ length: 7 }, (_, i) => ({
+    id: i + 1,
+    src: `https://wjazdipgmtmrjxzazrva.supabase.co/storage/v1/object/public/images/i-${i + 1}.png?width=900&quality=80`,
+  }));
+  
   return (
     <div>
       <Swiper
-        pagination={true}
+        pagination={{ clickable: true }}
         autoplay={{
           delay: 2500,
-          disableOnInteraction: true,
+          disableOnInteraction: false,
         }}
         modules={[Autoplay, Pagination]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <div className="flex justify-center items-center ">
-            <div className="border-12  border-white  shadow-xl rounded-xl mb-10">
-              <img className=" h-64 md:h-96  rounded-lg " src="/slideimg1.png" />
+        {images.map((image) => (
+          <SwiperSlide key={image.id}>
+            <div className="flex justify-center items-center">
+              <div className="border-8 border-gray-50 shadow-xl rounded-xl mb-10">
+                <Image
+                  src={image.src}
+                  alt={`Slide ${image.id}`}
+                  width={900}
+                  height={500}
+                  className="h-64 md:h-96 w-auto rounded-lg object-cover "
+                  priority={image.id === 1}
+                />
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex justify-center items-center ">
-            <div className="border-12  border-white  shadow-xl rounded-xl mb-10">
-              <img className=" h-64 md:h-96  rounded-lg " src="/slideimg2.png" />
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex justify-center items-center ">
-            <div className="border-12  border-white  shadow-xl rounded-xl mb-10">
-              <img className=" h-64 md:h-96  rounded-lg " src="/slideimg3.png" />
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex justify-center items-center ">
-            <div className="border-12  border-white  shadow-xl rounded-xl mb-10">
-              <img className=" h-64 md:h-96  rounded-lg " src="/slideimg4.png" />
-            </div>
-          </div>
-        </SwiperSlide>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

@@ -140,7 +140,7 @@ const FinalPlanList=plans.map((plan)=>({
           Choose Your Plan
         </h1>
         <p className="text-sm text-gray-600 flex justify-center pt-3 pb-4">
-          Select the perfect plan for your team's needs
+          Select the perfect plan for your team&apos;s needs
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 m-4">
           {FinalPlanList.map((plan, index) => (

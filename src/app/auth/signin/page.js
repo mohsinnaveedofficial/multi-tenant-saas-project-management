@@ -127,8 +127,8 @@ function Login() {
           </form>
 
           <div className="flex justify-center items-center gap-1 py-6">
-            <p className="text-gray-700 text-sm">Don't have an account?</p>
-            <Link href="./signup" className="text-blue-600 font-semibold text-sm">Sign up</Link>
+            <p className="text-gray-700 text-sm">Don&apos;t have an account?</p>
+           <Link href="./signup" className="text-blue-600 font-semibold text-sm">Sign up</Link>
           </div>
 
           <hr className="border-gray-300" />
