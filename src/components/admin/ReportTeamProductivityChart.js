@@ -14,13 +14,13 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-function ReportTeamProductivityChart() {
-  const chartData = [
-    { Week: "Week 1", taskCompleted:0,taskPending:20 },
-    { Week: "Week 2",  taskCompleted:140,taskPending:30},
-    { Week: "Week 3",  taskCompleted:50,taskPending:40 },
-    { Week: "Week 4",  taskCompleted:300,taskPending:40 },
-  ];
+function ReportTeamProductivityChart({chartData}) {
+  // const chartData = [
+  //   { Week: "Week 1", taskCompleted:0,taskPending:20 },
+  //   { Week: "Week 2",  taskCompleted:140,taskPending:30},
+  //   { Week: "Week 3",  taskCompleted:50,taskPending:40 },
+  //   { Week: "Week 4",  taskCompleted:300,taskPending:40 },
+  // ];
 
   const chartConfig = {
     taskCompleted: { label: "Task Completed", color: "var(--chart-1)" },

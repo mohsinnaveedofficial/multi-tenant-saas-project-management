@@ -1,8 +1,9 @@
+"use client";
 import ReportsTaskBreakdownChart from "@/components/team/ReportsTaskBreakdownChart";
 import ReportsTaskCompletedChart from "@/components/team/ReportsTaskCompletedChart";
 import ReportStats from "@/components/team/ReportStats";
 import { CardContent, CardHeader, Card, CardTitle } from "@/components/ui/card";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -14,57 +15,34 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import api from "@/lib/api";
+import ProtectedTeam from "@/components/team/ProtectedTeam";
 
 function Page() {
-  const taskCompletionData = [
-    { month: "January", completed: 15 },
-    { month: "February", completed: 28 },
-    { month: "March", completed: 42 },
-    { month: "April", completed: 150 },
-    { month: "May", completed: 70 },
-    { month: "June", completed: 82 },
-    { month: "July", completed: 96 },
-    { month: "August", completed: 10 },
-    { month: "September", completed: 123 },
-    { month: "October", completed: 37 },
-    { month: "November", completed: 150 },
-    { month: "December", completed: 165 },
-  ];
+  const [data, setData] = useState(null);
 
-  const projectTaskBreakDown = [
-    {
-      name: "Website Redesign",
-      color: "#3b82f6",
-      tasks: [
-        { status: "Completed", value: 12, color: "#16a34a" },
-        { status: "In Progress", value: 6, color: "#3b82f6" },
-        { status: "To Do", value: 4, color: "#fbbf24" },
-        { status: "Delayed", value: 2, color: "#ef4444" },
-      ],
-    },
-    {
-      name: "Mobile App",
-      color: "#22c55e",
-      tasks: [
-        { status: "Completed", value: 8, color: "#16a34a" },
-        { status: "In Progress", value: 7, color: "#3b82f6" },
-        { status: "To Do", value: 3, color: "#fbbf24" },
-        { status: "Delayed", value: 1, color: "#ef4444" },
-      ],
-    },
-    {
-      name: "Marketing Campaign",
-      color: "#f59e0b",
-      tasks: [
-        { status: "Completed", value: 10, color: "#16a34a" },
-        { status: "In Progress", value: 5, color: "#3b82f6" },
-        { status: "To Do", value: 3, color: "#fbbf24" },
-        { status: "Delayed", value: 2, color: "#ef4444" },
-      ],
-    },
-  ];
+  const getData = async () => {
+    const res = await api.get("/team/report");
+    setData(res.data);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
-  //In performance we only include these only for excellent,good and fair
+  if(!data){return null}
+ 
+  const projectTaskBreakDown=(data.lastThreeProjects || []).map((item,idx)=>(
+    {
+      name: item.projectName,
+      color:  ["#3b82f6", "#22c55e", "#f59e0b"][idx % 3],
+      tasks: [
+        { status: "Completed", value: item.completed, color: "#16a34a" },
+        { status: "In Progress", value: item.inProgress, color: "#3b82f6" },
+        { status: "To Do", value: item.todo, color: "#fbbf24" },
+        { status: "Delayed", value: item.delayed, color: "#ef4444" },
+      ],
+    }
+  ))
 
   const performanceData = [
     {
@@ -140,28 +118,35 @@ function Page() {
   ];
 
   return (
+        <ProtectedTeam>
+
     <div className="px-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4  mt-4 mb-2 ">
         <ReportStats
-          value={156}
+          value={data.reportStats.totalTasksAssigned }
           desc={"This Month"}
           title={"Total Tasks Completed"}
         />
         <ReportStats
-          value={"2.5 days"}
+          value={data?.reportStats?.avgCompletionTime || "" + " days"}
           title={"Average Completion Time"}
           desc={"Per Task"}
         />
-        <ReportStats value={6} title={"Project Involved"} desc={"Active"} />
         <ReportStats
-          value={"94%"}
+          value={data?.reportStats?.projectsAssigned || ""}
+          title={"Project Involved"}
+          desc={"Active"}
+        />
+        <ReportStats
+          value={data.reportStats.performanceScore + " %"}
           title={"Performance Score"}
           desc={"This Quarter"}
         />
       </div>
       <div className="grid  grid-cols-1 lg:grid-cols-2 gap-8  my-8 ">
-        <ReportsTaskCompletedChart data={taskCompletionData} />
-        <ReportsTaskBreakdownChart chartData={projectTaskBreakDown} />
+        <ReportsTaskCompletedChart data={data.monthlyChartData || []}/>
+        
+<ReportsTaskBreakdownChart chartData={projectTaskBreakDown || []} />
       </div>
 
       <Card className="font-sans  my-8">
@@ -224,6 +209,7 @@ function Page() {
         </CardContent>
       </Card>
     </div>
+    </ProtectedTeam>
   );
 }
 

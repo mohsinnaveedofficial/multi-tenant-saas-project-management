@@ -24,14 +24,14 @@ function ReportsTaskBreakdownChart({ chartData }) {
             <ChartContainer config={{}} className={"h-[300px] w-full"}>
               <PieChart>
                 <Pie
-                  data={activeProject.tasks}
+                  data={activeProject?.tasks}
                   dataKey="value"
                   nameKey="status"
                   innerRadius={50}
                   outerRadius={65}
                   label
                 >
-                  {activeProject.tasks.map((t, i) => (
+                  {activeProject?.tasks.map((t, i) => (
                     <Cell key={`inner-${i}`} fill={t.color} />
                   ))}
                 </Pie>
@@ -64,8 +64,8 @@ function ReportsTaskBreakdownChart({ chartData }) {
 
 <div className=" w-44 shrink-0 min-w-[11rem]">
 
-            <h4 className="font-medium whitespace-nowrap text-xl font-sans mb-2">  {activeProject.name}</h4>
-            {activeProject.tasks.map((item,idx)=>(
+            <h4 className="font-medium whitespace-nowrap text-xl font-sans mb-2">  {activeProject?.name || ""}</h4>
+            {activeProject?.tasks.map((item,idx)=>(
                <div key={idx} className="text-gray-600 text-start flex  justify-start gap-4 items-center text-sm whitespace-nowrap font-sans"> 
                <div className="h-2 w-2 rounded-full " style={{ backgroundColor:item.color}}></div>
                 <span className="" >{item.status} : {item.value}</span></div>

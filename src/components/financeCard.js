@@ -13,7 +13,7 @@ function FinanceCard({ color, Icon, title, stats, num }) {
         <h6 className="text-gray-600 font-semibold text-sm">{title}</h6>
         <h4 className="text-black font-bold text-2xl">${num}</h4>
         <span className={`${selectedColor.text} text-sm font-semibold`}>
-          {stats}% from last month
+          {stats} from last month
         </span>
       </div>
       <div>

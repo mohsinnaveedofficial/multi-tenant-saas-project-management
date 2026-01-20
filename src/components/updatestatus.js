@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -15,74 +16,116 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogDescription
+  DialogDescription,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
+import api from "@/lib/api";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-function Updatestatus({className,Triggertext}) {
+function Updatestatus({
+  className,
+  Triggertext,
+  updatePriority,
+  updateProgress,
+  id,
+  updateDueDate,
+  updateTaskName,
+  updateDescription,
+  updateProject,
+  updateStatus,
+  onUpdated,
+}) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const statusmain = {
+    high: { text: "text-red-500", bg: "bg-red-500" },
+    medium: { text: "text-orange-500", bg: "bg-orange-500" },
+    low: { text: "text-green-500", bg: "bg-green-500" },
+  };
+  const selectedStatusColor = statusmain[updatePriority] || statusmain.medium;
+  const [taskStatus, setTaskStatus] = useState(updateStatus || "todo");
+  const handleUpdateStatus = async () => {
+    try {
+      const res = await api.patch(`/task/status/${id}`, {
+        status: taskStatus,
+      });
+
+      toast.success("Status updated successfully");
+
+      setOpen(false);
+      if (onUpdated) onUpdated();
+      router.refresh();
+    } catch (error) {
+      toast.error("Unable to update the status");
+      
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className={className} variant={"primary"} >{Triggertext}</Button>
-
-
+        <Button className={className} variant="primary">
+          {Triggertext}
+        </Button>
       </DialogTrigger>
-
-<DialogContent className="sm:max-w-[450px] max-h-[90vh] overflow-y-auto custom-scrollbar">
+      <DialogContent className="sm:max-w-[450px] max-h-[90vh] overflow-y-auto custom-scrollbar">
         <DialogHeader>
           <DialogTitle>Update Task Status</DialogTitle>
-        
+          <DialogDescription></DialogDescription>
         </DialogHeader>
 
         <div className="px-4 py-4 space-y-6">
           {/* Description */}
           <div>
             <h1 className="font-bold text-gray-700">Description</h1>
-            <p className="text-gray-500 pt-1">
-              Design user journey flows for the mobile application
-            </p>
+            <p className="text-gray-500 pt-1">{updateDescription}</p>
           </div>
 
           {/* Project & Assigned By */}
-          <div className="flex justify-between">
+          <div className="flex justify-start">
             <div>
               <h1 className="text-gray-700 font-bold">Project</h1>
-              <p className="text-gray-500 pt-1">Mobile App Design</p>
+              <p className="text-gray-500 pt-1">{updateProject}</p>
             </div>
 
-            <div>
+            {/* <div>
               <h1 className="text-gray-700 font-bold">Assigned by</h1>
-              <p className="text-gray-500 pt-1">Mike Wilson</p>
-            </div>
+              <p className="text-gray-500 pt-1"></p>
+            </div> */}
           </div>
 
           {/* Priority & Deadline */}
           <div className="flex justify-between">
             <div>
               <h1 className="text-gray-700 font-bold pb-1">Priority</h1>
-              <p className="rounded-2xl px-3 py-1 bg-amber-500 text-white text-sm w-fit">
-                Medium
+              <p
+                className={`rounded-2xl px-3 py-1 ${selectedStatusColor.bg} text-white text-sm w-fit`}
+              >
+                {updatePriority}
               </p>
             </div>
 
             <div>
               <h1 className="text-gray-700 font-bold">Deadline</h1>
-              <p className="text-gray-500 pt-1">2024-02-15</p>
+              <p className="text-gray-500 pt-1">{updateDueDate}</p>
             </div>
           </div>
 
           {/* Current Status */}
           <div>
             <h1 className="font-bold text-gray-700">Current Status</h1>
-            <Select>
+            <Select value={taskStatus} onValueChange={setTaskStatus}>
               <SelectTrigger className="w-full mt-2">
                 <SelectValue placeholder="To Do" />
               </SelectTrigger>
 
               <SelectContent>
                 <SelectItem value="todo">To Do</SelectItem>
-                <SelectItem value="progress">In Progress</SelectItem>
+                <SelectItem value="inProgress">In Progress</SelectItem>
+                <SelectItem value="review">Review</SelectItem>
                 <SelectItem value="completed">Completed</SelectItem>
+                <SelectItem value="delayed">Delayed</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -93,7 +136,10 @@ function Updatestatus({className,Triggertext}) {
 
             <div className="w-full h-2 bg-gray-200 rounded-full mt-2">
               {/* set width dynamically */}
-              <div className="h-2 bg-blue-600 rounded-full" style={{ width: "50%" }}></div>
+              <div
+                className="h-2 bg-blue-600 rounded-full"
+                style={{ width: `${updateProgress}%` }}
+              ></div>
             </div>
           </div>
 
@@ -121,7 +167,7 @@ function Updatestatus({className,Triggertext}) {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit">Save changes</Button>
+          <Button onClick={handleUpdateStatus} type="submit">Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

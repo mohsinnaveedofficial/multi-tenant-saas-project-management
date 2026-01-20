@@ -1,71 +1,132 @@
+'use client';
 import CreateFinancials from "@/components/admin/CreateFinancials";
 import FinanceChart from "@/components/admin/financeChart";
-import { DashboardActiveProjects } from "@/components/card";
 import FinanceCard from "@/components/financeCard";
 import FinanceTableRow from "@/components/financeTableRow";
-import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import api from "@/lib/api";
+import Loader from "@/components/loader";
+import { toast } from "sonner";
+import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
 
-function Finance() {
+
+function  Finance() {
+  const [dashboard, setDashboard] = useState(null);
+  const [financeList, setFinanceList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const [dashboardRes, financeRes] = await Promise.all([
+        api.get("/admin/finance"),
+        api.get("/finance"),
+      ]);
+      setDashboard(dashboardRes.data);
+      setFinanceList(Array.isArray(financeRes.data) ? financeRes.data : [financeRes.data]);
+    } catch (err) {
+      toast.error(err.response?.data?.message || err.message || "Failed to fetch finance data");
+      throw new Error("Failed to fetch finance data")
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  if (loading) return <Loader/>;
+
   return (
+    <ProtectedAdmin>
     <div>
-      <div className="grid grid-cols-1 gap-10 m-4 md:grid-cols-2 lg:grid-cols-3 ">
+      <div className="grid grid-cols-1 gap-5 sm:gap-10 m-4 md:grid-cols-2 lg:grid-cols-3">
         <FinanceCard
           Icon={RiMoneyDollarCircleLine}
-          color={"green"}
-          stats={"-16"}
-          title={"Total Revenue"}
-          num={18000}
+          color="green"
+          stats={`${dashboard?.totalRevenue?.growth ?? 0}%`}
+          title="Total Revenue"
+          num={(dashboard?.totalRevenue?.value ?? 0).toFixed(0)}
         />
         <FinanceCard
           Icon={RiMoneyDollarCircleLine}
-          color={"red"}
-          stats={"-16"}
-          title={"Total Cost"}
-          num={18000}
+          color="red"
+          stats={`${dashboard?.totalCost?.growth ?? 0}%`}
+          title="Total Cost"
+          num={(dashboard?.totalCost?.value ?? 0).toFixed(0)}
         />
         <FinanceCard
           Icon={RiMoneyDollarCircleLine}
-          color={"blue"}
-          stats={"-16"}
-          title={"Net Profit"}
-          num={18000}
+          color="blue"
+          stats={`${dashboard?.netProfit?.growth ?? 0}%`}
+          title="Net Profit"
+          num={(dashboard?.netProfit?.value ?? 0).toFixed(0)}
         />
       </div>
 
-      <FinanceChart />
-      
- <div className=" border border-gray-200 m-4  mb-8 rounded-2xl  overflow-y-hidden overflow-x-scroll lg:overflow-x-auto ">
+      <FinanceChart chartData={dashboard?.monthlyPerformance ?? []} />
+
+      <div className="border border-gray-200 m-4 mb-8 rounded-2xl ">
         <div className="bg-white p-4 flex justify-between items-center  rounded-t-2xl">
           <h3 className="font-sans font-semibold text-lg">Projects Financials</h3>
-        <CreateFinancials/>
+        
+          <CreateFinancials onAdd={loadData} />
         </div>
-        <table className="text-gray-400 border-separate border-spacing-x-0 border-spacing-y-[3px]  w-full overflow-x-scroll  pt-1   rounded-lg">
+
+    <div className="overflow-x-auto">
+
+        <table className="text-gray-400 border-separate  table-auto border-spacing-x-0 border-spacing-y-[3px] w-full pt-1 rounded-lg">
           <thead className="font-normal font-sans">
             <tr>
-              <th className="font-normal px-2 py-2 md:px-4 md:py-2 text-center">PROJECTS</th>
-              <th className="  font-normal px-1.5 py-2 md:px-4 md:py-2 text-center">REVENUE</th>
-              <th className=" font-normal px-1.5 py-2 md:px-4 md:py-2 text-center">COST</th>
-              <th className=" font-normal px-1.5 py-2 md:px-4 md:py-2 text-center">PORFIT</th>
-              <th className="font-normal px-1.5 py-2 md:px-4 md:py-2 text-center">MARGIN</th>
-              <th className="font-normal px-1.5 py-2 md:px-4 md:py-2 text-center">STATUS</th>
-              <th className="font-normal px-1.5 py-2 md:px-4 md:py-2 text-center">ACTION</th>
+              <th className="px-2 py-2 text-center">PROJECT</th>
+              <th className="px-2 py-2 text-center">REVENUE</th>
+              <th className="px-2 py-2 text-center">COST</th>
+              <th className="px-2 py-2 text-center">PROFIT</th>
+              <th className="px-2 py-2 text-center">MARGIN</th>
+              <th className="px-2 py-2 text-center">STATUS</th>
+              <th className="px-2 py-2 text-center">ACTION</th>
             </tr>
           </thead>
-          <tbody className="text-black font-sans rounded-2xl ">
-         <FinanceTableRow cost={"$300"} profit={"$100"} margin={"25.0%"} revenue={"$400"} project={"E-commerce platform"} status={"Completed"} />
-         <FinanceTableRow cost={"$300"} profit={"$100"} margin={"25.0%"} revenue={"$400"} project={"E-commerce platform"} status={"In Progress"} />
-         <FinanceTableRow cost={"$300"} profit={"$100"} margin={"25.0%"} revenue={"$400"} project={"E-commerce platform"} status={"On Hold"} />
-         <FinanceTableRow cost={"$300"} profit={"$100"} margin={"25.0%"} revenue={"$400"} project={"E-commerce platform"} status={"Completed"} />
+
+          <tbody className="text-black font-sans rounded-2xl">
+            {financeList.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="text-center py-6 text-gray-400">
+                  No finance records found
+                </td>
+              </tr>
+            ) : (
+              financeList.map((item) => {
+                const revenueVal = Number(item.revenue);
+                const costVal = Number(item.cost);
+                const profitVal = Number(item.profit);
+                const margin = revenueVal > 0 ? ((profitVal / revenueVal) * 100).toFixed(1) : "0";
+
+                return (
+                  <FinanceTableRow
+                    key={item.id}
+                    id={item.id}
+                    project={item.project?.name}
+                    revenue={`$${revenueVal}`}
+                    cost={`$${costVal}`}
+                    profit={`$${profitVal}`}
+                    margin={`${margin}%`}
+                    status={item.status}
+                    revenueRaw={revenueVal}
+                    costRaw={costVal}
+                    onUpdate={loadData}
+                    />
+                  );
+              })
+            )}
           </tbody>
         </table>
+                  </div>
       </div>
-
-
-
-
     </div>
+    </ProtectedAdmin>
   );
 }
 

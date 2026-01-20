@@ -5,19 +5,21 @@ import Updatestatus from "./updatestatus";
 
 function ProjectTaskBox({
   task,
+  id,
   description,
   project,
-  assignedTo,
   status,
   priority,
   deadline,
+  progress,
+  onUpdated
 }) {
   const statusmain = {
-    High: { text: "text-red-500", bg: "bg-red-100" },
-    Medium: { text: "text-orange-500", bg: "bg-orange-100" },
-    Low: { text: "text-green-500", bg: "bg-green-100" },
+    high: { text: "text-red-500", bg: "bg-red-100" },
+    medium: { text: "text-orange-500", bg: "bg-orange-100" },
+    low: { text: "text-green-500", bg: "bg-green-100" },
   };
-  const selectedStatusColor = statusmain[priority] || statusmain.Medium;
+  const selectedStatusColor = statusmain[priority] || statusmain.medium;
   return (
     <tr className="bg-white transition font-sans">
       <td className="flex flex-col py-4 px-6 w-80 text-gray-700 ">
@@ -45,11 +47,20 @@ function ProjectTaskBox({
       <td className="py-4 px-6 text-center">
         <div className="">
           <Updatestatus
+          id={id}
+          updatePriority={priority}
+          updateDueDate={deadline}
+          updateTaskName={task}
+          updateDescription={description}
+          updateProject={project}
+          updateStatus={status}
+          updateProgress={progress}
+          onUpdated={onUpdated}
             className="text-blue-600  "
             Triggertext={
               <>
                 <AiOutlineEdit className="text-blue-600 me-2 cursor-pointer inline" />
-                Update{" "}
+                Update
               </>
             }
           />

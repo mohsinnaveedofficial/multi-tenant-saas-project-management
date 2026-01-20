@@ -1,111 +1,87 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import ProjectTaskBox from "@/components/projectTaskBox";
 import AddTaskComponent from "@/components/addTaskComponent";
+import api from "@/lib/api";
+import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
 
-function AddTask() {const data = [
-  {
-    task: "Design homepage mockup",
-    description: "Create detailed mockup for the homepage including hero section and product showcase",
-    project: "design",
-    assignedTo: "John Doe",
-    status: "In Progress",
-    priority: "High",
-    deadline: "2024-02-10",
-  },
-  {
-    task: "Implement user authentication",
-    description: "Set up secure user login and registration system",
-    project: "Mobile App Design",
-    assignedTo: "Sarah Miller",
-    status: "To Do",
-    priority: "Medium",
-    deadline: "2024-02-15",
-  },
-  {
-    task: "Database optimization",
-    description: "Optimize database queries for better performance",
-    project: "Website Redesign",
-    assignedTo: "Mike Wilson",
-    status: "Completed",
-    priority: "Low",
-    deadline: "2024-02-08",
-  },
-  {
-    task: "Content strategy planning",
-    description: "Develop comprehensive content strategy for brand launch",
-    project: "Brand Identity",
-    assignedTo: "Emily Davis",
-    status: "Review",
-    priority: "High",
-    deadline: "2024-02-12",
-  },
-  {
-    task: "API integration testing",
-    description: "Test all third-party API integrations for reliability",
-    project: "E-commerce Platform",
-    assignedTo: "David Brown",
-    status: "In Progress",
-    priority: "Medium",
-    deadline: "2024-02-18",
-  },
-];
+function AddTask() {
+  const [tasks, setTasks] = useState([]);
 
-  
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const res = await api.get("/task");
+        const data = res.data;
+
+        setTasks(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchTasks();
+  }, [tasks]);
+
   return (
+    <ProtectedAdmin>
     <div>
-      <div className="flex justify-between m-8">
-        {/* search bar */}
-        <div className=" text-start border border-gray-300  w-[40%] bg-white rounded-xl flex py-2 items-center flex-nowrap gap-4">
-          <IoSearchOutline className=" ms-3" />
-          <input
-            id="password"
-            type="text"
-            placeholder="Search clients..."
-            required
-            className="focus:outline-none focus:border-0"
-          />
-        </div>
+      <div className="flex flex-col sm:flex-row sm:justify-between m-8 gap-5">
+  <div className="flex w-full sm:w-[40%] border border-gray-300 bg-white rounded-xl py-2 items-center gap-4">
+    <IoSearchOutline className="ms-3" />
+    <input
+      id="password"
+      type="text"
+      placeholder="Search clients..."
+      required
+      className="focus:outline-none focus:border-0 w-full"
+    />
+  </div>
 
-        {/* add button */}
-        
-          <AddTaskComponent/>
-        
-      </div>
+  <div className="flex w-full sm:w-auto justify-end">
+    <AddTaskComponent />
+  </div>
+</div>
 
-      {/* table */}
 
-      <div className="  rounded-lg overflow-hidden mx-8 shadow-sm">
-        <table className=" w-full rounded-lg border overflow-hidden border-gray-200 border-separate bg-gray-100 m-0 mt-0 border-spacing-y-[3px]  border-spacing-x-0 " >
+      <div className="rounded-lg overflow-x-auto   mx-8 shadow-sm">
+        <table className="w-full rounded-lg border overflow-hidden  border-gray-200 border-separate bg-gray-100 m-0 mt-0 border-spacing-y-[3px] border-spacing-x-0">
           <thead className="bg-gray-50 text-gray-500 uppercase text-xs font-semibold">
             <tr>
               <th className="font-semibold text-start py-3 px-6">TASK</th>
               <th className="font-semibold text-start py-3 px-6">PROJECT</th>
-              <th className="font-semibold text-start py-3 px-6">ASSIGNED TO</th>
+              <th className="font-semibold text-start py-3 px-6">
+                ASSIGNED TO
+              </th>
               <th className="font-semibold text-start py-3 px-6">STATUS</th>
               <th className="font-semibold text-start py-3 px-6">PRIORITY</th>
               <th className="font-semibold text-start py-3 px-6">DEADLINE</th>
-              <th className="font-semibold text-start py-3 px-6 ">ACTIONS</th>
+              <th className="font-semibold text-start py-3 px-6">ACTIONS</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 bg-white ">
-            {data.map((item, index) => (
+          <tbody className="divide-y divide-gray-100 bg-white">
+            {tasks?.map((item) => (
               <ProjectTaskBox
-                key={index}
-                id={index}
-                task={item.task}
+                key={item.id}
+                id={item.id}
+                task={item.name}
                 description={item.description}
-                project={item.project}
-                assignedTo={item.assignedTo}
+                project={item.project?.name || ""}
+                projectId={item.project?.id || ""} 
+                assignedTo={item.assignee?.name || ""}
+                assignedToId={item.assignee?.id || ""} 
                 status={item.status}
                 priority={item.priority}
-                deadline={item.deadline}
+                deadline={item.dueDate}
+                
               />
             ))}
-           </tbody>
+          </tbody>
         </table>
       </div>
     </div>
+    </ProtectedAdmin>
   );
 }
 

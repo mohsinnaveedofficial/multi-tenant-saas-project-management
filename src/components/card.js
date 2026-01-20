@@ -4,7 +4,7 @@ import StatusTag from "./statusTag";
 import { FaArrowUp } from "react-icons/fa6";
 import { FaArrowDown } from "react-icons/fa";
 
-function DashboardCard({name,value,amount_change,Icon,Color,UpOrDown}) {
+function DashboardCard({name,value,amount_change,Icon,Color}) {
     const colorMap = {
   blue:   { text: "text-blue-500",   bg: "bg-blue-100" },
   green:  { text: "text-green-500",  bg: "bg-green-100" },
@@ -21,7 +21,7 @@ const color=colorMap[Color]||colorMap.blue;
         <h4 className="font-bold text-2xl">{value}</h4>
         <p className={`${color.text} font-semibold text-xs` }>
           <span className="flex items-center gap-1">
-             {UpOrDown =="increase" ? <><FaArrowUp />+</>:<><FaArrowDown />-</>}
+             {value > 0 ? <><FaArrowUp />+</>:value<0?<><FaArrowDown />-</>:<><FaArrowUp/></>}
              {amount_change}
             </span>
         

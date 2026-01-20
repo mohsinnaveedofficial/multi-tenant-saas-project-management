@@ -12,8 +12,8 @@ import {
   ComposedChart,
 } from "recharts";
 
-function RevenueChart() {
-  const data = [
+function RevenueChart({ data: chartData }) {
+  const data = chartData || [
     { name: "Jan", revenue: 1200, cost: 800 },
     { name: "Feb", revenue: 1500, cost: 1100 },
     { name: "Mar", revenue: 1700, cost: 1200 },

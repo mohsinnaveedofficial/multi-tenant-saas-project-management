@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,157 +7,146 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { AiOutlineEdit } from "react-icons/ai";
-import AssignedtoDropdown from "./assignedtoDropdown";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { SelectTask } from "./taskDropDownMenu";
+import api from "@/lib/api";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { DialogDescription } from "@radix-ui/react-dialog";
 
-function EditComponent({ title, project, teamMember, Priority, deadline, description }) {
+function EditComponent({ id, title, projectId, priority, dueDate, description, projects }) {
+const router=useRouter()
+  const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: title || "",
-    project: project || "",
-    teamMember: teamMember || "",
-    priority: Priority || "",
-    deadline: deadline || "",
+    projectId: projectId || "",
+    priority: priority || "",
+    dueDate: dueDate || "",
     description: description || "",
   });
- 
-  // Generic input change handler
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Submit handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      const res = await api.patch(`/task/${id}`, {
+        title: formData.title,
+        projectId: formData.projectId,
+        priority: formData.priority,
+        dueDate: formData.dueDate,
+        description: formData.description,
+      });
+
+      if (res.status === 200) {
+        toast.success("Task updated successfully");
+        router.refresh()
+        setOpen(false);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message || "Unable to update");
+    }
   };
 
   return (
-    <div>
-      <Dialog>
-        <DialogTrigger asChild>
-          <button>
-            <AiOutlineEdit className="text-blue-600 cursor-pointer inline" />
-          </button>
-        </DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <button>
+          <AiOutlineEdit className="text-blue-600 cursor-pointer inline" />
+        </button>
+      </DialogTrigger>
 
-        <DialogContent className="w-1/2 md:w-1/3 lg:w-1/3">
-          <DialogHeader>
-            <DialogTitle>Edit Task</DialogTitle>
-            <DialogDescription></DialogDescription>
-          </DialogHeader>
+      <DialogContent className="w-1/2 md:w-1/3 lg:w-1/3">
+        <DialogHeader>
+          <DialogTitle>Edit Task</DialogTitle>
+          <DialogDescription></DialogDescription>
+        </DialogHeader>
 
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-2">
-              {/* Task Title */}
-              <div className="pt-2 text-start">
-                <label htmlFor="title" className="font-semibold text-gray-800">
-                  Task Title
-                </label>
-                <input
-                  id="title"
-                  name="title"
-                  type="text"
-                  placeholder="Enter task title"
-                  required
-                  value={formData.title}
-                  onChange={handleChange}
-                  className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style"
-                />
-              </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          
+          <div>
+            <label htmlFor="title" className="font-semibold text-gray-800">Task Title</label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              placeholder="Enter task title"
+              required
+              value={formData.title}
+              onChange={handleChange}
+              className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3"
+            />
+          </div>
 
-              {/* Project Dropdown */}
-              <SelectTask
-                value={formData.project}
-                onChange={(val) => setFormData((prev) => ({ ...prev, project: val }))}
-              />
+          
+          
+          
+          
+          <div>
+            <label className="font-semibold text-gray-800">Priority</label>
+            <Select
+              value={formData.priority}
+              onValueChange={(val) => setFormData((prev) => ({ ...prev, priority: val }))}
+            >
+              <SelectTrigger className="border border-gray-300 w-full mt-1 rounded-lg py-2 px-3">
+                <SelectValue placeholder="Select Priority" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="low">Low</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-              {/* Assigned To Dropdown */}
-              <AssignedtoDropdown
-                value={formData.teamMember}
-                onChange={(val) => setFormData((prev) => ({ ...prev, teamMember: val }))}
-              />
+          <div>
+            <label htmlFor="dueDate" className="font-semibold text-gray-800">Deadline</label>
+            <input
+              id="dueDate"
+              name="dueDate"
+              type="date"
+              required
+              value={formData.dueDate}
+              onChange={handleChange}
+              className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3"
+            />
+          </div>
 
-              {/* Priority & Deadline */}
-              <div className="flex gap-4 pt-2 items-center justify-center">
-                <div className="w-1/2 text-start">
-                  <label htmlFor="priority" className="font-semibold text-gray-800">
-                    Priority
-                  </label>
-                  <Select
-                    value={formData.priority}
-                    onValueChange={(val) => setFormData((prev) => ({ ...prev, priority: val }))}
-                  >
-                    <SelectTrigger
-                     
-                      className="border border-gray-300 w-full mt-1 rounded-lg py-5 px-3"
-                    >
-                      <SelectValue placeholder="Select Priority" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Low">Low</SelectItem>
-                      <SelectItem value="Medium">Medium</SelectItem>
-                      <SelectItem value="High">High</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+          
+          <div>
+            <label htmlFor="description" className="font-semibold text-gray-800">Description</label>
+            <textarea
+              id="description"
+              name="description"
+              placeholder="Enter task description"
+              required
+              rows={3}
+              value={formData.description}
+              onChange={handleChange}
+              className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3"
+            />
+          </div>
 
-                <div className="text-start w-1/2">
-                  <label htmlFor="deadline" className="font-semibold text-gray-800">
-                    Deadline
-                  </label>
-                  <input
-                    id="deadline"
-                    name="deadline"
-                    type="date"
-                    required
-                    value={formData.deadline}
-                    onChange={handleChange}
-                    className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style"
-                  />
-                </div>
-              </div>
-
-              {/* Description */}
-              <div className="pt-2 text-start">
-                <label htmlFor="description" className="font-semibold text-gray-800">
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  placeholder="Enter task description"
-                  required
-                  rows={3}
-                  value={formData.description}
-                  onChange={handleChange}
-                  className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style"
-                />
-              </div>
-
-              {/* Buttons */}
-              <div className="flex items-center justify-between pt-5 gap-3">
-                <DialogClose asChild>
-                  <button className="border border-gray-300 hover:bg-gray-50 text-gray-800 text-lg w-1/2 rounded-lg p-1.5">
-                    Cancel
-                  </button>
-                </DialogClose>
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white w-1/2 text-md rounded-lg p-2"
-                >
-                  Update Task
+          <DialogFooter>
+            <div className="w-full flex justify-between gap-3 mt-4">
+              <DialogClose asChild>
+                <button className="border border-gray-300 hover:bg-gray-50 text-gray-800 w-1/2 rounded-lg py-2">
+                  Cancel
                 </button>
-              </div>
+              </DialogClose>
+              <button type="submit" className="bg-blue-600 text-white w-1/2 rounded-lg py-2">
+                Update Task
+              </button>
             </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </div>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
 

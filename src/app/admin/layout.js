@@ -10,9 +10,10 @@ export default function AdminLayout({ children }) {
     <div className="flex min-h-screen relative">
       <SideNavBar nav={nav} setnavOpen={setnavOpen} />
 
-      <div className="flex flex-col flex-1">
-        <TopNavbar tooglenav={() => setnavOpen((pre) => !pre)} />
-        <main className="flex-1">{children}</main>
+      <div className="flex flex-col flex-1 min-w-0">
+                  <TopNavbar tooglenav={() => setnavOpen((pre) => !pre)} />
+
+        <main className=" flex-1 overflow-auto min-w-0">{children}</main>
       </div>
     </div>
   );

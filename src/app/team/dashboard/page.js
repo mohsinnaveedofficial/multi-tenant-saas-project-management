@@ -1,5 +1,6 @@
+"use client"
 import { DashboardCard } from "@/components/card";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegFolder } from "react-icons/fa6";
 import { FaArrowUp } from "react-icons/fa";
 import { FaRegCheckSquare } from "react-icons/fa";
@@ -11,17 +12,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Logs from "@/components/logs";
 import { Item } from "@radix-ui/react-dropdown-menu";
+import ProtectedTeam from "@/components/team/ProtectedTeam";
+import api from "@/lib/api";
 
 function Page() {
-  const WeeklyReportchartData = [
-    { day: "Monday", performance: 5 },
-    { day: "Tuesday", performance: 15 },
-    { day: "Wednesday", performance: 25 },
-    { day: "Thursday", performance: 35 },
-    { day: "Friday", performance: 50 },
-    { day: "Saturday", performance: 170 },
-    { day: "Sunday", performance: 4 },
-  ];
+
+
+  const [data,setData]=useState({})
+  const getData=async () => {
+    const res=await api.get('/team/dashboard');
+    setData(await(res).data);
+  }
+
+  useEffect(()=>{getData()},[])
 
   const activityLogs = [
     {
@@ -59,52 +62,54 @@ function Page() {
   ];
 
   return (
+    <ProtectedTeam>
+
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-8 m-4">
         <DashboardCard
           name={"Assigned Projects"}
-          value={6}
+          value={data.assignedProjects?.value??0}
           Color={"blue"}
           Icon={FaRegFolder}
-          amount_change={2}
+          amount_change={data.assignedProjects?.growth??0}
           UpOrDown={"increase"}
         />
 
         <DashboardCard
           name={"Total Tasks"}
-          value={24}
+          value={data.totalTasks?.value??0}
           Color={"green"}
           Icon={FaRegCheckSquare}
-          amount_change={5}
+          amount_change={data.totalTasks?.growth??0}
           UpOrDown={"increase"}
         />
 
         <DashboardCard
           name={"Tasks In Progress"}
-          value={8}
+          value={data.tasksInProgress?.value??0}
           Color={"orange"}
           Icon={LuClock3}
-          amount_change={3}
+          amount_change={data.tasksInProgress?.growth??0}
           UpOrDown={"increase"}
         />
         <DashboardCard
-          name={"Tasks In Progress"}
-          value={8}
+          name={"Tasks Completed"}
+          value={data.tasksCompleted?.value??0}
           Color={"purple"}
           Icon={MdOutlineTaskAlt}
-          amount_change={12}
+          amount_change={data.tasksCompleted?.growth??0}
           UpOrDown={"increase"}
         />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 m-4 gap-4  ">
         <DashboardTaskStatusChart
-          todo={10}
-          completed={11}
-          delayed={15}
-          inProgress={15}
+          todo={data.totalTaskSummary?.todo??0}
+          completed={data.totalTaskSummary?.completed??0}
+          delayed={data.totalTaskSummary?.delayed??0}
+          inProgress={data.totalTaskSummary?.inProgress??0}
         />
-        <DashboardWeeklyReportChart chartData={WeeklyReportchartData} />
+        <DashboardWeeklyReportChart chartData={data.weeklyReport ??[] } />
       </div>
 
       <Card className={"m-4"}>
@@ -123,6 +128,7 @@ function Page() {
         </CardContent>
       </Card>
     </div>
+    </ProtectedTeam>
   );
 }
 

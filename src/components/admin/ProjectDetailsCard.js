@@ -1,38 +1,59 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import ProjectMemberIcon from "../ProjectMemberIcon";
-import { RiUploadLine } from "react-icons/ri";
 import { FaRegComment, FaRegFolder } from "react-icons/fa6";
-import { Field, FieldGroup, FieldLabel, FieldSet } from "../ui/field";
+import { Field, FieldGroup, FieldSet } from "../ui/field";
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
+import api from "@/lib/api";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-function ProjectDetailsCard() {
-  const team = [
-    { initials: "JD", name: "Team Member 1" },
-    { initials: "SM", name: "Team Member 2" },
-    { initials: "MW", name: "Team Member 3" },
-  ];
+function ProjectDetailsCard({ project }) {
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState(project?.comments || []);
+  const router = useRouter();
+  const team = project?.assignedUsers || [];
+  const [open, setOpen] = useState(false);
+
+  const handlePostComment = async (e) => {
+    e.preventDefault();
+    if (!comment.trim()) return;
+
+    try {
+      const res = await api.post("/projectcomments", {
+        projectId: project.id,
+        comment,
+      });
+      toast.success("Commnet added successfully");
+      console.log(res.data)
+      console.log(comments)
+      setComments((prev) => [...prev, res.data]);
+      setComment("");
+      setOpen(false);
+      router.refresh();
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || error.message || "Unable to Update"
+      );
+    }
+  };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <MdOutlineRemoveRedEye className="inline text-blue-500 cursor-pointer" />
       </DialogTrigger>
@@ -42,7 +63,7 @@ function ProjectDetailsCard() {
       >
         <DialogHeader className={"p-3"}>
           <DialogTitle className="text-lg font-semibold">
-            E-commerce platform
+            {project?.name}
           </DialogTitle>
         </DialogHeader>
         <Separator className=" bg-gray-200 " />
@@ -50,21 +71,23 @@ function ProjectDetailsCard() {
           <Card className={"border-0 bg-gray-50 shadow-none"}>
             <CardContent>
               <h5 className=" font-semibold">Client</h5>
-              <p className="text-gray-500 mt-2 ">TechCrop In.</p>
+              <p className="text-gray-500 mt-2 ">
+                {project?.client?.companyName || "N/A"}
+              </p>
             </CardContent>
           </Card>
 
           <Card className={"border-0 bg-gray-50 shadow-none"}>
             <CardContent>
               <h5 className=" font-semibold">Budget</h5>
-              <p className="text-gray-500 mt-2 ">${25000}</p>
+              <p className="text-gray-500 mt-2 ">${project?.budget || 0}</p>
             </CardContent>
           </Card>
 
           <Card className={"border-0 bg-gray-50 shadow-none"}>
             <CardContent>
               <h5 className=" font-semibold">Progress</h5>
-              <p className="text-gray-500 mt-2 ">75%</p>
+              <p className="text-gray-500 mt-2 ">{project?.progress || 0}%</p>
             </CardContent>
           </Card>
         </div>
@@ -100,19 +123,27 @@ function ProjectDetailsCard() {
             <div className="font-sans">
               <h4 className=" font-semibold mb-3">Project Description</h4>
               <p className="text-gray-500 mb-3">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt
-                praesentium temporibus, nisi, et odit molestiae eligendi hic
+                {project?.description || "No description provided."}
               </p>
               <h3 className="font-semibold mb-3">Team Member</h3>
               <div className="grid grid-cols-4 gap-5 mb-5">
-                {team.map((item, idx) => (
-                  <div key={idx} className=" flex justify-center items-center">
-                    <ProjectMemberIcon name={item.name} />
-                    <span className="text-sm text-gray-500 whitespace-nowrap">
-                      Team member {idx + 1}
-                    </span>
-                  </div>
-                ))}
+                {team.length > 0 ? (
+                  team.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className=" flex justify-center items-center"
+                    >
+                      <ProjectMemberIcon name={item?.user?.name || "Unnamed"} />
+                      <span className="text-sm text-gray-500 whitespace-nowrap">
+                        {item?.user?.name || `Team member ${idx + 1}`}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <span className="text-gray-500 col-span-4 text-center">
+                    Not team assigned yet
+                  </span>
+                )}
               </div>
             </div>
           </TabsContent>
@@ -128,7 +159,6 @@ function ProjectDetailsCard() {
     file:pe-4
     transition-all duration-300 ease-in-out
     hover:bg-gray-100 hover:file:text-black hover:text-black
-    
   "
             />
             <div className="  ">
@@ -141,7 +171,7 @@ function ProjectDetailsCard() {
 
           <TabsContent value="comment">
             <Card className={"border-gray-200 px-5"}>
-              <form>
+              <form onSubmit={handlePostComment}>
                 <FieldSet>
                   <FieldGroup>
                     <Field>
@@ -149,6 +179,8 @@ function ProjectDetailsCard() {
                         id="checkout-7j9-optional-comments"
                         placeholder="Add a comment...."
                         className="resize-none border-gray-200 placeholder:text-gray-400"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
                       />
                     </Field>
                   </FieldGroup>
@@ -161,9 +193,19 @@ function ProjectDetailsCard() {
                 </Button>
               </form>
             </Card>
-            <div className="flex justify-center items-center flex-col my-10">
-              <FaRegComment className="text-gray-300 text-3xl" />
-              <span className="text-gray-500 mt-1">No comments yet</span>
+            <div className="flex flex-col my-10">
+              {comments.length > 0 ? (
+                comments.map((cmt, idx) => (
+                  <div key={idx} className="text-gray-500">
+                    {cmt.comment}
+                  </div>
+                ))
+              ) : (
+                <div className="flex flex-col justify-center items-center">
+                  <FaRegComment className="text-gray-300 text-3xl" />
+                  <span className="text-gray-500 mt-1">No comments yet</span>
+                </div>
+              )}
             </div>
           </TabsContent>
         </Tabs>

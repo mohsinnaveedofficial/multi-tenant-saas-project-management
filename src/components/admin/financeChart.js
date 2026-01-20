@@ -15,21 +15,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-function FinanceChart() {
-  const chartData = [
-    { month: "Jan", performance: 5 },
-    { month: "Feb", performance: 15 },
-    { month: "Mar", performance: 25 },
-    { month: "Apr", performance: 35 },
-    { month: "May", performance: 50 },
-    { month: "Jun", performance: 70 },
-    { month: "Jul", performance: 90 },
-    { month: "Aug", performance: 110 },
-    { month: "Sep", performance: 130 },
-    { month: "Oct", performance: 150 },
-    { month: "Nov", performance: 140 },
-    { month: "Dec", performance: 190 },
-  ];
+function FinanceChart({chartData}) {
+  
 
   const chartConfig = {
     desktop: {

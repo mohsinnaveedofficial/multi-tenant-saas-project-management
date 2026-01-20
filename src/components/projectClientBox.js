@@ -3,10 +3,13 @@ import React from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import EditClientDialog from "./admin/editclient";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import api from "@/lib/api";
 
+function ProjectClientBox({id,name,company,email,phone,projects,status}) {
 
-function ProjectClientBox({name,company,email,phone,projects,status}) {
-
+  const router=useRouter()
     const statusmap={
       Active:{text:"text-green-500",bg:"bg-green-100"},
       Inactive:{text:"text-gray-600",bg:"bg-gray-100"}
@@ -14,6 +17,20 @@ function ProjectClientBox({name,company,email,phone,projects,status}) {
 
     const selectStatusColor=statusmap[status] || statusmap.Inactive
 
+    let handleDelete=async()=>{
+      try{ const res = await api.delete(`/client/${id}`)
+      
+      if (res.status === 200) {
+        toast.success("Deleted Successfully");
+      router.refresh();
+      }
+     
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || error.message || "Unable to Delete"
+      );
+    }
+  }
 
   return (
    
@@ -41,8 +58,8 @@ function ProjectClientBox({name,company,email,phone,projects,status}) {
         </td>
         <td className="py-4 px-6 text-center">
           <div className="flex justify-center gap-3">
-            <EditClientDialog Fullname={name} Company={company} Email={email} phone={phone} status={status} />
-           <button><RiDeleteBin5Line className="text-red-500 " /></button>
+            <EditClientDialog Fullname={name} id={id} Company={company} Email={email} phone={phone} status={status} />
+           <button onClick={handleDelete} ><RiDeleteBin5Line  className="text-red-500 " /></button>
           </div>
         </td>
       </tr>

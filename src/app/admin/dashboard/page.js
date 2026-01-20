@@ -1,5 +1,6 @@
+"use client";
 import { DashboardCard, DashboardActiveProjects } from "@/components/card";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa6";
 import { LuFolder } from "react-icons/lu";
 import { RiTaskLine } from "react-icons/ri";
@@ -8,57 +9,168 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { GoGraph } from "react-icons/go";
 import ProjectCompletionChart from "@/components/admin/ProjectCompletionChart";
 import RevenueChart from "@/components/admin/RevenueChart";
+import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
+import api from "@/lib/api";
+import { getAccessToken } from "@/lib/auth";
+import Error from "next/error";
 function Dashboard() {
+  const [backendData, setBackendData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const defaultData = {
+    totalClient: { value: 1, growth: 100 },
+    activeProjects: { value: 0, growth: 0 },
+    activeTasks: { value: 1, growth: 100 },
+    completedTasks: { value: 1, growth: 100 },
+    totalRevenue: { value: 0, growth: 0 },
+    netProfit: { value: 0, growth: 0 },
+    totalCost: { value: 0, growth: 0 },
+    projectStatusCounts: {
+      notStarted: 1,
+      inProgress: 0,
+      pending: 0,
+      completed: 0,
+      onHold: 0,
+      cancelled: 0,
+    },
+    monthlyChartData: Array.from({ length: 12 }).map((_, i) => ({ month: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][i], revenue: 0, cost: 0 })),
+    project: [],
+  };
+
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchDashboard = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const token = getAccessToken();
+        
+const res = await api.get("/admin/dashboard");
+        if (mounted) setBackendData(res.data || defaultData);
+      } catch (e) {
+        if (mounted) {
+          setBackendData(defaultData);
+          setError(e);
+        }
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+    fetchDashboard();
+    return () => { mounted = false; };
+  }, []);
+
+  const formatCurrency = (val) => `$${Number(val).toLocaleString()}`;
+
+  const mapStatusProgress = (status) => {
+    switch (status) {
+      case "notStarted":
+        return 0;
+      case "inProgress":
+        return 50;
+      case "pending":
+        return 20;
+      case "onHold":
+        return 30;
+      case "completed":
+        return 100;
+      case "cancelled":
+        return 0;
+      default:
+        return 0;
+    }
+  };
+
+  const data = backendData || defaultData;
+  const chartData = (data.monthlyChartData || []).map((m) => ({ name: m.month || m.name, revenue: m.revenue ?? 0, cost: m.cost ?? 0 }));
+
+  const formatStatus = (status) => {
+    switch (status) {
+      case "notStarted":
+        return "Not Started";
+      case "inProgress":
+        return "In Progress";
+      case "pending":
+        return "Pending";
+      case "onHold":
+        return "On Hold";
+      case "completed":
+        return "Completed";
+      case "cancelled":
+        return "Cancelled";
+      default:
+        return status;
+    }
+  };
+
+  if (loading) {
+    return (
+      <ProtectedAdmin>
+      </ProtectedAdmin>
+    );
+  }
+  if (error)  {
+    <ProtectedAdmin>
+      <div className="text-center text-red-600 mt-10">
+        Failed to load team data. Showing default values.
+      </div>
+    </ProtectedAdmin>
+  }
+
   return (
+    <ProtectedAdmin>
+
     <div className="text-black">
       <div className="grid grid-cols-2 gap-8 m-5 md:grid-cols-3 ">
         <DashboardCard
           name={"Total Client"}
-          value={24}
-          amount_change={"+12%"}
+          value={data.totalClient.value}
+          amount_change={data.totalClient.growth+"%"}
           Color={"blue"}
           Icon={FaRegUser}
         />
         <DashboardCard
           name={"Active Projects"}
-          value={24}
-          amount_change={"+12%"}
+          value={data.activeProjects.value}
+          amount_change={data.activeProjects.growth+"%"}
           Color={"green"}
           Icon={LuFolder}
         />
         <DashboardCard
           name={"Active Tasks"}
-          value={24}
-          amount_change={"+12%"}
+          value={data.activeTasks.value}
+          amount_change={data.activeTasks.growth+"%"}
           Color={"orange"}
           Icon={RiTaskLine}
         />
         <DashboardCard
           name={"Complete Tasks"}
-          value={24}
-          amount_change={"+12%"}
+          value={data.completedTasks.value}
+          amount_change={data.completedTasks.growth+"%"}
           Color={"purple"}
           Icon={MdOutlineTaskAlt}
         />
         <DashboardCard
           name={"Total Revenue"}
-          value={"$48,250"}
-          amount_change={"+12%"}
+          value={formatCurrency(data.totalRevenue.value)}
+          amount_change={data.totalRevenue.growth+"%"}
           Color={"red"}
           Icon={RiMoneyDollarCircleLine}
         />
         <DashboardCard
           name={"Net Profit"}
-          value={"$12,680"}
-          amount_change={"+12%"}
+          value={formatCurrency(data.netProfit.value)}
+          amount_change={data.netProfit.growth+"%"}
           Color={"yellow"}
           Icon={GoGraph}
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2">
     
-     <RevenueChart/>
-     <ProjectCompletionChart/>
+    <RevenueChart data={chartData} />
+    <ProjectCompletionChart statusCounts={data.projectStatusCounts} />
    
 
 
@@ -79,40 +191,23 @@ function Dashboard() {
             </tr>
           </thead>
           <tbody className="text-black font-sans rounded-2xl ">
-            <DashboardActiveProjects
-              title={"E-commerce platform"}
-              company={"Tech crop Inc."}
-              progress={20}
-              status={"In Progress"}
-              date={"2024-02-10"}
-            />
-            <DashboardActiveProjects
-              title={"E-commerce platform"}
-              company={"Tech crop Inc."}
-              progress={20}
-              status={"In Progress"}
-              date={"2024-02-10"}
-            />
-            <DashboardActiveProjects
-              title={"E-commerce platform"}
-              company={"Tech crop Inc."}
-              progress={20}
-              status={"In Progress"}
-              date={"2024-02-10"}
-            />
-            <DashboardActiveProjects
-              title={"E-commerce platform"}
-              company={"Tech crop Inc."}
-              progress={100}
-              status={"In Progress"}
-              date={"2024-02-10"}
-            />
+            {data.project.map((p) => (
+              <DashboardActiveProjects
+                key={p.id}
+                title={p.name}
+                company={p.client?.companyName || p.client?.name}
+                progress={mapStatusProgress(p.status)}
+                status={formatStatus(p.status)}
+                date={new Date(p.end).toLocaleDateString()}
+              />
+            ))}
           </tbody>
         </table>
       </div>
 
 
     </div>
+    </ProtectedAdmin>
   );
 }
 

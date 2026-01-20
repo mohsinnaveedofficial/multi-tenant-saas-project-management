@@ -1,8 +1,9 @@
+"use client"
 import ReportClientProjectCountChart from "@/components/admin/ReportClientProjectCountChart";
 import ReportProjectCompChart from "@/components/admin/ReportProjectCompChart";
 import ReportsStatsPanel from "@/components/admin/ReportsStatsPanel";
 import ReportTeamProductivityChart from "@/components/admin/ReportTeamProductivityChart";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegFolder } from "react-icons/fa6";
 import { SiTicktick } from "react-icons/si";
 import { WiTime3 } from "react-icons/wi";
@@ -10,9 +11,25 @@ import { MdOutlineStarOutline } from "react-icons/md";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Logs from "@/components/logs";
+import api from "@/lib/api";
+import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
 
 function Page() {
-  const logs = [
+  const [reportData ,setdata]=useState({}); 
+
+  const getData=async()=>{
+    const res=api.get("/admin/report");
+    setdata((await res).data)
+  }
+useEffect(()=>{
+    getData();
+},[])
+
+  
+
+
+  
+    const logs = [
     { title: "Project 'E-commerce Platform' Completed", time: "2 hours ago" },
     { title: "Client 'TechCorp' Added a New Project", time: "5 hours ago" },
     {
@@ -38,40 +55,41 @@ function Page() {
   ];
 
   return (
+    <ProtectedAdmin>
     <div className="p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-        <ReportProjectCompChart />
-        <ReportTeamProductivityChart />
-      </div>
+        <ReportProjectCompChart chartData={reportData?.projectCompletionRate ?? []} />
+        <ReportTeamProductivityChart chartData={reportData?.teamProductivity ?? []} />
+      </div> 
 
-      <ReportClientProjectCountChart />
+      <ReportClientProjectCountChart chartData={reportData?.clientByProjectCount ?? []} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 m-4">
         <ReportsStatsPanel
           Icon={FaRegFolder}
           color={"blue"}
-          num={12}
-          stats={"+25%"}
+          num={(reportData?.projectThisMonth?.value ?? 0)}
+          stats={`${reportData?.projectThisMonth?.growth ?? 0}%`}
           title={"Project This Month"}
         />
         <ReportsStatsPanel
           Icon={SiTicktick}
           color={"green"}
-          num={"87%"}
-          stats={"+2%"}
+          num={`${reportData?.completionRate?.value ?? 0}%`}
+          stats={`${reportData?.completionRate?.growth ?? 0}%`}
           title={"Complete Rate"}
         />
         <ReportsStatsPanel
           Icon={WiTime3}
           color={"red"}
-          num={"28d"}
-          stats={"+3d"}
+          num={`${reportData?.avgProjectTime?.value ?? 0}d`}
+          stats={`${reportData?.avgProjectTime?.growth ?? 0}d`}
           title={"Avg. Project Time"}
         />
         <ReportsStatsPanel
           Icon={MdOutlineStarOutline}
           color={"purple"}
-          num={4.8}
-          stats={"+0.2"}
+          num={(reportData?.clientSatisfaction?.value ?? 4.8)}
+          stats={`${reportData?.clientSatisfaction?.growth ?? 0}`}
           title={"Client Satisfaction"}
         />
       </div>
@@ -92,6 +110,7 @@ function Page() {
         </CardContent>
       </Card>
     </div>
+    </ProtectedAdmin>
   );
 }
 

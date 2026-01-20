@@ -1,10 +1,10 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -21,94 +21,153 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import api from "@/lib/api";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-function CreateFinancials() {
+function CreateFinancials({ onAdd }) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [projectId, setProjectId] = useState("");
+  const [revenue, setRevenue] = useState("");
+  const [cost, setCost] = useState("");
+  const [status, setStatus] = useState("in progress");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const res = await api.get("/project");
+        setProjects(res.data);
+      } catch (err) {
+        console.error("Failed to fetch projects:", err);
+        toast.error("Failed to fetch projects");
+      }
+    };
+    fetchProjects();
+  }, []);
+
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!projectId || !revenue || !cost) {
+    toast.error("Please fill all fields");
+    return;
+  }
+  setLoading(true);
+  try {
+    const profit = Number(revenue) - Number(cost);
+    await api.post("/finance", {
+      projectId,
+      revenue: Number(revenue),
+      cost: Number(cost),
+      profit,
+      status,
+    });
+    toast.success("Finance record added");
+
+   
+    if (onAdd) onAdd();
+
+    setProjectId("");
+    setRevenue("");
+    setCost("");
+    setStatus("in progress");
+    setOpen(false);
+  } catch (err) {
+    console.error(err);
+    toast.error(err.response?.data?.message || err.message || "Failed to add finance record");
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
-    <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Button className={"bg-blue-500 text-white cursor-pointer"}>
-            + Add Entry
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Add Financials Entry</DialogTitle>
-            <DialogDescription></DialogDescription>
-          </DialogHeader>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="bg-blue-500 text-white cursor-pointer">+ Add Entry</Button>
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Add Financials Entry</DialogTitle>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit}>
           <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1" className={"text-gray-700"}>
-                Project
-              </Label>
-              <Select>
+            <div className="grid gap-2">
+              <Label>Project</Label>
+              <Select value={projectId} onValueChange={setProjectId}>
                 <SelectTrigger className="w-full input-style">
                   <SelectValue placeholder="Select a project" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Select Project</SelectLabel>
-                    <SelectItem value="E-commerce Project">
-                      E-commerce Project
-                    </SelectItem>
-                    <SelectItem value="Shopify Store">Shopify Store</SelectItem>
-                    <SelectItem value="landing page">landing page</SelectItem>
-                    <SelectItem value="Multi-tanent saas">
-                      Multi-tanent saas
-                    </SelectItem>
-                    <SelectItem value="AI image generator">
-                      AI image generator
-                    </SelectItem>
+                    {projects.map((p) => (
+                      <SelectItem key={p.id} value={p.id}>
+                        {p.name}
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="revenue">Revenue</Label>
-              <Input id="revenue" name="revenue" placeholder={"0.00"} className={"input-style"} />
+
+            <div className="grid gap-2">
+              <Label>Revenue</Label>
+              <Input
+                type="number"
+                value={revenue}
+                onChange={(e) => setRevenue(e.target.value)}
+                placeholder="0.00"
+                className="input-style"
+              />
             </div>
 
-            <div className="grid gap-3">
-              <Label htmlFor="cost">Cost</Label>
-              <Input id="cost" name="cost" placeholder={"0.00"}  className={"input-style"}/>
+            <div className="grid gap-2">
+              <Label>Cost</Label>
+              <Input
+                type="number"
+                value={cost}
+                onChange={(e) => setCost(e.target.value)}
+                placeholder="0.00"
+                className="input-style"
+              />
             </div>
 
-            <div className="grid gap-3">
-              <Label htmlFor="status">Status</Label>
-              <Select name="status" id="status">
+            <div className="grid gap-2">
+              <Label>Status</Label>
+              <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger className="w-full input-style">
-                  <SelectValue placeholder={"In Progress"}></SelectValue>
+                  <SelectValue placeholder="In Progress" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Project Status</SelectLabel>
-                    <SelectItem value="Not Started">Not Started</SelectItem>
-                    <SelectItem value="In Progress">In Progress</SelectItem>
-                    <SelectItem value="On Hold">On Hold</SelectItem>
-                    <SelectItem value="Completed">Completed</SelectItem>
-                    <SelectItem value="Cancelled">Cancelled</SelectItem>
-                    <SelectItem value="Delayed">Delayed</SelectItem>
-                    <SelectItem value="Under Review">Under Review</SelectItem>
+                    <SelectLabel>Status</SelectLabel>
+                    <SelectItem value="not started">Not Started</SelectItem>
+                    <SelectItem value="in progress">In Progress</SelectItem>
+                    <SelectItem value="on hold">On Hold</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                    <SelectItem value="delayed">Delayed</SelectItem>
+                    <SelectItem value="under review">Under Review</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
           </div>
-          <DialogFooter>
+
+          <DialogFooter className="mt-3">
             <DialogClose asChild>
-              <Button variant="outline" className={"cursor-pointer"}>
-                Cancel
-              </Button>
+              <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button
-              type="submit"
-              className={"text-white bg-blue-500 cursor-pointer"}
-            >
-              Add Entry
+            <Button type="submit" disabled={loading}>
+              {loading ? "Adding..." : "Add Entry"}
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }

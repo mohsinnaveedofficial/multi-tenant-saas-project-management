@@ -17,15 +17,15 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-function ReportProjectCompChart() {
-const chartData = [
-  { month: "Jan", completion: 10, },
-  { month: "Feb", completion: 120,  },
-  { month: "Mar", completion: 122,  },
-  { month: "Apr", completion: 152,  },
-  { month: "May", completion: 182,  },
-  { month: "Jun", completion: 201, },
-];
+function ReportProjectCompChart({chartData}) {
+// const chartData = [
+//   { month: "Jan", completion: 10, },
+//   { month: "Feb", completion: 120,  },
+//   { month: "Mar", completion: 122,  },
+//   { month: "Apr", completion: 152,  },
+//   { month: "May", completion: 182,  },
+//   { month: "Jun", completion: 201, },
+// ];
 
 const chartConfig = {
   desktop: {

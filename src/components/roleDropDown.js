@@ -16,8 +16,8 @@ function RoleDropdown({value,onchange}) {
           <SelectValue placeholder="Select team member" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="Admin">Admin</SelectItem>
-          <SelectItem value="Employee">Employee</SelectItem>
+          <SelectItem value="admin">Admin</SelectItem>
+          <SelectItem value="team">Employee</SelectItem>
           
         </SelectContent>
       </Select>

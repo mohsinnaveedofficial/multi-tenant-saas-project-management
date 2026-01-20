@@ -8,14 +8,14 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
-function ProjectCompletionChart() {
+function ProjectCompletionChart({ statusCounts }) {
   const data = [
-    { name: "Pending", value: 1, fill: "#0088FE" },
-    { name: "Not Started", value: 1, fill: "#00C49F" },
-    { name: "In Progress", value: 1, fill: "#FFBB28" },
-    { name: "On Hold", value: 1, fill: "#FF8042" },
-    { name: "Completed", value: 1, fill: "#ff00ffff" },
-    { name: "Cancelled", value: 1, fill: "#00fffbff" },
+    { name: "Pending", value: statusCounts?.pending ?? 0, fill: "#0088FE" },
+    { name: "Not Started", value: statusCounts?.notStarted ?? 0, fill: "#00C49F" },
+    { name: "In Progress", value: statusCounts?.inProgress ?? 0, fill: "#FFBB28" },
+    { name: "On Hold", value: statusCounts?.onHold ?? 0, fill: "#FF8042" },
+    { name: "Completed", value: statusCounts?.completed ?? 0, fill: "#ff00ffff" },
+    { name: "Cancelled", value: statusCounts?.cancelled ?? 0, fill: "#00fffbff" },
   ];
   return (
     <div className="bg-white shadow-sm p-5  rounded-2xl border m-4 border-gray-200 ">

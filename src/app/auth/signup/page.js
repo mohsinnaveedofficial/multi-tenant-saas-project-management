@@ -1,7 +1,60 @@
+"use client"
+import api from '@/lib/api';
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react'
+import { toast } from 'sonner';
 
 function Register() {
+
+  const router=useRouter();
+  const emptydata={
+  companyName:"",
+  email:"",
+  name:"",
+  password:"",
+  confirmpassword:"",
+}
+const [formData,setformData]=useState(emptydata)
+
+const handleChange = (e) => {
+    setformData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+    try{
+    if(formData.confirmpassword===formData.password){
+const sendData = {
+  tenant: {
+    companyName: formData.companyName,
+    companyEmail: formData.email
+  },
+  user: {
+    name: formData.name,
+    email: formData.email,
+    password: formData.password
+  }
+}
+        console.log(sendData)
+      const res=await api.post("/auth/signup",sendData )
+      console.log(res);
+  if(res.status===201){
+    setformData(emptydata)
+          toast.success("Register Successfully")
+        router.push("/auth/signin") 
+      
+        }
+  
+  }}catch(error){
+       toast.error(error.response?.data?.message || error.message || "Unable to register");
+      }
+    }
+  
+
   return (
 
     <div className='text-center flex flex-col justify-center items-center font-sans bg-gradient-to-br from-blue-200 via-white to-purple-200  '>
@@ -10,52 +63,50 @@ function Register() {
         <h2 className='text-2xl pt-1 font-semibold'>Create your account</h2>
         <h3 className='text-base pt-1 text-gray-500'>Start managing your projects today</h3>
 
-        {/* Main div */}
+      
         <div className='w-full '>
-          <form action="">
+          <form onSubmit={handleSubmit}>
 
-          {/* Company name section */}
+        
           <div className='pt-9  text-start'>
             <label htmlFor="company" className="font-semibold text-gray-500" >Company Name</label><br />
-            <input id='company' type="text" placeholder='Enter your company name' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
+            <input id='company' value={formData.companyName} onChange={handleChange} name='companyName' type="text" placeholder='Enter your company name' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
-          {/* Admin name section */}
           <div className='pt-5  text-start'>
             <label htmlFor="admin" className="font-semibold text-gray-500" >Admin Name</label><br />
-            <input id='admin' type="text" placeholder='Enter your full name' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
+            <input id='admin' type="text" name="name" value={formData.name} onChange={handleChange} placeholder='Enter your full name' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
-          {/* Email section */}
+         
           <div className='pt-5  text-start'>
             <label htmlFor="email" className="font-semibold text-gray-500" >Email Address</label><br />
-            <input id='email' type="text" placeholder='Enter your email' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
+            <input id='email' type="email" name="email" value={formData.email} onChange={handleChange} placeholder='Enter your email' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
-          {/* Password section */}
           <div className='pt-5 text-start'>
             <label htmlFor="password" className="font-semibold text-gray-500" >Password</label><br />
-            <input id='password' type="text" placeholder='Create a password' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
+            <input id='password' type="password" value={formData.password} onChange={handleChange} name="password" placeholder='Create a password' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
-          {/*Confirm Password section */}
+         
           <div className='pt-5 text-start'>
             <label htmlFor="confirmPassword" className="font-semibold text-gray-500" >Password</label><br />
-            <input id='confirmPassword' type="text" placeholder='Confirm your password' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
+            <input id='confirmPassword' type="password" value={formData.confirmpassword} onChange={handleChange} name="confirmpassword" placeholder='Confirm your password' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
 
-          {/* create account Button */}
-          <button className='bg-blue-600 rounded-lg w-full mt-5 px-3 py-2  text-white'>Create Account</button>
+         
+          <button type='submit' className='bg-blue-600 rounded-lg w-full mt-5 px-3 py-2  text-white'>Create Account</button>
 
             </form>
-          {/* Sign in*/}
+          
           <div className='flex justify-center flex-wrap   items-center gap-1 py-8 pt-5'>
             <p className='text-start text-gray-700   '>Already have an account?</p>
             <Link href="./signin" className='text-blue-600 font-semibold'> Sign in</Link>
           </div>
 
-            {/* Policy */}
+        
           <hr className='text-gray-300  ' />
           <p className='text-xs pt-8 text-gray-700'>By signing in, you agree to our <a href="#" className='text-blue-500'>Terms of Service</a> and <a href="#" className='text-blue-500'>Privacy Policy</a></p>
 
