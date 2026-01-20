@@ -20,7 +20,7 @@ function HomeTestimonialsCard({img,name,postion,desc}) {
         </div>
 
         <CardDescription  className={"line-clamp-4 mt-5"}>
-            "{desc}"
+            {`"${desc}"`}
         </CardDescription>
       </CardContent>
     </Card>
