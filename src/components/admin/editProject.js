@@ -13,12 +13,23 @@ import {
 import { ChevronDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import api from "@/lib/api"; // your axios/fetch instance
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-function EditAdminProject({ closeform, projectName, budget, deadline, status, id }) {
+function EditAdminProject({
+  closeform,
+  projectName,
+  budget,
+  deadline,
+  status,
+  id,
+}) {
   const router = useRouter();
 
   const [formdata, setformData] = useState({
@@ -50,8 +61,13 @@ function EditAdminProject({ closeform, projectName, budget, deadline, status, id
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formdata.projectName || !formdata.status || !formdata.budget || !date) {
-      toast.error("All fields are require")
+    if (
+      !formdata.projectName ||
+      !formdata.status ||
+      !formdata.budget ||
+      !date
+    ) {
+      toast.error("All fields are required");
       return;
     }
 
@@ -62,14 +78,13 @@ function EditAdminProject({ closeform, projectName, budget, deadline, status, id
         budget: Number(formdata.budget),
         end: date.toISOString(),
       });
-      toast.success("Project updated successfully")
+      toast.success("Project updated successfully");
       closeform(false);
-      router.refresh(); 
+      router.refresh();
     } catch (error) {
-     toast.error(
-             error.response?.data?.message || error.message || "Unable to Update"
-           );
-     
+      toast.error(
+        error.response?.data?.message || error.message || "Unable to Update",
+      );
     }
   };
 
@@ -98,7 +113,9 @@ function EditAdminProject({ closeform, projectName, budget, deadline, status, id
           </label>
           <Select
             value={formdata.status}
-            onValueChange={(val) => setformData((prev) => ({ ...prev, status: val }))}
+            onValueChange={(val) =>
+              setformData((prev) => ({ ...prev, status: val }))
+            }
           >
             <SelectTrigger className="text-black border shadow w-full input-style">
               <SelectValue placeholder="Select Status" />
@@ -125,7 +142,9 @@ function EditAdminProject({ closeform, projectName, budget, deadline, status, id
           />
 
           <div className="mt-5 mb-7">
-            <label className="text-gray-700 text-sm font-semibold block mb-2">Deadline</label>
+            <label className="text-gray-700 text-sm font-semibold block mb-2">
+              Deadline
+            </label>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
@@ -137,7 +156,10 @@ function EditAdminProject({ closeform, projectName, budget, deadline, status, id
                   <ChevronDownIcon />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+              <PopoverContent
+                className="w-auto overflow-hidden p-0"
+                align="start"
+              >
                 <Calendar
                   mode="single"
                   selected={date}

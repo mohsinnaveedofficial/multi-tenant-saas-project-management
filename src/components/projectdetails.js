@@ -6,14 +6,19 @@ import Projectdetailstasks from "./projectdetailstasks";
 import Projectdetailsfiles from "./projectdetailsfiles";
 import Projectdetailscomments from "./projectdetailscomments";
 import api from "@/lib/api";
+import { toast } from "sonner";
 
 function Projectdetails({ openDetail, project,roleInProject }) {
 const [projectdetail,setProjectDetail]=useState();
 
-  const getDetails=async () => {
-    const res=await api.get("/project/"+project);
-  setProjectDetail(await(res).data);
+  const getDetails = async () => {
+  try {
+    const res = await api.get("/project/" + project);
+    setProjectDetail(res.data);
+  } catch (error) {
+    toast.error("Failed to fetch project details");
   }
+};
 
 
   useEffect(()=>{

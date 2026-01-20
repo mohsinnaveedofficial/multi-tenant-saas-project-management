@@ -14,11 +14,11 @@ import api from "@/lib/api";
 import { getAccessToken } from "@/lib/auth";
 import Error from "next/error";
 function Dashboard() {
-  const [backendData, setBackendData] = useState(null);
+ const [backendData, setBackendData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const defaultData = {
+  const defaultData = React.useMemo(() => ({
     totalClient: { value: 1, growth: 100 },
     activeProjects: { value: 0, growth: 0 },
     activeTasks: { value: 1, growth: 100 },
@@ -34,9 +34,13 @@ function Dashboard() {
       onHold: 0,
       cancelled: 0,
     },
-    monthlyChartData: Array.from({ length: 12 }).map((_, i) => ({ month: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][i], revenue: 0, cost: 0 })),
+    monthlyChartData: Array.from({ length: 12 }).map((_, i) => ({
+      month: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][i],
+      revenue: 0,
+      cost: 0,
+    })),
     project: [],
-  };
+  }), []);
 
   useEffect(() => {
     let mounted = true;
@@ -45,9 +49,9 @@ function Dashboard() {
       setLoading(true);
       setError(null);
       try {
-        const token = getAccessToken();
-        
-const res = await api.get("/admin/dashboard");
+       
+        const res = await api.get("/admin/dashboard");
+
         if (mounted) setBackendData(res.data || defaultData);
       } catch (e) {
         if (mounted) {
@@ -58,67 +62,57 @@ const res = await api.get("/admin/dashboard");
         if (mounted) setLoading(false);
       }
     };
+
     fetchDashboard();
+
     return () => { mounted = false; };
-  }, []);
+  }, [defaultData]); 
 
   const formatCurrency = (val) => `$${Number(val).toLocaleString()}`;
 
   const mapStatusProgress = (status) => {
     switch (status) {
-      case "notStarted":
-        return 0;
-      case "inProgress":
-        return 50;
-      case "pending":
-        return 20;
-      case "onHold":
-        return 30;
-      case "completed":
-        return 100;
-      case "cancelled":
-        return 0;
-      default:
-        return 0;
+      case "notStarted": return 0;
+      case "inProgress": return 50;
+      case "pending": return 20;
+      case "onHold": return 30;
+      case "completed": return 100;
+      case "cancelled": return 0;
+      default: return 0;
+    }
+  };
+
+  const formatStatus = (status) => {
+    switch (status) {
+      case "notStarted": return "Not Started";
+      case "inProgress": return "In Progress";
+      case "pending": return "Pending";
+      case "onHold": return "On Hold";
+      case "completed": return "Completed";
+      case "cancelled": return "Cancelled";
+      default: return status;
     }
   };
 
   const data = backendData || defaultData;
-  const chartData = (data.monthlyChartData || []).map((m) => ({ name: m.month || m.name, revenue: m.revenue ?? 0, cost: m.cost ?? 0 }));
-
-  const formatStatus = (status) => {
-    switch (status) {
-      case "notStarted":
-        return "Not Started";
-      case "inProgress":
-        return "In Progress";
-      case "pending":
-        return "Pending";
-      case "onHold":
-        return "On Hold";
-      case "completed":
-        return "Completed";
-      case "cancelled":
-        return "Cancelled";
-      default:
-        return status;
-    }
-  };
+  const chartData = (data.monthlyChartData || []).map((m) => ({
+    name: m.month || m.name,
+    revenue: m.revenue ?? 0,
+    cost: m.cost ?? 0,
+  }));
 
   if (loading) {
     return (
       <ProtectedAdmin>
+        <div className="text-center mt-10">Loading dashboard...</div>
       </ProtectedAdmin>
     );
   }
-  if (error)  {
-    <ProtectedAdmin>
-      <div className="text-center text-red-600 mt-10">
-        Failed to load team data. Showing default values.
-      </div>
-    </ProtectedAdmin>
-  }
 
+  if (error) {
+    toast.error("Failed to load")
+  }
+  
   return (
     <ProtectedAdmin>
 
