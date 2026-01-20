@@ -1,5 +1,6 @@
 "use client"
 import api from '@/lib/api';
+import { Home } from 'lucide-react';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -58,6 +59,13 @@ const sendData = {
   return (
 
     <div className='text-center flex flex-col justify-center items-center font-sans bg-gradient-to-br from-blue-200 via-white to-purple-200  '>
+    <button
+        onClick={() => router.push("/")}
+        className="fixed top-20 left-0 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-r-lg shadow-lg flex items-center gap-2 z-50 transition-colors"
+      >
+        <Home size={20} /> 
+      </button>
+
       <div className=' border border-gray-200 px-4 sm:px-6 md:px-10 py-10 rounded-2xl m-7 shadow-lg bg-white'>
         <h1 className='text-3xl font-bold text-[#3663eb]'>Project Hub</h1>
         <h2 className='text-2xl pt-1 font-semibold'>Create your account</h2>
