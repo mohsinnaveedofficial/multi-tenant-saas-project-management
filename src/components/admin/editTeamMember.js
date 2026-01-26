@@ -16,8 +16,7 @@ import api from "@/lib/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-function EditTeamMember({ FullName, EmailAddress, Role, id }) {
-  const router = useRouter();
+function EditTeamMember({ FullName, EmailAddress, Role, id, refreshData }) {
   const [open, setOpen] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -48,7 +47,7 @@ function EditTeamMember({ FullName, EmailAddress, Role, id }) {
       if (res.status === 200) {
         toast.success("Employee updated successfully");
         setOpen(false);
-        router.refresh();
+        refreshData();
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to update user");
@@ -110,7 +109,6 @@ function EditTeamMember({ FullName, EmailAddress, Role, id }) {
                 onChange={handleChange}
                 type="password"
                 placeholder="Enter new password"
-               
                 className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3"
               />
             </div>

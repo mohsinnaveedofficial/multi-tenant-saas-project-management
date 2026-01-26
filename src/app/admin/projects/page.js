@@ -8,19 +8,30 @@ import AdminProjectCard from "@/components/admin/ProjectCard";
 import AdminCreateProject from "@/components/admin/CreateProject";
 import api from "@/lib/api";
 import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
+import { EmptyDemoProject } from "@/components/emptyProject";
+import { toast } from "sonner";
 function Projects() {
   const [table, settable] = useState(false);
   const [CreateForm, setOpenForm] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const [data, setdata] = useState([]);
 
   let getData = async () => {
-    const res = await api.get("/project");
+   try {
+     const res = await api.get("/project");
     setdata(res.data);
+   } catch (error) {
+    toast.error("Failed to Load")
+   }finally{
+    setIsFetching(false)
+   }
+
   };
   useEffect(() => {
     getData();
-  });
+  }, []);
+
   const statusProgressMap = {
     notStarted: 0,
     pending: 30,
@@ -29,6 +40,8 @@ function Projects() {
     completed: 100,
     cancelled: 100,
   };
+
+  if (!data) return null;
 
   return (
     <ProtectedAdmin>
@@ -71,58 +84,62 @@ function Projects() {
             </button>
           </div>
         </div>
-
-        {!table ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 m-4">
-            {data?.map((project, idx) => (
-              <AdminProjectCard
-                key={idx}
-                projectname={project?.name}
-                Deadline={project?.end}
-                Progress={statusProgressMap[project?.status] ?? 0}
-                Status={project?.status}
-                budget={project?.budget}
-                client={project?.client?.companyName}
-                team={project?.assignedUsers || []}
-              />
-            ))}
-          </div>
+        { isFetching ? null : data.length>0 ? (
+          !table ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 m-4">
+              {data?.map((project, idx) => (
+                <AdminProjectCard
+                  key={idx}
+                  projectname={project?.name}
+                  Deadline={project?.end}
+                  Progress={statusProgressMap[project?.status] ?? 0}
+                  Status={project?.status}
+                  budget={project?.budget}
+                  client={project?.client?.companyName}
+                  team={project?.assignedUsers || []}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="m-4 overflow-x-auto rounded-lg border border-gray-300 shadow-sm">
+              <table className="min-w-[700px] w-full text-left border-separate border-spacing-x-0">
+                <thead className="text-gray-500 font-sans">
+                  <tr>
+                    <th className="font-semibold px-4 py-3">PROJECT</th>
+                    <th className="font-semibold  px-4 py-3">CLIENT</th>
+                    <th className="font-semibold  px-4 py-3">TEAM</th>
+                    <th className="font-semibold  px-4 py-3">PROGRESS</th>
+                    <th className="font-semibold  px-4 py-3">STATUS</th>
+                    <th className="font-semibold  px-4 py-3">DEADLINE</th>
+                    <th className="font-semibold  px-4 py-3">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-100 text-black">
+                  {data?.map((item, idx) => (
+                    <AdminProjectCardTable
+                      key={idx}
+                      projectname={item?.name}
+                      client={item?.client?.companyName}
+                      team={item?.assignedUsers || []}
+                      project={item}
+                      progress={statusProgressMap[item?.status] ?? 0}
+                      status={item?.status}
+                      deadline={item?.end}
+                      budget={item?.budget}
+                      refreshData={getData}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
         ) : (
-          <div className="m-4 overflow-x-auto rounded-lg border border-gray-300 shadow-sm">
-            <table className="min-w-[700px] w-full text-left border-separate border-spacing-x-0">
-              <thead className="text-gray-500 font-sans">
-                <tr>
-                  <th className="font-semibold px-4 py-3">PROJECT</th>
-                  <th className="font-semibold  px-4 py-3">CLIENT</th>
-                  <th className="font-semibold  px-4 py-3">TEAM</th>
-                  <th className="font-semibold  px-4 py-3">PROGRESS</th>
-                  <th className="font-semibold  px-4 py-3">STATUS</th>
-                  <th className="font-semibold  px-4 py-3">DEADLINE</th>
-                  <th className="font-semibold  px-4 py-3">ACTION</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-100 text-black">
-                {data?.map((item, idx) => (
-                  <AdminProjectCardTable
-                    key={idx}
-                    projectname={item?.name}
-                    client={item?.client?.companyName}
-                    team={item?.assignedUsers || []}
-                    project={item}
-                    progress={statusProgressMap[item?.status] ?? 0}
-                    status={item?.status}
-                    deadline={item?.end}
-                    budget={item?.budget}
-                  />
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <EmptyDemoProject admin={true} />
         )}
 
         {CreateForm && (
           <div className="fixed inset-0 z-50 flex justify-center items-start pt-[10%] w-full min-h-full bg-black/50">
-            <AdminCreateProject closeform={setOpenForm} />
+            <AdminCreateProject refreshData={getData} closeform={setOpenForm} />
           </div>
         )}
       </div>

@@ -17,7 +17,7 @@ const ProtectedTeam = ({ children }) => {
   }, [user, loading, router]);
 
   if (loading || !user || user.role !== "team") {
-    return <Loader/>
+    return 
   }
 
   return children;

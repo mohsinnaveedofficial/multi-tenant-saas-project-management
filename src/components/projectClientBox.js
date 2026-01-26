@@ -7,9 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import api from "@/lib/api";
 
-function ProjectClientBox({id,name,company,email,phone,projects,status}) {
-
-  const router=useRouter()
+function ProjectClientBox({id,name,company,email,phone,projects,status,refreshData}) {
     const statusmap={
       Active:{text:"text-green-500",bg:"bg-green-100"},
       Inactive:{text:"text-gray-600",bg:"bg-gray-100"}
@@ -22,8 +20,7 @@ function ProjectClientBox({id,name,company,email,phone,projects,status}) {
       
       if (res.status === 200) {
         toast.success("Deleted Successfully");
-      router.refresh();
-      }
+refreshData() ;     }
      
     } catch (error) {
       toast.error(

@@ -14,10 +14,9 @@ import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { toast } from "sonner";
 
-function AddClientComponent() {
+function AddClientComponent({refreshData}) {
   const [open, setOpen] = useState(false);
 
-  const router = useRouter();
   let [formData, setformData] = useState({
     Fullname: "",
     Company: "",
@@ -49,7 +48,7 @@ function AddClientComponent() {
           Email: "",
           phone: "",
         });
-        router.refresh();
+        refreshData()
       }
     } catch (error) {
       toast.error(

@@ -2,6 +2,8 @@
 import { useState } from "react";
 import SideNavBar from "@/components/sideNavBar";
 import TopNavbar from "@/components/topNavbar";
+import { LoadingProvider } from "@/context/LoadingContext";
+import GlobalLoader from "@/components/GlobalLoader";
 
 export default function AdminLayout({ children }) {
   const [nav, setnavOpen] = useState(false);
@@ -11,9 +13,14 @@ export default function AdminLayout({ children }) {
       <SideNavBar nav={nav} setnavOpen={setnavOpen} />
 
       <div className="flex flex-col flex-1 min-w-0">
-                  <TopNavbar tooglenav={() => setnavOpen((pre) => !pre)} />
+        <TopNavbar tooglenav={() => setnavOpen((pre) => !pre)} />
 
-        <main className=" flex-1 overflow-auto min-w-0">{children}</main>
+        <main className=" flex-1 overflow-auto min-w-0">
+          <LoadingProvider>
+            <GlobalLoader />
+            {children}
+          </LoadingProvider>
+        </main>
       </div>
     </div>
   );

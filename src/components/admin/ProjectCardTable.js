@@ -15,6 +15,7 @@ function AdminProjectCardTable({
   budget,
   deadline,
   project,
+  refreshData,
 }) {
   const [editForm, setOpenForm] = useState(false);
   return (
@@ -64,6 +65,7 @@ function AdminProjectCardTable({
             deadline={deadline}
             status={status}
             projectName={projectname}
+            refreshData={refreshData}
           />
         </div>
       )}

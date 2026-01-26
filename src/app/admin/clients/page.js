@@ -5,25 +5,38 @@ import ProjectClientBox from "@/components/projectClientBox";
 import AddClientComponent from "@/components/admin/addClientComponent";
 import api from "@/lib/api";
 import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
+import { toast } from "sonner";
+import EmptyClient from "@/components/emptyClient";
 
 
 
  function ClientTable() {
+  const [isFetching, setIsFetching] = useState(true);
 
+   const getdata=async()=>{
+    try {
+       const res=await api.get("/client");
+    setdata(res.data)
+    } catch (error) {
+      toast.error("Failed to load data")
+    }
+    finally{
+      setIsFetching(false)
+    }
+   }
 const [data,setdata]=useState([])
 
   useEffect(()=>{
-   const getdata=async()=>{
-     const res=await api.get("/client");
-    setdata(res.data)
-   }
    getdata()
   
-  },[data])
+  },[])
+
+
 
 
   return (
     <ProtectedAdmin>
+      {isFetching ? null:(
 
     <div className="w-full" >
       <div className="flex justify-between m-8">
@@ -41,11 +54,11 @@ const [data,setdata]=useState([])
         </div>
 
       
-          <AddClientComponent/>
+          <AddClientComponent refreshData={getdata}/>
       </div>
  
-       
- <div className="m-6 overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+       {data.length>0?(
+    <div className="m-6 overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
           <table className="min-w-[800px] w-full text-left text-sm border-collapse">
             <thead className="bg-gray-50 text-gray-500 uppercase text-xs font-semibold">
               <tr>
@@ -69,14 +82,16 @@ const [data,setdata]=useState([])
                   phone={item.phone}
                   projects={item.projectCount}
                   status={item.status}
+                  refreshData={getdata}
                 />
               ))}
             </tbody>
           </table>
         </div>
- 
+ ):<EmptyClient/>}
 
     </div>
+    )}
                 </ProtectedAdmin>
   );
 }

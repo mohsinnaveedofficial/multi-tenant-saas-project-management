@@ -10,14 +10,28 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { AiOutlineEdit } from "react-icons/ai";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import api from "@/lib/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { DialogDescription } from "@radix-ui/react-dialog";
 
-function EditComponent({ id, title, projectId, priority, dueDate, description, projects }) {
-const router=useRouter()
+function EditComponent({
+  id,
+  title,
+  projectId,
+  priority,
+  dueDate,
+  description,
+  projects,
+  refreshData,
+}) {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: title || "",
@@ -44,12 +58,14 @@ const router=useRouter()
       });
 
       if (res.status === 200) {
+        refreshData();
         toast.success("Task updated successfully");
-        router.refresh()
         setOpen(false);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message || "Unable to update");
+      toast.error(
+        error.response?.data?.message || error.message || "Unable to update",
+      );
     }
   };
 
@@ -61,16 +77,17 @@ const router=useRouter()
         </button>
       </DialogTrigger>
 
-      <DialogContent className="w-1/2 md:w-1/3 lg:w-1/3">
+      <DialogContent className="w-auto lg:w-1/3">
         <DialogHeader>
           <DialogTitle>Edit Task</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          
           <div>
-            <label htmlFor="title" className="font-semibold text-gray-800">Task Title</label>
+            <label htmlFor="title" className="font-semibold text-gray-800">
+              Task Title
+            </label>
             <input
               id="title"
               name="title"
@@ -83,15 +100,13 @@ const router=useRouter()
             />
           </div>
 
-          
-          
-          
-          
           <div>
             <label className="font-semibold text-gray-800">Priority</label>
             <Select
               value={formData.priority}
-              onValueChange={(val) => setFormData((prev) => ({ ...prev, priority: val }))}
+              onValueChange={(val) =>
+                setFormData((prev) => ({ ...prev, priority: val }))
+              }
             >
               <SelectTrigger className="border border-gray-300 w-full mt-1 rounded-lg py-2 px-3">
                 <SelectValue placeholder="Select Priority" />
@@ -105,7 +120,9 @@ const router=useRouter()
           </div>
 
           <div>
-            <label htmlFor="dueDate" className="font-semibold text-gray-800">Deadline</label>
+            <label htmlFor="dueDate" className="font-semibold text-gray-800">
+              Deadline
+            </label>
             <input
               id="dueDate"
               name="dueDate"
@@ -117,9 +134,13 @@ const router=useRouter()
             />
           </div>
 
-          
           <div>
-            <label htmlFor="description" className="font-semibold text-gray-800">Description</label>
+            <label
+              htmlFor="description"
+              className="font-semibold text-gray-800"
+            >
+              Description
+            </label>
             <textarea
               id="description"
               name="description"
@@ -139,7 +160,10 @@ const router=useRouter()
                   Cancel
                 </button>
               </DialogClose>
-              <button type="submit" className="bg-blue-600 text-white w-1/2 rounded-lg py-2">
+              <button
+                type="submit"
+                className="bg-blue-600 text-white w-1/2 rounded-lg py-2"
+              >
                 Update Task
               </button>
             </div>

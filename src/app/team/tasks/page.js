@@ -16,6 +16,7 @@ import ProjectTaskBox from "@/components/taskmainlists";
 import api from "@/lib/api";
 import EmptyTaskCard from "@/components/emptyTask";
 import ProtectedTeam from "@/components/team/ProtectedTeam";
+import { toast } from "sonner";
 
 function Page() {
   const [tableview, settable] = useState(false);
@@ -23,10 +24,18 @@ function Page() {
   const [search,setsearch]=useState("")
   const [priority,setprority]=useState("");
   const [status,setStatus]=useState("")
+    const [isFetching, setIsFetching] = useState(true);
+
 
   const getData = async () => {
-    const res = await api.get("/task/user");
+    try {
+      const res = await api.get("/task/user");
     setData(res.data);
+    } catch (error) {
+      toast.error("Failed to load")
+    }finally{
+      setIsFetching(false)
+    }
   };
 
   useEffect(() => {
@@ -114,10 +123,8 @@ const filterdata=data.filter((task)=>{
           </div>
         </div>
       </div>
-    {filterdata.length === 0 ? (
-  <EmptyTaskCard />
-) : (
-  <>
+    {isFetching ? null : filterdata.length > 0 ? (
+   <>
 
       {!tableview && (
         <div className="grid  grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 m-4 rounded-2xl gap-6 ">
@@ -172,7 +179,9 @@ const filterdata=data.filter((task)=>{
           </table>
         </div>
       )}
-    </>)}
+    </>
+) : (<EmptyTaskCard />
+ )}
     </div>
     </ProtectedTeam>
   );

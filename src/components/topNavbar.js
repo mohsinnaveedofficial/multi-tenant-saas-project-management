@@ -16,7 +16,6 @@ import api from "@/lib/api";
 import { toast } from "sonner";
 
 function TopNavbar({ tooglenav }) {
-  const router=useRouter();
   const pathname = usePathname();
   const segment = pathname.split("/").filter(Boolean);
 
@@ -59,7 +58,7 @@ function TopNavbar({ tooglenav }) {
           </h3>
         </div>
         <div className="flex items-center justify-start flex-row gap-1 text-sm md:text-lg">
-          <div className="text-blue-700 flex justify-center items-center rounded-full h-10 w-10 bg-blue-50">
+          <div className="text-blue-700 flex justify-center font-sans items-center rounded-full h-10 w-10 bg-blue-50">
             <p>
               { user?.name?.split(" ")
                 .map((word) => word.charAt(0))
@@ -67,11 +66,10 @@ function TopNavbar({ tooglenav }) {
                 .toUpperCase()}
             </p>
           </div>
-          <h4>{user?.name}</h4>
+          <h4 className="font-sans">{user?.name}</h4>
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              {" "}
               <FaAngleDown />
             </DropdownMenuTrigger>
             <DropdownMenuContent className={"mr-8 mt-3 ps-2"}>

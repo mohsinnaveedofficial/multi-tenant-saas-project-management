@@ -17,8 +17,7 @@ import api from "@/lib/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-function AddTeamMemberComponent() {
-  const router = useRouter();
+function AddTeamMemberComponent({ refreshData }) {
   const [open, setOpen] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -56,8 +55,8 @@ function AddTeamMemberComponent() {
           Password: "",
         });
 
+        refreshData();
         setOpen(false);
-        router.refresh();
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to add user");
@@ -125,23 +124,23 @@ function AddTeamMemberComponent() {
               />
             </div>
             <DialogFooter>
-            <div className="flex justify-between pt-5 gap-3">
-              <DialogClose asChild>
-                <button
-                  type="button"
-                  className="border text-nowrap border-gray-300 hover:bg-gray-50 text-gray-800 w-1/2 rounded-lg p-2"
-                >
-                  Cancel
-                </button>
-              </DialogClose>
+              <div className="flex justify-between pt-5 gap-3">
+                <DialogClose asChild>
+                  <button
+                    type="button"
+                    className="border text-nowrap border-gray-300 hover:bg-gray-50 text-gray-800 w-1/2 rounded-lg p-2"
+                  >
+                    Cancel
+                  </button>
+                </DialogClose>
 
-              <button
-                type="submit"
-                className="bg-blue-600 text-nowrap text-white w-auto rounded-lg p-2"
-              >
-                Add Employee
-              </button>
-            </div>
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-nowrap text-white w-auto rounded-lg p-2"
+                >
+                  Add Employee
+                </button>
+              </div>
             </DialogFooter>
           </form>
         </DialogContent>

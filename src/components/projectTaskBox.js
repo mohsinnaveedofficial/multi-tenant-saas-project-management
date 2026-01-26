@@ -1,20 +1,30 @@
 "use client";
-import React from 'react';
+import React from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import EditComponent from './editTask';
+import EditComponent from "./editTask";
 import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-function ProjectTaskBox({ id, task, description, project, projectId, assignedTo, assignedToId, status, priority, deadline }) {
-  const router = useRouter();
-
+function ProjectTaskBox({
+  id,
+  task,
+  description,
+  project,
+  projectId,
+  assignedTo,
+  assignedToId,
+  status,
+  priority,
+  deadline,
+  refreshData,
+}) {
   const statusmap = {
     inProgress: { text: "text-blue-500", bg: "bg-blue-100" },
     todo: { text: "text-gray-600", bg: "bg-gray-200" },
     completed: { text: "text-green-600", bg: "bg-green-100" },
-    review: { text: "text-red-500", bg: "bg-red-100" }
+    review: { text: "text-red-500", bg: "bg-red-100" },
   };
 
   const selectedStatusColor = statusmap[status] || statusmap.inProgress;
@@ -27,35 +37,39 @@ function ProjectTaskBox({ id, task, description, project, projectId, assignedTo,
 
   const selectedPriorityColor = prioritymap[priority] || prioritymap.medium;
 
-  
   const handleDelete = async () => {
-   
-
     try {
       const res = await api.delete(`/task/${id}`);
       if (res.status === 200) {
         toast.success("Task deleted successfully");
-        router.refresh(); 
+        refreshData();
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message || "Unable to delete task");
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          "Unable to delete task",
+      );
     }
   };
 
   return (
     <tr className="bg-white transition font-sans">
       <td className="flex flex-col py-4 px-6 w-80 text-gray-700 ">
-        <span className='font-bold'>{task}</span>
+        <span className="font-bold text-nowrap">{task}</span>
         {description}
       </td>
 
-      <td className="py-4 px-6 text-gray-700">{project}</td>
+      <td className="py-4 px-6 text-gray-700 text-nowrap">{project}</td>
 
       <td>
         <div className="py-4 px-6 flex items-center h-full gap-3 text-gray-900 ">
           <div className="hidden md:flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white ">
             <span className="overflow-hidden whitespace-nowrap">
-              {assignedTo.split(" ").map(word => word.charAt(0)).join("")}
+              {assignedTo
+                .split(" ")
+                .map((word) => word.charAt(0))
+                .join("")}
             </span>
           </div>
           {assignedTo}
@@ -63,13 +77,17 @@ function ProjectTaskBox({ id, task, description, project, projectId, assignedTo,
       </td>
 
       <td className="py-4 px-6">
-        <span className={`py-1 px-1.5 text-xs font-medium rounded-xl whitespace-nowrap ${selectedStatusColor.text} ${selectedStatusColor.bg}`}>
+        <span
+          className={`py-1 px-1.5 text-xs font-medium rounded-xl whitespace-nowrap ${selectedStatusColor.text} ${selectedStatusColor.bg}`}
+        >
           {status}
         </span>
       </td>
 
       <td className="py-4 px-6">
-        <span className={`py-1 px-1.5 text-xs font-medium rounded-xl ${selectedPriorityColor.text} ${selectedPriorityColor.bg}`}>
+        <span
+          className={`py-1 px-1.5 text-xs font-medium rounded-xl ${selectedPriorityColor.text} ${selectedPriorityColor.bg}`}
+        >
           {priority}
         </span>
       </td>
@@ -85,11 +103,12 @@ function ProjectTaskBox({ id, task, description, project, projectId, assignedTo,
           <EditComponent
             id={id}
             title={task}
-            projectId={projectId}       
-            teamMember={assignedToId} 
+            projectId={projectId}
+            teamMember={assignedToId}
             priority={priority}
             dueDate={deadline}
             description={description}
+            refreshData={refreshData}
           />
           <button onClick={handleDelete}>
             <RiDeleteBin5Line className="text-red-500" />
@@ -97,7 +116,7 @@ function ProjectTaskBox({ id, task, description, project, projectId, assignedTo,
         </div>
       </td>
     </tr>
-  )
+  );
 }
 
 export default ProjectTaskBox;

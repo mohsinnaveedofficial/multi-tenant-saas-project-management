@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useLoading } from "@/context/LoadingContext";
 import { registerLoading } from "@/lib/api";
+import { Spinner } from "./ui/spinner";
 
 export default function GlobalLoader() {
   const { loading, setLoading } = useLoading();
@@ -13,8 +14,12 @@ export default function GlobalLoader() {
   if (!loading) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="h-12 w-12 animate-spin rounded-full border-4 border-white border-t-transparent" />
-    </div>
+      <div className='flex justify-center items-center min-h-screen '>
+       <div className=' flex flex-col justify-center items-center'>
+
+         <Spinner  className={"size-14 text-blue-500"}/>
+         <h4>Please wait while we are loading</h4>
+       </div>
+       </div>
   );
-}
+  }

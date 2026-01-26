@@ -14,61 +14,33 @@ import api from "@/lib/api";
 import { getAccessToken } from "@/lib/auth";
 import Error from "next/error";
 function Dashboard() {
- const [backendData, setBackendData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  const defaultData = React.useMemo(() => ({
-    totalClient: { value: 1, growth: 100 },
-    activeProjects: { value: 0, growth: 0 },
-    activeTasks: { value: 1, growth: 100 },
-    completedTasks: { value: 1, growth: 100 },
-    totalRevenue: { value: 0, growth: 0 },
-    netProfit: { value: 0, growth: 0 },
-    totalCost: { value: 0, growth: 0 },
-    projectStatusCounts: {
-      notStarted: 1,
-      inProgress: 0,
-      pending: 0,
-      completed: 0,
-      onHold: 0,
-      cancelled: 0,
-    },
-    monthlyChartData: Array.from({ length: 12 }).map((_, i) => ({
-      month: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][i],
-      revenue: 0,
-      cost: 0,
-    })),
-    project: [],
-  }), []);
+   const [data, setData] = useState(null);
 
   useEffect(() => {
-    let mounted = true;
-
     const fetchDashboard = async () => {
-      setLoading(true);
-      setError(null);
       try {
-       
         const res = await api.get("/admin/dashboard");
-
-        if (mounted) setBackendData(res.data || defaultData);
-      } catch (e) {
-        if (mounted) {
-          setBackendData(defaultData);
-          setError(e);
-        }
-      } finally {
-        if (mounted) setLoading(false);
+        setData(res.data);
+      } catch (err) {
+        toast.error("Failed to load dashboard");
       }
     };
 
     fetchDashboard();
+  }, []);
 
-    return () => { mounted = false; };
-  }, [defaultData]); 
+  // 🔑 Important: render NOTHING until data exists
+  if (!data) return null;
 
-  const formatCurrency = (val) => `$${Number(val).toLocaleString()}`;
+  const chartData = (data.monthlyChartData || []).map((m) => ({
+    name: m.month,
+    revenue: m.revenue ?? 0,
+    cost: m.cost ?? 0,
+  }));
+
+  
+  const formatCurrency = (v) => `$${Number(v).toLocaleString()}`;
 
   const mapStatusProgress = (status) => {
     switch (status) {
@@ -94,24 +66,6 @@ function Dashboard() {
     }
   };
 
-  const data = backendData || defaultData;
-  const chartData = (data.monthlyChartData || []).map((m) => ({
-    name: m.month || m.name,
-    revenue: m.revenue ?? 0,
-    cost: m.cost ?? 0,
-  }));
-
-  if (loading) {
-    return (
-      <ProtectedAdmin>
-        <div className="text-center mt-10">Loading dashboard...</div>
-      </ProtectedAdmin>
-    );
-  }
-
-  if (error) {
-    toast.error("Failed to load")
-  }
   
   return (
     <ProtectedAdmin>

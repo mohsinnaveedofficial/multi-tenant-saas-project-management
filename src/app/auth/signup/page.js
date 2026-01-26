@@ -1,4 +1,5 @@
 "use client"
+import Loader2 from '@/components/loader2';
 import api from '@/lib/api';
 import { Home } from 'lucide-react';
 import Link from 'next/link'
@@ -17,6 +18,7 @@ function Register() {
   confirmpassword:"",
 }
 const [formData,setformData]=useState(emptydata)
+const [loading,setLoading]=useState(false);
 
 const handleChange = (e) => {
     setformData((prev) => ({
@@ -26,6 +28,7 @@ const handleChange = (e) => {
   };
 
   const handleSubmit=async(e)=>{
+    setLoading(true)
     e.preventDefault();
     try{
     if(formData.confirmpassword===formData.password){
@@ -51,12 +54,19 @@ const sendData = {
         }
   
   }}catch(error){
+     setLoading(false)
        toast.error(error.response?.data?.message || error.message || "Unable to register");
+      }
+      finally{
+        setLoading(false)
       }
     }
   
+if(loading)
+  return <Loader2/>
 
   return (
+  
 
     <div className='text-center flex flex-col justify-center items-center font-sans bg-gradient-to-br from-blue-200 via-white to-purple-200  '>
     <button

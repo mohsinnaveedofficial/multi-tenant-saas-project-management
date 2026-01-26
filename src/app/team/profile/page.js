@@ -18,11 +18,11 @@ function Page() {
     task: false,
     performance: false,
   });
+  const getData = async () => {
+    const res = await api.get("/user/team/profile");
+    setData(res.data);
+  };
   useEffect(() => {
-    const getData = async () => {
-      const res = await api.get("/user/team/profile");
-      setData(res.data);
-    };
     getData();
   }, []);
 
@@ -102,7 +102,7 @@ function Page() {
       </div>
       {details.profile ? (
         edit ? (
-          <Profilewpassword  editClose={setedit} data={data} />
+          <Profilewpassword refreshData={getData}  editClose={setedit} data={data} />
         ) : (
           <Profileview  data={data} />
         )

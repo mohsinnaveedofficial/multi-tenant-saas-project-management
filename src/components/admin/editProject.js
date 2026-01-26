@@ -29,8 +29,8 @@ function EditAdminProject({
   deadline,
   status,
   id,
+  refreshData,
 }) {
-  const router = useRouter();
 
   const [formdata, setformData] = useState({
     projectName: projectName,
@@ -80,7 +80,7 @@ function EditAdminProject({
       });
       toast.success("Project updated successfully");
       closeform(false);
-      router.refresh();
+      refreshData();
     } catch (error) {
       toast.error(
         error.response?.data?.message || error.message || "Unable to Update",

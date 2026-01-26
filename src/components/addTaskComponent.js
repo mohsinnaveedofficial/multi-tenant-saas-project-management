@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import {
   Dialog,
@@ -13,27 +13,31 @@ import {
 import { FaPlus } from "react-icons/fa6";
 import AssignedtoDropdown from "./assignedtoDropdown";
 import AssignedRoleDropdown from "./assignRole";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import { SelectProject } from "./taskDropDownMenu";
 import { toast } from "sonner";
 
-function AddTaskComponent() {
-  const router = useRouter();
+function AddTaskComponent({ refreshData }) {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
-   
-     title:"",
-     project: "",
-     teamMember: "",
-     priority: "",
-     deadline: "",
-     description:"",
-     role: ""
-   });
+    title: "",
+    project: "",
+    teamMember: "",
+    priority: "",
+    deadline: "",
+    description: "",
+    role: "",
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,9 +48,10 @@ function AddTaskComponent() {
         setUsers(usersRes.data);
       } catch (error) {
         toast.error(
-                error.response?.data?.message || error.message || "Unable to get project and user"
-              );
-        
+          error.response?.data?.message ||
+            error.message ||
+            "Unable to get project and user",
+        );
       }
     };
     fetchData();
@@ -60,24 +65,24 @@ function AddTaskComponent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res= await api.post("/task", {
+      const res = await api.post("/task", {
         title: formData.title,
         projectId: formData.project,
         assignedTo: formData.teamMember,
         priority: formData.priority.toLowerCase(),
         dueDate: formData.deadline,
         description: formData.description,
-        roleInProject: formData.role
+        roleInProject: formData.role,
       });
-      if(res.status===201){
-        toast.success("Task added Successfully  ")
-        setOpen(false)
-        router.refresh();
+      if (res.status === 201) {
+        toast.success("Task added Successfully  ");
+        setOpen(false);
+        refreshData();
       }
     } catch (err) {
-     toast.error(
-             error.response?.data?.message || error.message || "Unable to Add"
-           );
+      toast.error(
+        err.response?.data?.message || err.message || "Unable to Add",
+      );
     }
   };
 
@@ -87,7 +92,7 @@ function AddTaskComponent() {
         <DialogTrigger className="bg-blue-600 px-4 text-white py-2.5 flex items-center rounded-lg gap-4">
           <FaPlus />
           Add Task
-      </DialogTrigger>
+        </DialogTrigger>
 
         <DialogContent className="w-1/2 md:w-1/3 lg:w-1/3">
           <DialogHeader>
@@ -98,7 +103,9 @@ function AddTaskComponent() {
           <form onSubmit={handleSubmit}>
             <div className="space-y-2">
               <div className="pt-2 text-start">
-                <label htmlFor="title" className="font-semibold text-gray-800">Task Title</label>
+                <label htmlFor="title" className="font-semibold text-gray-800">
+                  Task Title
+                </label>
                 <input
                   id="title"
                   name="title"
@@ -113,27 +120,40 @@ function AddTaskComponent() {
 
               <SelectProject
                 value={formData.project}
-                onChange={(val) => setFormData((prev) => ({ ...prev, project: val }))}
+                onChange={(val) =>
+                  setFormData((prev) => ({ ...prev, project: val }))
+                }
                 options={projects.map((p) => ({ value: p.id, label: p.name }))}
               />
 
               <AssignedtoDropdown
                 value={formData.teamMember}
-                onChange={(val) => setFormData((prev) => ({ ...prev, teamMember: val }))}
+                onChange={(val) =>
+                  setFormData((prev) => ({ ...prev, teamMember: val }))
+                }
                 options={users.map((u) => ({ value: u.id, label: u.name }))}
               />
 
-              <AssignedRoleDropdown 
+              <AssignedRoleDropdown
                 value={formData.role}
-                onChange={(val)=>setFormData((prev)=>({...prev,role:val}))}
+                onChange={(val) =>
+                  setFormData((prev) => ({ ...prev, role: val }))
+                }
               />
 
               <div className="flex gap-4 pt-2 items-center justify-center">
                 <div className="w-1/2 text-start">
-                  <label htmlFor="priority" className="font-semibold text-gray-800">Priority</label>
+                  <label
+                    htmlFor="priority"
+                    className="font-semibold text-gray-800"
+                  >
+                    Priority
+                  </label>
                   <Select
                     value={formData.priority}
-                    onValueChange={(val) => setFormData((prev) => ({ ...prev, priority: val }))}
+                    onValueChange={(val) =>
+                      setFormData((prev) => ({ ...prev, priority: val }))
+                    }
                   >
                     <SelectTrigger className="border border-gray-300 w-full mt-1 rounded-lg py-5 px-3">
                       <SelectValue placeholder="Select Priority" />
@@ -147,7 +167,12 @@ function AddTaskComponent() {
                 </div>
 
                 <div className="text-start w-1/2">
-                  <label htmlFor="deadline" className="font-semibold text-gray-800">Deadline</label>
+                  <label
+                    htmlFor="deadline"
+                    className="font-semibold text-gray-800"
+                  >
+                    Deadline
+                  </label>
                   <input
                     id="deadline"
                     name="deadline"
@@ -161,7 +186,12 @@ function AddTaskComponent() {
               </div>
 
               <div className="pt-2 text-start">
-                <label htmlFor="description" className="font-semibold text-gray-800">Description</label>
+                <label
+                  htmlFor="description"
+                  className="font-semibold text-gray-800"
+                >
+                  Description
+                </label>
                 <textarea
                   id="description"
                   name="description"
@@ -174,19 +204,21 @@ function AddTaskComponent() {
                 />
               </div>
 
-            <DialogFooter >
+              <DialogFooter>
                 <div className="flex w-full items-center justify-between pt-5 gap-3">
-                <DialogClose asChild>
-                  <button className="border border-gray-300 hover:bg-gray-50 text-gray-800 text-lg w-1/2 rounded-lg p-1.5">Cancel</button>
-                </DialogClose>
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white w-1/2 text-md rounded-lg p-2"
-                >
-                  Addd Task
-                </button>
-              </div>
-            </DialogFooter>
+                  <DialogClose asChild>
+                    <button className="border border-gray-300 hover:bg-gray-50 text-gray-800 text-lg w-1/2 rounded-lg p-1.5">
+                      Cancel
+                    </button>
+                  </DialogClose>
+                  <button
+                    type="submit"
+                    className="bg-blue-600 text-white w-1/2 text-md rounded-lg p-2"
+                  >
+                    Addd Task
+                  </button>
+                </div>
+              </DialogFooter>
             </div>
           </form>
         </DialogContent>

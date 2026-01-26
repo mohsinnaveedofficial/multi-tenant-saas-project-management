@@ -5,24 +5,35 @@ import ProjectTaskBox from "@/components/projectTaskBox";
 import AddTaskComponent from "@/components/addTaskComponent";
 import api from "@/lib/api";
 import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
+import { toast } from "sonner";
+import EmptyTaskCard from "@/components/emptyTask";
 
 function AddTask() {
   const [tasks, setTasks] = useState([]);
+    const [isFetching, setIsFetching] = useState(true);
+
+
+  const fetchTasks = async () => {
+    try {
+      const res = await api.get("/task");
+      const data = res.data;
+
+      setTasks(data);
+    } catch (err) {
+      toast.error("Can't load you task")
+    }
+    finally{
+      setIsFetching(false)
+    }
+  };
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const res = await api.get("/task");
-        const data = res.data;
-
-        setTasks(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
 
     fetchTasks();
-  }, [tasks]);
+  }, []);
+
+  
+  if (!tasks) return null;
 
   return (
     <ProtectedAdmin>
@@ -40,10 +51,11 @@ function AddTask() {
   </div>
 
   <div className="flex w-full sm:w-auto justify-end">
-    <AddTaskComponent />
+    <AddTaskComponent refreshData={fetchTasks} />
   </div>
 </div>
 
+    {isFetching ? null: tasks.length>0?(
 
       <div className="rounded-lg overflow-x-auto   mx-8 shadow-sm">
         <table className="w-full rounded-lg border overflow-hidden  border-gray-200 border-separate bg-gray-100 m-0 mt-0 border-spacing-y-[3px] border-spacing-x-0">
@@ -74,12 +86,15 @@ function AddTask() {
                 status={item.status}
                 priority={item.priority}
                 deadline={item.dueDate}
+                refreshData={fetchTasks}
                 
               />
             ))}
           </tbody>
         </table>
       </div>
+    ):  <EmptyTaskCard />
+  }    
     </div>
     </ProtectedAdmin>
   );

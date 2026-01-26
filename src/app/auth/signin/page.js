@@ -7,10 +7,13 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { Home } from 'lucide-react'; // optional icon
+import Loader2 from '@/components/loader2';
 
 function Login() {
   const router = useRouter();
   const { setUser } = useAuth();
+  const [loading,setLoading]=useState(false)
+
 
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -25,6 +28,7 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     if (!loginForm.email || !loginForm.password) {
       toast.error("Please fill in all fields");
@@ -58,12 +62,20 @@ function Login() {
         router.push("/team/dashboard");
       }
     } catch (err) {
-     
+       setLoading(false)
       toast.error(
+        
         err.response?.data?.message || "Login failed. Please try again."
       );
     }
+    finally{
+      setLoading(false)
+    }
   };
+if(loading)
+  return <Loader2/>
+
+
 
   return (
     <div className="flex flex-col justify-center items-center font-sans min-h-screen bg-gray-50 px-4 bg-gradient-to-br from-blue-200 via-white to-purple-200 relative">

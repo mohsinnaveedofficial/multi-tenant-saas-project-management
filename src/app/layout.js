@@ -29,10 +29,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased  min-h-screen bg-gray-50  `}
       >
         <Providers>
-         <LoadingProvider>
-          <GlobalLoader />
-          {children}
-        </LoadingProvider>
+        {children}
         </Providers>
       </body>
     </html>

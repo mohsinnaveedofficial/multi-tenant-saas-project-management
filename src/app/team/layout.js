@@ -2,6 +2,8 @@
 import { useState } from "react";
 import SideNavBar from "@/components/sideNavBar";
 import TopNavbar from "@/components/topNavbar";
+import { LoadingProvider } from "@/context/LoadingContext";
+import GlobalLoader from "@/components/GlobalLoader";
 
 export default function TeamLayout({ children }) {
   const [nav, setnavOpen] = useState(false);
@@ -12,7 +14,13 @@ export default function TeamLayout({ children }) {
 
       <div className="flex flex-col flex-1">
         <TopNavbar tooglenav={() => setnavOpen((pre) => !pre)} />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          {" "}
+          <LoadingProvider>
+            <GlobalLoader />
+            {children}
+          </LoadingProvider>
+        </main>
       </div>
     </div>
   );

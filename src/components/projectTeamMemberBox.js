@@ -7,8 +7,15 @@ import api from "@/lib/api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-function ProjectTeamMember({ id, name, email, role, status, joinDate }) {
-  const router = useRouter();
+function ProjectTeamMember({
+  id,
+  name,
+  email,
+  role,
+  status,
+  joinDate,
+  refreshData,
+}) {
 
   const rolemap = {
     admin: { text: "text-purple-700", bg: "bg-purple-100" },
@@ -33,7 +40,7 @@ function ProjectTeamMember({ id, name, email, role, status, joinDate }) {
 
       if (res.status === 200 || res.status === 204) {
         toast.success("User deleted successfully");
-        router.refresh();
+        refreshData();
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to delete user");
@@ -83,6 +90,7 @@ function ProjectTeamMember({ id, name, email, role, status, joinDate }) {
             EmailAddress={email}
             FullName={name}
             Role={role}
+            refreshData={refreshData}
           />
 
           <button onClick={handleDelete}>

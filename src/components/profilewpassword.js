@@ -5,7 +5,7 @@ import { RxCross2 } from "react-icons/rx";
 import api from "@/lib/api";
 import { toast } from "sonner";
 
-function Profilewpassword({ editClose,data }) {
+function Profilewpassword({ editClose,data ,refreshData}) {
 const initialData = useMemo(
     () => ({
       name: data.profile.name,
@@ -74,6 +74,7 @@ const initialData = useMemo(
           confirmPassword: "",
         }));
       }
+      refreshData()
       editClose(false);
       
     } catch (error) {

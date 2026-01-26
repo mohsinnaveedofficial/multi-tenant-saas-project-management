@@ -18,7 +18,7 @@ import api from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-function AdminCreateProject({ closeform }) {
+function AdminCreateProject({ closeform,refreshData }) {
   const router = useRouter();
 
   const [formdata, setformData] = useState({
@@ -37,6 +37,7 @@ function AdminCreateProject({ closeform }) {
       try {
         const res = await api.get("/client");
         setClients(res.data);
+
       } catch (error) {
         toast.error(
                 error.response?.data?.message || error.message || "Unable to get client"
@@ -68,6 +69,7 @@ function AdminCreateProject({ closeform }) {
       toast.success("Project created successfully")
       closeform(false);
       router.refresh();
+      refreshData()
     } catch (error) {
       toast.error(
         error.response?.data?.message || error.message || "Unable to Add"

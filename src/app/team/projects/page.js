@@ -7,28 +7,39 @@ import Profileperformance from "@/components/profileperformance";
 import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
 import api from "@/lib/api";
 import ProtectedTeam from "@/components/team/ProtectedTeam";
+import { EmptyDemoProject } from "@/components/emptyProject";
+import { toast } from "sonner";
 
 function Projects() {
 
 
 const [data,setData]=useState([]);
-const getData=async () => {
-  const res=await api.get("/project/project-assigned-users")
+  const [isFetching, setIsFetching] = useState(true);
 
-  setData(await(res).data);
+const getData=async () => {
+  try{
+
+    const res=await api.get("/project/project-assigned-users")
+  
+    setData(await(res).data);
+  }catch(error){
+    toast.error("Failed to load data")
+  }
+  finally{
+    setIsFetching(false)
+  }
 }
 
 useEffect(()=>{
   getData()
 },[])
 
-  
-
-
+ 
   
   return (
     
     <ProtectedTeam>
+      {isFetching ? null :data.length >0 ?(
 
     <div className="relative min-h-screen">
       <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4 rounded-2xl gap-6">
@@ -42,7 +53,8 @@ useEffect(()=>{
       </div>
 
       
-    </div>
+    </div>):<EmptyDemoProject/>
+}
     </ProtectedTeam>
   );
 }

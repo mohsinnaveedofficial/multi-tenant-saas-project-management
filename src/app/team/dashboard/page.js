@@ -61,11 +61,13 @@ function Page() {
     },
   ];
 
+  if(!data) return null
+
   return (
     <ProtectedTeam>
 
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-8 m-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-8 m-4">
         <DashboardCard
           name={"Assigned Projects"}
           value={data.assignedProjects?.value??0}
@@ -102,7 +104,7 @@ function Page() {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 m-4 gap-4  ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 m-4 gap-4  ">
         <DashboardTaskStatusChart
           todo={data.totalTaskSummary?.todo??0}
           completed={data.totalTaskSummary?.completed??0}
