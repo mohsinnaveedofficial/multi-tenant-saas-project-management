@@ -6,11 +6,11 @@ import { ThemeProvider } from "next-themes";
 
 export function Providers({ children }) {
   return (
-     <ThemeProvider attribute={"class"} defaultTheme="system" enableSystem>
-    <AuthProvider>
-      {children}
-      <Toaster />
-    </AuthProvider>
-     </ThemeProvider>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+      <AuthProvider>
+        {children}
+        <Toaster />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
