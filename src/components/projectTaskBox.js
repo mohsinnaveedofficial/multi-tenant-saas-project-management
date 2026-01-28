@@ -54,16 +54,16 @@ function ProjectTaskBox({
   };
 
   return (
-    <tr className="bg-white transition font-sans">
-      <td className="flex flex-col py-4 px-6 w-80 text-gray-700 ">
+    <tr className="bg-white dark:bg-gray-700 transition font-sans">
+      <td className="flex flex-col py-4 px-6 w-80 text-gray-700 dark:text-gray-200 ">
         <span className="font-bold text-nowrap">{task}</span>
         {description}
       </td>
 
-      <td className="py-4 px-6 text-gray-700 text-nowrap">{project}</td>
+      <td className="py-4 px-6 text-gray-700 text-nowrap dark:text-gray-200">{project}</td>
 
       <td>
-        <div className="py-4 px-6 flex items-center h-full gap-3 text-gray-900 ">
+        <div className="py-4 px-6 flex items-center h-full gap-3 text-gray-900 dark:text-gray-200 ">
           <div className="hidden md:flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white ">
             <span className="overflow-hidden whitespace-nowrap">
               {assignedTo

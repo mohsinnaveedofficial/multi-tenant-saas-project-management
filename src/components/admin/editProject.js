@@ -89,11 +89,11 @@ function EditAdminProject({
   };
 
   return (
-    <div className="p-5 rounded-lg border-gray-300 bg-white font-sans mb-10 lg:w-1/3">
+    <div className="p-5 rounded-lg border-gray-300  dark:border-gray-700 dark:shadow-gray-800 dark:shadow-sm dark:bg-neutral-950 bg-white font-sans mb-10 lg:w-1/3">
       <div className="flex justify-between items-center gap-8">
-        <h3 className="text-xl font-semibold text-black">Edit Project</h3>
+        <h3 className="text-xl font-semibold text-black dark:text-gray-200">Edit Project</h3>
         <RxCross2
-          className="text-gray-400 cursor-pointer hover:text-gray-600"
+          className="text-gray-400 dark:text-gray-200 cursor-pointer hover:text-gray-600"
           onClick={() => closeform(false)}
         />
       </div>
@@ -108,7 +108,7 @@ function EditAdminProject({
             label="Project Name"
           />
 
-          <label className="text-gray-700 text-sm font-semibold block mb-2 mt-5">
+          <label className="text-gray-700 dark:text-gray-200 text-sm font-semibold block mb-2 mt-5">
             Status
           </label>
           <Select
@@ -117,7 +117,7 @@ function EditAdminProject({
               setformData((prev) => ({ ...prev, status: val }))
             }
           >
-            <SelectTrigger className="text-black border shadow w-full input-style">
+            <SelectTrigger className="text-black dark:text-gray-200 border shadow w-full input-style">
               <SelectValue placeholder="Select Status" />
             </SelectTrigger>
             <SelectContent>
@@ -142,7 +142,7 @@ function EditAdminProject({
           />
 
           <div className="mt-5 mb-7">
-            <label className="text-gray-700 text-sm font-semibold block mb-2">
+            <label className="text-gray-700 dark:text-gray-200 text-sm font-semibold block mb-2">
               Deadline
             </label>
             <Popover open={open} onOpenChange={setOpen}>
@@ -177,7 +177,7 @@ function EditAdminProject({
             <button
               type="button"
               onClick={() => closeform(false)}
-              className="border w-full border-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
+              className="border w-full border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
             >
               Cancel
             </button>

@@ -80,7 +80,7 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
           <form onSubmit={handleSubmit}>
             <div>
               <div className="pt-2  text-start">
-                <label htmlFor="name" className="font-semibold text-gray-800">
+                <label htmlFor="name" className="font-semibold text-gray-800 dark:text-gray-200">
                   Full Name
                 </label>
                 <br />
@@ -92,14 +92,14 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
                   onChange={handleChange}
                   placeholder="Enter client name"
                   required
-                  className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style"
+                  className="border border-gray-300  w-full rounded-lg mt-1 py-2 px-3 input-style"
                 />
               </div>
 
               <div className="pt-2  text-start">
                 <label
                   htmlFor="company"
-                  className="font-semibold text-gray-800"
+                  className="font-semibold text-gray-800 dark:text-gray-200"
                 >
                   Company
                 </label>
@@ -117,7 +117,7 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
               </div>
 
               <div className="pt-2  text-start">
-                <label htmlFor="email" className="font-semibold text-gray-800">
+                <label htmlFor="email" className="font-semibold text-gray-800 dark:text-gray-200">
                   Email
                 </label>
                 <br />
@@ -134,7 +134,7 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
               </div>
 
               <div className="pt-2  text-start">
-                <label htmlFor="phone" className="font-semibold text-gray-800">
+                <label htmlFor="phone" className="font-semibold text-gray-800 dark:text-gray-200">
                   Phone
                 </label>
                 <br />
@@ -150,7 +150,7 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
                 />
               </div>
               <div className="pt-2 text-start">
-                <label htmlFor="status" className="font-semibold text-gray-800">
+                <label htmlFor="status" className="font-semibold text-gray-800 dark:text-gray-200">
                   Status
                 </label>
                 <Select
@@ -171,13 +171,13 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
 
               <div className="flex items-center  justify-between pt-8 gap-3">
                 <DialogClose asChild>
-                  <button className="border border-gray-300 hover:bg-gray-50 text-gray-800 text-lg w-1/2 rounded-lg px-3 py-2">
+                  <button className="border border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 text-gray-800 text-lg w-1/2 rounded-lg px-3 py-2">
                     Cancel
                   </button>
                 </DialogClose>
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white w-1/2 text-md rounded-lg px-3 py-2.5 "
+                  className="bg-blue-600 hover:bg-blue-700 text-white w-1/2 text-md rounded-lg px-3 py-2.5 "
                 >
                   Save Changes
                 </button>

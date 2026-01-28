@@ -7,40 +7,40 @@ function Profileview({data}) {
   <div className='p-4 '>
                 <div className='flex md:flex-row flex-col'>
                     <div className='p-4 md:w-[65%] grid sm:grid-cols-2  gap-6'>
-                        <div className='flex flex-col gap-1'>
-                            <label className='pb-1 font-medium text-blue-950'>
+                        <div   >
+                            <label className='pb-1 font-medium text-blue-950 dark:text-gray-200'>
                                 Full Name
                             </label>
-                            <Input className={""} type="text" value={data.profile.name} readOnly placeholder="Name" />
+                            <Input className={"mt-1"} type="text" value={data.profile.name} readOnly placeholder="Name" />
                         </div>
-                        <div className='flex flex-col gap-1'>
-                            <label className='pb-1 font-medium text-blue-950'>
+                        <div   >
+                            <label className='pb-1 font-medium text-blue-950 dark:text-gray-200'>
                                 Job Title
                             </label>
-                            <Input className={""} type="text"value={data.profile.designation || ''} readOnly placeholder="Job title" />
+                            <Input className={"mt-1"} type="text"value={data.profile.designation || ''} readOnly placeholder="Job title" />
                         </div>
-                        <div className='flex flex-col gap-1'>
-                            <label className='pb-1 font-medium text-blue-950'>
+                        <div   >
+                            <label className='pb-1 font-medium text-blue-950 dark:text-gray-200'>
                                 Email
                             </label>
-                            <Input className={""} type="email" value={data.profile.email} readOnly placeholder="Email" />
+                            <Input className={"mt-1"} type="email" value={data.profile.email} readOnly placeholder="Email" />
                         </div>
-                        <div className='flex flex-col gap-1'>
-                            <label className='pb-1 font-medium text-blue-950'>
+                        <div   >
+                            <label className='pb-1 font-medium text-blue-950 dark:text-gray-200'>
                                 Phone Number
                             </label>
-                            <Input className={""} type="tel" value={data.profile.phoneNumber || ''} readOnly placeholder="Phone Number" />
+                            <Input className={"mt-1"} type="tel" value={data.profile.phoneNumber || ''} readOnly placeholder="Phone Number" />
                         </div>
-                        <div className='flex flex-col gap-1'>
-                            <label className=' font-medium text-blue-950'>
+                        <div   >
+                            <label className=' font-medium text-blue-950 dark:text-gray-200'>
                                 Bio
                             </label>
-                            <textarea readOnly className={"h-[100px] max-w-[760px] min-w-52 rounded-md block p-2 border border-gray-300 "} type="text" value={data.profile.bio || ''} placeholder="Write you bio . . ." />
+                            <textarea readOnly className={"h-[100px] mt-1   w-[775px] min-w-52 rounded-md block p-2 border border-gray-300 "} type="text" value={data.profile.bio || ''} placeholder="Write your bio . . ." />
                         </div>
                     </div>
                     <div className='p-4 md:w-[35%]'>
                         <div>
-                            <h1 className='font-bold pb-3 text-blue-950'>
+                            <h1 className='font-bold pb-3 text-blue-950 dark:text-gray-200'>
                                 Task Summary
                             </h1>
                         </div>
@@ -67,7 +67,7 @@ function Profileview({data}) {
                     </div>
                 </div>
                 <div className='ml-4'>
-                    <h1 className=' pb-2 text-blue-950 font-bold'>Skills</h1>
+                    <h1 className=' pb-2 text-blue-950 dark:text-gray-200 font-bold'>Skills</h1>
                     <div className='flex justify-start gap-2 flex-wrap'>
                         <h1 className='bg-[#DAE6F4] text-blue-800 whitespace-nowrap rounded-xl px-2.5 py-0.5 text-sm'>UI Design</h1>
                         <h1 className='bg-[#DAE6F4] text-blue-800 whitespace-nowrap rounded-xl px-2.5 py-0.5 text-sm'>UX Research</h1>

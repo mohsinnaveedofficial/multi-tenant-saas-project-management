@@ -19,7 +19,7 @@ function AdminProjectCardTable({
 }) {
   const [editForm, setOpenForm] = useState(false);
   return (
-    <tr>
+    <tr className=" dark:text-gray-200">
       <td className=" text-left px-4 py-3">{projectname}</td>
       <td className=" px-4 py-3 text-left">{client}</td>
      <td className="px-4 py-3">
@@ -29,7 +29,7 @@ function AdminProjectCardTable({
         <ProjectMemberIcon key={member.id} name={member?.user?.name} />
       ))
     ) : (
-      <span className="text-gray-600 whitespace-nowrap">Not team assigned yet</span>
+      <span className="text-gray-600 dark:text-gray-400 whitespace-nowrap">Not team assigned yet</span>
     )}
   </div>
 </td>
@@ -53,7 +53,7 @@ function AdminProjectCardTable({
         <ProjectDetailsCard project={project} />
         <AiOutlineEdit
           onClick={() => setOpenForm(true)}
-          className="ms-2 cursor-pointer inline text-gray-600"
+          className="ms-2 cursor-pointer inline text-gray-600 dark:text-gray-300"
         />
       </td>
       {editForm && (

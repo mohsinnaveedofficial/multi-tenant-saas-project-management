@@ -85,7 +85,7 @@ function CreateFinancials({ onAdd }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-blue-500 text-white cursor-pointer">+ Add Entry</Button>
+        <Button className="bg-blue-500 text-white hover:bg-blue-600 cursor-pointer">+ Add Entry</Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">

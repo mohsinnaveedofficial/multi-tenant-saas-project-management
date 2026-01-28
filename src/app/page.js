@@ -21,7 +21,8 @@ export default function Home() {
     <div className="h-screen ">
       <Homenavbar />
 
-      <section id="home" className="grid grid-cols-1 pt-20 lg:grid-cols-2 gap-10 items-center font-sans justify-center min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 ">
+      <section id="home" className="grid grid-cols-1 pt-20 lg:grid-cols-2 gap-10 items-center font-sans justify-center min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 
+            dark:from-blue-900 dark:via-purple-900 dark:to-gray-800 ">
         <div className="lg:ml-24 ml-5 space-y-8 ">
           <h2 className=" text-3xl md:text-5xl mt-3 lg:mt-0 lg:text-6xl font-bold whitespace-nowrap  ">
             Manage Clients,<br></br>
@@ -29,19 +30,19 @@ export default function Home() {
             <br></br>
             <span className="text-blue-600">All in One Place</span>
           </h2>
-          <p className="md:w-2/3 text-lg md:text-xl text-gray-600 leading-relaxed mt-4">
+          <p className="md:w-2/3 text-lg md:text-xl text-gray-600 dark:text-gray-200 leading-relaxed mt-4">
             A powerfull multi-tanent SaaS platform to simplify project
             management for every company. Streamline workflows, boost
             productivity, and grow your bussiness
           </p>
           <div className="space-x-6 mt-5">
              <Link href={"/auth/signup"}>
-            <Button  variant={"primary"} className={"text-white cursor-pointer bg-blue-600 py-6 "}>
+            <Button  variant={"primary"} className={"text-white cursor-pointer bg-blue-600 hover:bg-blue-700 py-6 "}>
                Get started Free 
             </Button>
             </Link>
             <Link href={"https://www.linkedin.com/posts/mohsinnaveedofficial_saas-startup-webdevelopment-activity-7411990759052156928-8t42?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEYde6EBTbGL7OdXsUQtYL6TZVvgYHElFb0"}>
-            <Button variant={"secondary"} className="cursor-pointer text-blue-700 border py-6 border-blue-700 bg-white">
+            <Button variant={"secondary"} className="cursor-pointer dark:bg-gray-700 dark:hover:bg-gray-800 dark:border-gray-500 text-blue-700 border py-6 border-blue-700 bg-white">
               Watch Demo
             </Button>
             </Link>
@@ -52,12 +53,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="features" className="bg-white mx-auto">
+      <section id="features" className="bg-white dark:bg-gray-800 mx-auto">
         <div className="font-sans text-center  py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  ">
-          <h2 className="text-3xl md:text-4xl  text-gray-900 font-bold mt-3 ">
+          <h2 className="text-3xl md:text-4xl  text-gray-900 dark:text-gray-200 font-bold mt-3 ">
             Everything You Need to Succeed
           </h2>
-          <h5 className="text-xl mt-3 text-gray-600 max-w-3xl mx-auto mb-16">
+          <h5 className="text-xl mt-3 text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-16">
             Powerful features designed to streamline your workflow and boost
             team productivity
           </h5>
@@ -98,18 +99,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section  className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-sans">
+      <section  className="max-w-7xl mx-auto  px-4 sm:px-6 lg:px-8 font-sans">
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-12">
           <div className="">
-            <h2 className="text-gray-900 text-3xl md:text-4xl font-bold my-6">
+            <h2 className="text-gray-900 dark:text-gray-200 text-3xl md:text-4xl font-bold my-6">
               All your work <MdOutlineHorizontalRule className="inline" />{" "}
               organized and visible in one place
             </h2>
-            <p className="text-gray-600 text-xl my-5">
+            <p className="text-gray-600 dark:text-gray-400 text-xl my-5">
               Get a complete overview of your projects, tasks, team performance
               and finicial metrics with our intuitive dashborad interface
             </p>
-            <div className="">
+            <div className=" ">
               <HomeFeature text={"Real-time project tracking"} />
               <HomeFeature text={"Advanced analytics and reporting"} />
               <HomeFeature text={"Team collaboration tools"} />
@@ -136,7 +137,7 @@ export default function Home() {
             </div>
             <div className="border-12  border-white  shadow-xl rounded-xl mb-10">
               <img
-                className=" rounded-lg "
+                className=" "
                 src="https://readdy.ai/api/search-image?query=Complete%20project%20management%20dashboard%20interface%20showing%20analytics%20charts%2C%20task%20boards%2C%20team%20members%2C%20financial%20reports%2C%20modern%20clean%20design%2C%20professional%20business%20software%2C%20white%20background&width=600&height=400&seq=dashboard2&orientation=landscape"
               />
             </div>
@@ -144,12 +145,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" className="py-20 font-sans bg-white">
+      <section id="about" className="py-20 font-sans bg-white dark:bg-gray-800">
         <div className=" px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto ">
-          <h2 className="text-gray-900 text-3xl text-center md:text-4xl font-bold my-4">
+          <h2 className="text-gray-900 text-3xl dark:text-gray-200 text-center md:text-4xl font-bold my-4">
             Trusted by Teams Worldwide
           </h2>
-          <p className="text-gray-600 text-xl  mb-16 text-center">
+          <p className="text-gray-600 text-xl dark:text-gray-400  mb-16 text-center">
             See what our customer have to say about their experience
           </p>
 
@@ -197,7 +198,7 @@ export default function Home() {
           </p>
           </div>
        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 justify-items-center  max-w-5xl mx-auto">
-        <HomeBillingcard   price={0} type={"Free"}  features={["Up to 3 projects","5 team members","Basic reporting","Email support"]}  />
+        <HomeBillingcard   price={0} type={"Free"} buttoncolor={"dark:bg-gray-500"}  features={["Up to 3 projects","5 team members","Basic reporting","Email support"]}  />
         <HomeBillingcard  popular={true} buttoncolor={"bg-blue-600 text-white hover:bg-blue-700"} price={0} type={"Standard"}  features={["Unlimited projects","25 team members","Advanced reporting","Priority support","Time tracking"]}  />
         <HomeBillingcard   buttoncolor={"bg-purple-600 text-white hover:bg-purple-700 "} price={29} type={"Premium"}  features={["Everything in Standard","Unlimited team members","Custom integrations","24/7 phone support","Advanced security" ]}  />
 
@@ -215,7 +216,7 @@ export default function Home() {
           </p>
           <div className="space-x-5">
 
-          <Button className={"bg-white text-blue-600 "} size={"lg"} >Sign Up Free</Button>
+          <Button className={"bg-white text-blue-600 dark:bg-gray-700 dark:hover:bg-gray-800 "} size={"lg"} >Sign Up Free</Button>
           <Button variant={"outline"} className={"bg-transparent border-2 text-white"} size={"lg"}  >Learn More</Button>
           </div>
         </div>

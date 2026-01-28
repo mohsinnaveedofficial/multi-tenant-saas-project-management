@@ -28,8 +28,8 @@ function RevenueChart({ data: chartData }) {
     { name: "Dec", revenue: 4600, cost: 2800 },
   ];
   return (
-    <div className="  bg-white rounded-2xl shadow-sm p-5 m-4 min-h-80 font-sans">
-      <h2 className="mb-4 text-gray-800  text-xl font-semibold ">
+    <div className="   bg-white dark:bg-gray-800    border-gray-200 dark:border-gray-700 border rounded-2xl shadow-sm p-5 m-4 min-h-80 font-sans">
+      <h2 className="mb-4  text-gray-800 dark:text-gray-200  text-xl font-semibold ">
         Revenue vs Cost
       </h2>
       <div className="bg-gradient-to-b w-full h-[90%] pt-3 from-[#001b3a] to-[#002b5c] rounded-xl">

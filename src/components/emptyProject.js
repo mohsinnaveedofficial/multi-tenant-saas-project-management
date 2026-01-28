@@ -23,7 +23,7 @@ export function EmptyDemoProject({ admin }) {
         <EmptyTitle>No Projects Yet</EmptyTitle>
         <EmptyDescription>
           You haven&apos;t any projects yet.
-          {admin && "Get started by creating your first project."}
+          {admin && "Get started by creating your first project. Or try adjusting your filters "}
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent className="flex-row  justify-center gap-2  ">
@@ -37,9 +37,9 @@ export function EmptyDemoProject({ admin }) {
         className="text-muted-foreground"
         size="sm"
       >
-        <Link href="/">
+        <a  className="text-black">
           Learn More <ArrowUpRightIcon />
-        </Link>
+        </a>
       </Button>
     </Empty>
      </div>

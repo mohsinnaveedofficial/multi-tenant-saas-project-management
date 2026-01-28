@@ -29,7 +29,7 @@ function AddTaskComponent({ refreshData }) {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
-  const [formData, setFormData] = useState({
+  let initialData={
     title: "",
     project: "",
     teamMember: "",
@@ -37,7 +37,8 @@ function AddTaskComponent({ refreshData }) {
     deadline: "",
     description: "",
     role: "",
-  });
+  }
+  const [formData, setFormData] = useState(initialData);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,7 +78,8 @@ function AddTaskComponent({ refreshData }) {
       if (res.status === 201) {
         toast.success("Task added Successfully  ");
         setOpen(false);
-        refreshData();
+        setFormData
+        refreshData(initialData);
       }
     } catch (err) {
       toast.error(
@@ -103,7 +105,7 @@ function AddTaskComponent({ refreshData }) {
           <form onSubmit={handleSubmit}>
             <div className="space-y-2">
               <div className="pt-2 text-start">
-                <label htmlFor="title" className="font-semibold text-gray-800">
+                <label htmlFor="title" className="font-semibold text-gray-800 dark:text-gray-200">
                   Task Title
                 </label>
                 <input
@@ -145,7 +147,7 @@ function AddTaskComponent({ refreshData }) {
                 <div className="w-1/2 text-start">
                   <label
                     htmlFor="priority"
-                    className="font-semibold text-gray-800"
+                    className="font-semibold text-gray-800 dark:text-gray-200"
                   >
                     Priority
                   </label>
@@ -169,7 +171,7 @@ function AddTaskComponent({ refreshData }) {
                 <div className="text-start w-1/2">
                   <label
                     htmlFor="deadline"
-                    className="font-semibold text-gray-800"
+                    className="font-semibold text-gray-800 dark:text-gray-200"
                   >
                     Deadline
                   </label>
@@ -188,7 +190,7 @@ function AddTaskComponent({ refreshData }) {
               <div className="pt-2 text-start">
                 <label
                   htmlFor="description"
-                  className="font-semibold text-gray-800"
+                  className="font-semibold text-gray-800 dark:text-gray-200"
                 >
                   Description
                 </label>
@@ -207,15 +209,16 @@ function AddTaskComponent({ refreshData }) {
               <DialogFooter>
                 <div className="flex w-full items-center justify-between pt-5 gap-3">
                   <DialogClose asChild>
-                    <button className="border border-gray-300 hover:bg-gray-50 text-gray-800 text-lg w-1/2 rounded-lg p-1.5">
-                      Cancel
+                    <button 
+              className="border w-1/2 border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
+>                      Cancel
                     </button>
                   </DialogClose>
                   <button
                     type="submit"
                     className="bg-blue-600 text-white w-1/2 text-md rounded-lg p-2"
                   >
-                    Addd Task
+                    Add Task
                   </button>
                 </div>
               </DialogFooter>

@@ -30,9 +30,9 @@ function Taskmaincards({
     completionStatusStyles[statuscompletion] || completionStatusStyles.todo;
 
   return (
-    <div className="rounded-2xl border bg-white border-gray-200 shadow p-6">
+    <div className="rounded-2xl border bg-white border-gray-200 dark:border-gray-700 dark:bg-gray-800 shadow p-6">
       <div className="flex justify-between">
-        <h1 className="text-black font-bold">{title}</h1>
+        <h1 className="text-black dark:text-gray-200 font-bold">{title}</h1>
         <h1
           className={`rounded-2xl text-sm font-medium px-1.5 py-0.5 ${selectedStatusColor.text} ${selectedStatusColor.bg}`}
         >
@@ -40,19 +40,19 @@ function Taskmaincards({
         </h1>
       </div>
       <div className="pt-2 pb-5  ">
-        <p className="text-sm text-gray-500 ">{description}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 ">{description}</p>
       </div>
       <div className="flex justify-between pt-5">
-        <h1 className="text-sm text-gray-500">Project:</h1>
-        <h1 className="text-sm text-black font-semibold">{projectname}</h1>
+        <h1 className="text-sm text-gray-500 dark:text-gray-300">Project:</h1>
+        <h1 className="text-sm text-black dark:text-gray-200 font-semibold">{projectname}</h1>
       </div>
       <div className="flex justify-between pt-2">
-        <h1 className="text-sm text-gray-500">Due:</h1>
-        <h1 className="text-sm text-black font-semibold">{date}</h1>
+        <h1 className="text-sm text-gray-500 dark:text-gray-300">Due:</h1>
+        <h1 className="text-sm text-black  dark:text-gray-200 font-semibold">{date}</h1>
       </div>
       <div className="flex justify-between pt-2">
-        <h1 className="text-gray-500 text-sm mt-2.5">Progress</h1>
-        <h1 className="text-black text-sm font-semibold mt-2.5">{progress}</h1>
+        <h1 className="text-gray-500  dark:text-gray-300 text-sm mt-2.5">Progress</h1>
+        <h1 className="text-black dark:text-gray-200 text-sm font-semibold mt-2.5">{progress}</h1>
       </div>
       <div className="w-full mt-2">
         <div className="w-full h-2 bg-gray-200 rounded-2xl">

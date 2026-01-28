@@ -73,7 +73,7 @@ function AddClientComponent({refreshData}) {
           <form onSubmit={handleSubmit}>
             <div>
               <div className="pt-2  text-start">
-                <label htmlFor="name" className="font-semibold text-gray-800">
+                <label htmlFor="name" className="font-semibold text-gray-800 dark:text-gray-200">
                   Full Name
                 </label>
                 <br />
@@ -85,14 +85,14 @@ function AddClientComponent({refreshData}) {
                   onChange={handleChange}
                   placeholder="Enter client name"
                   required
-                  className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style"
+                  className="border border-gray-300 dark:border-gray-700 w-full rounded-lg mt-1 py-2 px-3 input-style"
                 />
               </div>
 
               <div className="pt-2  text-start">
                 <label
                   htmlFor="company"
-                  className="font-semibold text-gray-800"
+                  className="font-semibold text-gray-800 dark:text-gray-200"
                 >
                   Company
                 </label>
@@ -105,12 +105,12 @@ function AddClientComponent({refreshData}) {
                   onChange={handleChange}
                   placeholder="Enter company name"
                   required
-                  className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style"
+                  className="border border-gray-300 dark:border-gray-700 w-full rounded-lg mt-1 py-2 px-3 input-style"
                 />
               </div>
 
               <div className="pt-2  text-start">
-                <label htmlFor="email" className="font-semibold text-gray-800">
+                <label htmlFor="email" className="font-semibold text-gray-800 dark:text-gray-200">
                   Email
                 </label>
                 <br />
@@ -122,12 +122,12 @@ function AddClientComponent({refreshData}) {
                   onChange={handleChange}
                   placeholder="Enter email address"
                   required
-                  className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style"
+                  className="border border-gray-300 dark:border-gray-700 w-full rounded-lg mt-1 py-2 px-3 input-style"
                 />
               </div>
 
               <div className="pt-2  text-start">
-                <label htmlFor="phone" className="font-semibold text-gray-800">
+                <label htmlFor="phone" className="font-semibold text-gray-800 dark:text-gray-200 ">
                   Phone
                 </label>
                 <br />
@@ -139,19 +139,19 @@ function AddClientComponent({refreshData}) {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className="border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style"
+                  className="border border-gray-300 dark:border-gray-700  w-full rounded-lg mt-1 py-2 px-3 input-style"
                 />
               </div>
 
               <div className="flex items-center  justify-between pt-8 gap-3">
                 <DialogClose asChild>
-                  <button className="border border-gray-300 hover:bg-gray-50 text-gray-800 text-lg w-1/2 rounded-lg px-3 py-2">
+                  <button className="border border-gray-300 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800 dark:bg-gray-700 text-gray-800 text-lg w-1/2 rounded-lg px-3 py-2">
                     Cancel
                   </button>
                 </DialogClose>
                 <button
                   type="submit"
-                  className="bg-blue-600 text-white w-1/2 text-md rounded-lg px-3 py-2.5 "
+                  className="bg-blue-600 hover:bg-blue-700 text-white w-1/2 text-md rounded-lg px-3 py-2.5 "
                 >
                   Add Client
                 </button>

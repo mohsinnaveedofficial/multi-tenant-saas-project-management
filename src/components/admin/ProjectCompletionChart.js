@@ -1,4 +1,5 @@
 "use client";
+import { useTheme } from "next-themes";
 import React from "react";
 import {
   Pie,
@@ -17,12 +18,14 @@ function ProjectCompletionChart({ statusCounts }) {
     { name: "Completed", value: statusCounts?.completed ?? 0, fill: "#ff00ffff" },
     { name: "Cancelled", value: statusCounts?.cancelled ?? 0, fill: "#00fffbff" },
   ];
+  const { theme } = useTheme();
+
   return (
-    <div className="bg-white shadow-sm p-5  rounded-2xl border m-4 border-gray-200 ">
-      <h2 className="font-semibold font-sans text-lg text-gray-800 mb-4">
+    <div className="bg-white dark:bg-gray-800    dark:border-gray-700 shadow-sm p-5  rounded-2xl border m-4 border-gray-200 ">
+      <h2 className="font-semibold font-sans text-lg ligh:text-gray-800 dark:text-gray-200 mb-4">
         Project Completion
       </h2>
-     <div className="h-0.5 bg-gray-200 "></div>
+     <div className="h-0.5  bg-gray-200 dark:bg-gray-700 "></div>
 
       <div className="flex flex-row justify-between items-center ps-8   ">
         <div className="space-y-2">
@@ -35,16 +38,16 @@ function ProjectCompletionChart({ statusCounts }) {
                 className="h-3 w-3 rounded-full "
                 style={{ backgroundColor: item.fill }}
               ></div>
-              <p className="text-gray-600 flex-1">
+              <p className=" text-gray-600 dark:text-gray-300  flex-1">
                 {item.name}{" "}
-                <span className="font-semibold text-gray-800">
+                <span className="font-semibold  text-gray-800 dark:text-gray-200">
                   {item.value}
                 </span>{" "}
               </p>
             </div>
           ))}
         </div>
-        <div className="w-0.5 bg-gray-200 h-72 "></div>
+        <div className="w-0.5  bg-gray-200 dark:bg-gray-700 h-72 "></div>
         <div className="w-1/2 h-64 mt-5 "  >
           <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
             <PieChart>
@@ -56,6 +59,7 @@ function ProjectCompletionChart({ statusCounts }) {
                 paddingAngle={5}
                 dataKey={"value"}
                 isAnimationActive={true}
+               
                 activeShape={null}
                 style={{outline:"none"}}
                 // stroke="#c4c3c2"

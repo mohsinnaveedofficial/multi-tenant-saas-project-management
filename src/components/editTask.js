@@ -85,7 +85,7 @@ function EditComponent({
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="title" className="font-semibold text-gray-800">
+            <label htmlFor="title" className="font-semibold text-gray-800 dark:text-gray-200">
               Task Title
             </label>
             <input
@@ -101,7 +101,7 @@ function EditComponent({
           </div>
 
           <div>
-            <label className="font-semibold text-gray-800">Priority</label>
+            <label className="font-semibold text-gray-800 dark:text-gray-200">Priority</label>
             <Select
               value={formData.priority}
               onValueChange={(val) =>
@@ -120,7 +120,7 @@ function EditComponent({
           </div>
 
           <div>
-            <label htmlFor="dueDate" className="font-semibold text-gray-800">
+            <label htmlFor="dueDate" className="font-semibold text-gray-800 dark:text-gray-200">
               Deadline
             </label>
             <input
@@ -137,7 +137,7 @@ function EditComponent({
           <div>
             <label
               htmlFor="description"
-              className="font-semibold text-gray-800"
+              className="font-semibold text-gray-800 dark:text-gray-200"
             >
               Description
             </label>
@@ -156,8 +156,8 @@ function EditComponent({
           <DialogFooter>
             <div className="w-full flex justify-between gap-3 mt-4">
               <DialogClose asChild>
-                <button className="border border-gray-300 hover:bg-gray-50 text-gray-800 w-1/2 rounded-lg py-2">
-                  Cancel
+                <button 
+              className="border w-1/2 border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white">                  Cancel
                 </button>
               </DialogClose>
               <button

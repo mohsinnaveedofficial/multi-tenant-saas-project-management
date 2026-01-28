@@ -31,18 +31,18 @@ refreshData() ;     }
 
   return (
    
-      <tr className="hover:bg-gray-50 transition">
-        <td className="py-4 px-6 flex items-center gap-3 font-semibold text-gray-900">
-          <div className="hidden items-center justify-center w-8 h-8 rounded-full sm:flex bg-blue-600 text-white font-semibold">
+      <tr className="hover:bg-gray-50 transition dark:bg-gray-700">
+        <td className="py-4 px-6 flex items-center gap-3 font-semibold text-gray-900 dark:text-gray-200">
+          <div className="hidden items-center justify-center w-8 h-8 rounded-full sm:flex bg-blue-600 text-white  font-semibold">
             <span className="overflow-hidden whitespace-nowrap">{name.split(" ").map(word => word.charAt(0)).join("")}
             </span>
           </div>
           {name}
         </td>
 
-        <td className="py-4 px-6 text-gray-700">{company}</td>
-        <td className="py-4 px-6 text-gray-700">{email}</td>
-        <td className="py-4 px-6 text-gray-700">{phone}</td>
+        <td className="py-4 px-6 text-gray-700 dark:text-gray-200">{company}</td>
+        <td className="py-4 px-6 text-gray-700 dark:text-gray-200">{email}</td>
+        <td className="py-4 px-6 text-gray-700 dark:text-gray-200">{phone}</td>
         <td className="py-4 px-6">
           <span className="bg-blue-100 whitespace-nowrap text-blue-700 px-3 py-1 rounded-full text-xs font-normal">
             {projects} projects

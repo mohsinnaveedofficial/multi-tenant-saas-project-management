@@ -16,7 +16,6 @@ function ProjectTeamMember({
   joinDate,
   refreshData,
 }) {
-
   const rolemap = {
     admin: { text: "text-purple-700", bg: "bg-purple-100" },
     team: { text: "text-blue-700", bg: "bg-blue-100" },
@@ -48,9 +47,9 @@ function ProjectTeamMember({
   };
 
   return (
-    <tr className="bg-white font-sans">
-      <td className="py-4 px-6 flex items-center whitespace-nowrap gap-3 w-full font-semibold text-gray-900">
-        <div className="hidden lg:flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 text-white font-medium">
+    <tr className="bg-white dark:bg-gray-700 font-sans">
+      <td className="py-4 px-6 flex items-center whitespace-nowrap gap-3 w-full font-semibold dark:text-gray-200 text-gray-900">
+        <div className="hidden lg:flex items-center justify-center w-9 h-9 rounded-full bg-blue-600 dark:text-gray-200 text-white font-medium">
           {name
             .split(" ")
             .map((word) => word.charAt(0))
@@ -59,7 +58,7 @@ function ProjectTeamMember({
         {name}
       </td>
 
-      <td className="py-4 px-6 text-gray-700">{email}</td>
+      <td className="py-4 px-6 text-gray-700 dark:text-gray-200">{email}</td>
 
       <td className="py-4 px-6">
         <span

@@ -67,6 +67,8 @@ function Page() {
     teamUsed: 0,
     teamLimit: 0,
   });
+  const [loading, setLoading] = useState(true);
+
 
   const price = plandata[data.plan]?.price || 0;
 const FinalPlanList=plans.map((plan)=>({
@@ -75,34 +77,38 @@ const FinalPlanList=plans.map((plan)=>({
   
 }))
 
+const fetchData = async () => {
+  try {
+    const res = await api.get("/admin/billing");
+    if (res.status === 200) {
+      setData(res.data);
+    }
+  } catch (err) {
+    console.error("Failed to fetch billing data:", err);
+  }finally{
+    setLoading(false)
+  }
+};
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await api.get("/admin/billing");
-        if (res.status === 200) {
-          setData(res.data);
-        }
-      } catch (err) {
-        console.error("Failed to fetch billing data:", err);
-      }
-    };
     fetchData();
   }, []);
 
+if(loading) return null;
+
   return (
   <ProtectedAdmin>
-    <div className="bg-gray-50">
-      <div className="text-black font-sans pt-4 m-4 px-8 border bg-white shadow-xs mb-6 border-gray-200 rounded-2xl">
+    <div >
+      <div className="text-black dark:text-gray-200 dark:bg-gray-800 dark:border-gray-700 font-sans pt-4 m-4 px-8 border bg-white shadow-xs mb-6 border-gray-200 rounded-2xl">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-xl font-semibold">Current plan</h1>
-            <p className="text-gray-500 text-sm my-2">
+            <p className="text-gray-500 dark:text-gray-400 text-sm my-2">
               You are currently on the {data.plan} plan
             </p>
           </div>
           <div className="text-end">
             <h1 className="text-xl font-semibold">${price}</h1>
-            <p className="text-gray-500 text-sm my-2">per month</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm my-2">per month</p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-5">
@@ -128,7 +134,7 @@ const FinalPlanList=plans.map((plan)=>({
             work={"GB storage used"}
           />
         </div>
-        <hr className="text-gray-300" />
+        <hr className="text-gray-300 " />
         <div className="flex gap-1 my-4">
           <p className="text-gray-500 text-sm">Next billing date:</p>
           <h1 className="text-sm">March 1, 2024</h1>
@@ -136,10 +142,10 @@ const FinalPlanList=plans.map((plan)=>({
       </div>
 
       <div>
-        <h1 className="text-xl font-bold text-black flex justify-center pt-2">
+        <h1 className="text-xl font-bold text-black dark:text-gray-200 flex justify-center pt-2">
           Choose Your Plan
         </h1>
-        <p className="text-sm text-gray-600 flex justify-center pt-3 pb-4">
+        <p className="text-sm text-gray-600 dark:text-gray-400 flex justify-center pt-3 pb-4">
           Select the perfect plan for your team&apos;s needs
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 m-4">

@@ -13,13 +13,13 @@ import {
 export function SelectProject({ value, onChange, options }) {
   return (
     <div className="pt-2 text-start">
-      <label htmlFor="project" className="font-semibold text-gray-800">
+      <label htmlFor="project" className="font-semibold text-gray-800 dark:text-gray-200">
         Project
       </label>
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger
           id="project"
-          className="border mt-1 border-gray-300 w-full rounded-lg p-1.5 data-[placeholder]:text-black"
+          className="border mt-1 border-gray-300 w-full rounded-lg p-1.5 data-[placeholder]:text-black dark:data-[placeholder]:text-gray-400"
         >
           <SelectValue placeholder="Select project" />
         </SelectTrigger>

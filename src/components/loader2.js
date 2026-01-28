@@ -9,16 +9,16 @@ function Loader2() {
  <div className="fixed inset-0 z-50 w-full flex items-center justify-center  font-sans bg-gradient-to-br from-blue-200 via-white to-purple-200 ">
     <Empty className="bg-transparent w-auto ">
       <EmptyHeader>
-        <EmptyMedia variant="icon">
+        <EmptyMedia variant="icon" className={"dark:bg-gray-300 dark:text-black"}>
           <Spinner />
         </EmptyMedia>
-        <EmptyTitle>Processing your request</EmptyTitle>
+        <EmptyTitle className={"dark:text-black"}>Processing your request</EmptyTitle>
         <EmptyDescription>
           Please wait while we process your request. Do not refresh the page.
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" className={"dark:text-black dark:bg-white"} size="sm">
           Cancel
         </Button>
       </EmptyContent>

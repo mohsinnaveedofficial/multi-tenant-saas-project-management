@@ -8,10 +8,10 @@ function FinanceCard({ color, Icon, title, stats, num }) {
   };
   const selectedColor = colorMap[color] || color.blue;
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white flex justify-between items-center px-6 py-5 shadow">
+    <div className="rounded-2xl border border-gray-200 dark:border-gray-600 dark:bg-gray-800 bg-white flex justify-between items-center px-6 py-5 shadow">
       <div className="space-y-1">
-        <h6 className="text-gray-600 font-semibold text-sm">{title}</h6>
-        <h4 className="text-black font-bold text-2xl">${num}</h4>
+        <h6 className="text-gray-600 dark:text-gray-400 font-semibold text-sm">{title}</h6>
+        <h4 className="text-black dark:text-gray-200 font-bold text-2xl">${num}</h4>
         <span className={`${selectedColor.text} text-sm font-semibold`}>
           {stats} from last month
         </span>

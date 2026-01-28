@@ -14,13 +14,17 @@ function DashboardTaskStatusChart({ todo, inProgress, completed, delayed }) {
 
   return (
     <div>
-      <Card>
+      <Card className={"dark:bg-gray-800"}>
         <CardHeader>
           <CardTitle>Task Status Distribution</CardTitle>
         </CardHeader>
 
         <ResponsiveContainer>
-          <CardContent className={"flex justify-center flex-col sm:flex-row items-center gap-10"}>
+          <CardContent
+            className={
+              "flex justify-center flex-col sm:flex-row items-center gap-10"
+            }
+          >
             <div>
               <ChartContainer
                 config={{}}

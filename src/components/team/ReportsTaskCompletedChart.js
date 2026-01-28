@@ -21,7 +21,7 @@ const chartConfig = {
 }
   return (
     <div>
-      <Card>
+      <Card className={"dark:bg-gray-800"}>
         <CardHeader>
           <CardTitle>Task Completed Over Time</CardTitle>
         </CardHeader>

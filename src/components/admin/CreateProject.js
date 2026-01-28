@@ -68,7 +68,6 @@ function AdminCreateProject({ closeform,refreshData }) {
       });
       toast.success("Project created successfully")
       closeform(false);
-      router.refresh();
       refreshData()
     } catch (error) {
       toast.error(
@@ -79,9 +78,9 @@ function AdminCreateProject({ closeform,refreshData }) {
   };
 
   return (
-    <div className="p-5 rounded-lg border-gray-300 bg-white font-sans mb-10 lg:w-1/3">
+    <div className="p-5 rounded-lg border-gray-300  dark:border-gray-700 dark:shadow-gray-800 dark:shadow-sm dark:bg-neutral-950 bg-white font-sans mb-10 lg:w-1/3">
       <div className="flex justify-between items-center gap-8">
-        <h3 className="text-xl font-semibold text-black">Add new Project</h3>
+        <h3 className="text-xl font-semibold text-black dark:text-gray-200">Add new Project</h3>
         <RxCross2
           className="text-gray-400 cursor-pointer hover:text-gray-600"
           onClick={() => closeform(false)}
@@ -98,7 +97,7 @@ function AdminCreateProject({ closeform,refreshData }) {
             label="Project Name"
           />
 
-          <label className="text-gray-700 text-sm font-semibold block mb-2 mt-5">
+          <label className="text-gray-700 text-sm font-semibold dark:text-gray-200 block mb-2 mt-5">
             Client
           </label>
           <Select onValueChange={(val) => setformData((prev) => ({ ...prev, clientId: val }))}>
@@ -126,7 +125,7 @@ function AdminCreateProject({ closeform,refreshData }) {
           />
 
           <div className="mt-5 mb-7">
-            <label className="text-gray-700 text-sm font-semibold block mb-2">Deadline</label>
+            <label className="text-gray-700 text-sm font-semibold dark:text-gray-200 block mb-2">Deadline</label>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
@@ -156,7 +155,7 @@ function AdminCreateProject({ closeform,refreshData }) {
             <button
               type="button"
               onClick={() => closeform(false)}
-              className="border w-full border-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
+              className="border w-full border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
             >
               Cancel
             </button>

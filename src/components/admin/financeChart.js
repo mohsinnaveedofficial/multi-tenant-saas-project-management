@@ -26,7 +26,7 @@ function FinanceChart({chartData}) {
   };
 
   return (
-    <Card className={"m-4"}>
+    <Card className={"m-4 dark:bg-gray-800"}>
       <CardHeader>
         <CardTitle>Monthly Performance</CardTitle>
       </CardHeader>

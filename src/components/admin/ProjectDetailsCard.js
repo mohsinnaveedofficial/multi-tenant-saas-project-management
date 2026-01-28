@@ -58,41 +58,41 @@ function ProjectDetailsCard({ project }) {
       </DialogTrigger>
 
       <DialogContent
-        className={"bg-white sm:max-w-[725px] text-black border-0 p-1"}
+        className={"bg-white sm:max-w-[725px] text-black dark:text-gray-200 dark:bg-neutral-950 dark:shadow-sm dark:shadow-gray-800 border-0 p-1"}
       >
         <DialogHeader className={"p-3"}>
           <DialogTitle className="text-lg font-semibold">
             {project?.name}
           </DialogTitle>
         </DialogHeader>
-        <Separator className=" bg-gray-200 " />
+        <Separator className=" bg-gray-200 dark:bg-gray-400 " />
         <div className="grid grid-cols-3 gap-8 p-4">
-          <Card className={"border-0 bg-gray-50 shadow-none"}>
+          <Card className={"border-0 bg-gray-50  dark:bg-gray-900 shadow-none"}>
             <CardContent>
               <h5 className=" font-semibold">Client</h5>
-              <p className="text-gray-500 mt-2 ">
+              <p className="text-gray-500 dark:text-gray-400 mt-2 ">
                 {project?.client?.companyName || "N/A"}
               </p>
             </CardContent>
           </Card>
 
-          <Card className={"border-0 bg-gray-50 shadow-none"}>
+          <Card className={"border-0 bg-gray-50 dark:bg-gray-900 shadow-none"}>
             <CardContent>
               <h5 className=" font-semibold">Budget</h5>
-              <p className="text-gray-500 mt-2 ">${project?.budget || 0}</p>
+              <p className="text-gray-500 dark:text-gray-400 mt-2 ">${project?.budget || 0}</p>
             </CardContent>
           </Card>
 
-          <Card className={"border-0 bg-gray-50 shadow-none"}>
-            <CardContent>
+          <Card className={"border-0 bg-gray-50 dark:bg-gray-900 shadow-none"}>
+            <CardContent> 
               <h5 className=" font-semibold">Progress</h5>
-              <p className="text-gray-500 mt-2 ">{project?.progress || 0}%</p>
+              <p className="text-gray-500 dark:text-gray-400 mt-2 ">{project?.progress || 0}%</p>
             </CardContent>
           </Card>
         </div>
 
-        <Tabs defaultValue="overview" className=" px-4 ">
-          <TabsList className={"gap-3 bg-white"}>
+        <Tabs defaultValue="overview" className=" px-4  ">
+          <TabsList className={"gap-3 bg-white dark:bg-gray-900 rounded-b-none"}>
             <TabsTrigger
               className="flex-1 rounded-b-none data-[state=active]:!text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-b-blue-600  text-gray-600 data-[state=active]:bg-white  data-[state=active]:shadow-none transition-all shadow-none"
               value="overview"
@@ -117,7 +117,7 @@ function ProjectDetailsCard({ project }) {
               Comments
             </TabsTrigger>
           </TabsList>
-          <Separator className=" bg-gray-200 -translate-3 " />
+          <Separator className=" bg-gray-200 dark:bg-gray-400  -translate-2 " />
           <TabsContent value="overview">
             <div className="font-sans">
               <h4 className=" font-semibold mb-3">Project Description</h4>

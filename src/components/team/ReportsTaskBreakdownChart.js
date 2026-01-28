@@ -12,10 +12,9 @@ function ReportsTaskBreakdownChart({ chartData }) {
   }));
   let [activeProject, setActiveProject] = useState(chartData[0]);
 
-
   return (
     <div>
-      <Card>
+      <Card className={"bg-gray-800"}>
         <CardHeader>
           <CardTitle>Project & Task Status Breakdown</CardTitle>
         </CardHeader>
@@ -62,13 +61,24 @@ function ReportsTaskBreakdownChart({ chartData }) {
             </ChartContainer>
           </ResponsiveContainer>
 
-<div className=" w-44 shrink-0 min-w-[11rem]">
-
-            <h4 className="font-medium whitespace-nowrap text-xl font-sans mb-2">  {activeProject?.name || ""}</h4>
-            {activeProject?.tasks.map((item,idx)=>(
-               <div key={idx} className="text-gray-600 text-start flex  justify-start gap-4 items-center text-sm whitespace-nowrap font-sans"> 
-               <div className="h-2 w-2 rounded-full " style={{ backgroundColor:item.color}}></div>
-                <span className="" >{item.status} : {item.value}</span></div>
+          <div className=" w-44 shrink-0 min-w-[11rem]">
+            <h4 className="font-medium whitespace-nowrap text-xl font-sans mb-2">
+              {" "}
+              {activeProject?.name || ""}
+            </h4>
+            {activeProject?.tasks.map((item, idx) => (
+              <div
+                key={idx}
+                className="text-gray-600 dark:text-gray-400 text-start flex  justify-start gap-4 items-center text-sm whitespace-nowrap font-sans"
+              >
+                <div
+                  className="h-2 w-2 rounded-full "
+                  style={{ backgroundColor: item.color }}
+                ></div>
+                <span className="">
+                  {item.status} : {item.value}
+                </span>
+              </div>
             ))}
           </div>
         </CardContent>

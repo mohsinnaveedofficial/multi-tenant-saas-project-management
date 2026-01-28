@@ -17,7 +17,7 @@ const ProtectedAdmin = ({ children }) => {
   }, [user, loading, router]);
 
   if (loading || !user || user.role !== "admin") {
-    return <Loader/>
+    return 
   }
 
   return children;

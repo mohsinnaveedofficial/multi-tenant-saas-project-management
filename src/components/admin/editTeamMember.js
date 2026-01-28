@@ -71,7 +71,9 @@ function EditTeamMember({ FullName, EmailAddress, Role, id, refreshData }) {
 
           <form onSubmit={handleSubmit}>
             <div className="mt-4 text-start">
-              <label className="font-medium text-gray-800">Full Name</label>
+              <label className="font-medium text-gray-800 dark:text-gray-200">
+                Full Name
+              </label>
               <input
                 name="FullName"
                 value={formData.FullName}
@@ -83,7 +85,9 @@ function EditTeamMember({ FullName, EmailAddress, Role, id, refreshData }) {
             </div>
 
             <div className="mt-4 text-start">
-              <label className="font-medium text-gray-800">Email Address</label>
+              <label className="font-medium text-gray-800 dark:text-gray-200">
+                Email Address
+              </label>
               <input
                 name="EmailAddress"
                 value={formData.EmailAddress}
@@ -102,7 +106,9 @@ function EditTeamMember({ FullName, EmailAddress, Role, id, refreshData }) {
             />
 
             <div className="mt-4 text-start">
-              <label className="font-medium text-gray-800">Password</label>
+              <label className="font-medium text-gray-800 dark:text-gray-200">
+                Password
+              </label>
               <input
                 name="Password"
                 value={formData.Password}
@@ -117,7 +123,7 @@ function EditTeamMember({ FullName, EmailAddress, Role, id, refreshData }) {
               <DialogClose asChild>
                 <button
                   type="button"
-                  className="border border-gray-300 hover:bg-gray-50 text-gray-800 w-1/2 rounded-lg p-2"
+                  className="border w-1/2 border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
                 >
                   Cancel
                 </button>

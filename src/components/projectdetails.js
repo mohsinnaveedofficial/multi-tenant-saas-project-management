@@ -40,12 +40,12 @@ const [projectdetail,setProjectDetail]=useState();
   });
 
   return (
-    <div className="rounded-xl border border-gray-300 shadow-lg py-6 bg-white w-full max-w-lg sm:max-w-md md:max-w-2xl mx-4 overflow-auto md:overflow-hidden">
+    <div className="rounded-xl border border-gray-300 shadow-lg dark:border-gray-700 py-6 dark:bg-neutral-900 bg-white w-full max-w-lg sm:max-w-md md:max-w-2xl mx-4 overflow-auto md:overflow-hidden">
       <div className="flex justify-between px-6">
         <h1 className="font-bold">{projectdetail?.name}</h1>
         <button
           onClick={() => openDetail(false)}
-          className="text-gray-600 text-sm font-bold"
+          className="text-gray-600 dark:text-gray-200 text-sm font-bold"
         >
           <RxCross2 size={20} />
         </button>
@@ -53,11 +53,11 @@ const [projectdetail,setProjectDetail]=useState();
 
     
 
-      <div className="text-gray-500 text-sm px-6">{projectdetail?.client.companyName}</div>
+      <div className="text-gray-500 dark:text-gray-400 text-sm px-6">{projectdetail?.client.companyName}</div>
 
       <hr className="text-gray-200 mt-5" />
 
-      <div className="flex gap-8 text-sm text-gray-500 px-10 pt-4">
+      <div className="flex gap-8 text-sm text-gray-500 dark:text-gray-200 px-10 pt-4">
         {["overview", "task", "file", "comment"].map((tab) => (
           <button
             key={tab}

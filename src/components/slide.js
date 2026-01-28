@@ -34,7 +34,7 @@ function Slide() {
                   alt={`Slide ${image.id}`}
                   width={900}
                   height={500}
-                  className="h-64 md:h-96 w-auto rounded-lg object-cover "
+                  className="h-64 md:h-96 w-auto rounded object-cover "
                   priority={image.id === 1}
                 />
               </div>

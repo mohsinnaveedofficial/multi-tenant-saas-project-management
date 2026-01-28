@@ -70,7 +70,7 @@ function Dashboard() {
   return (
     <ProtectedAdmin>
 
-    <div className="text-black">
+    <div className="text-black dark:text-white">
       <div className="grid grid-cols-2 gap-8 m-5 md:grid-cols-3 ">
         <DashboardCard
           name={"Total Client"}
@@ -124,12 +124,12 @@ function Dashboard() {
 
 </div>
 
-      <div className=" border border-gray-200 m-4 rounded-2xl  overflow-y-hidden overflow-x-scroll lg:overflow-x-auto  mb-10">
-        <div className="bg-white p-4  rounded-t-2xl">
+      <div className=" border border-gray-200 dark:border-gray-700 m-4 rounded-2xl  overflow-y-hidden overflow-x-scroll lg:overflow-x-auto  mb-10">
+        <div className="bg-white dark:bg-gray-800 p-4  rounded-t-2xl">
           <h3 className="font-sans font-semibold text-lg"> Active Projects</h3>
         </div>
         <table className="text-gray-400 border-separate border-spacing-x-0 border-spacing-y-[3px]  w-full overflow-x-scroll  pt-1   rounded-lg">
-          <thead className="font-normal font-sans">
+          <thead className="font-normal font-sans dark:bg-gray-900 bg-gray-50" >
             <tr>
               <th className="font-normal px-1.5 py-2 md:px-4 md:py-2 text-center">Projects</th>
               <th className="  font-normal px-1.5 py-2 md:px-4 md:py-2 text-center">Client</th>
@@ -138,14 +138,14 @@ function Dashboard() {
               <th className="font-normal px-1.5 py-2 md:px-4 md:py-2 text-center">Deadline</th>
             </tr>
           </thead>
-          <tbody className="text-black font-sans rounded-2xl ">
+          <tbody className="text-black dark:text-gray-200 font-sans rounded-2xl ">
             {data.project.map((p) => (
               <DashboardActiveProjects
                 key={p.id}
                 title={p.name}
                 company={p.client?.companyName || p.client?.name}
                 progress={mapStatusProgress(p.status)}
-                status={formatStatus(p.status)}
+                status={  formatStatus(p.status)}
                 date={new Date(p.end).toLocaleDateString()}
               />
             ))}

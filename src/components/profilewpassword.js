@@ -5,20 +5,20 @@ import { RxCross2 } from "react-icons/rx";
 import api from "@/lib/api";
 import { toast } from "sonner";
 
-function Profilewpassword({ editClose,data ,refreshData}) {
-const initialData = useMemo(
+function Profilewpassword({ editClose, data, refreshData }) {
+  const initialData = useMemo(
     () => ({
       name: data.profile.name,
       designation: data.profile.designation || "",
       phoneNumber: data.profile.phoneNumber || "",
       bio: data.profile.bio || "",
     }),
-    [data]
+    [data],
   );
 
   const [formData, setFormData] = useState({
     ...initialData,
-    email: data.profile.email, 
+    email: data.profile.email,
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
@@ -61,7 +61,6 @@ const initialData = useMemo(
         return toast.info("No changes to update");
       }
 
-    
       const res = await api.patch("/user", payload);
 
       if (res.status === 200 || res.status === 201) {
@@ -74,76 +73,84 @@ const initialData = useMemo(
           confirmPassword: "",
         }));
       }
-      refreshData()
+      refreshData();
       editClose(false);
-      
     } catch (error) {
-      toast.error(
-        error?.response?.data?.message || "Profile update failed"
-      );
-       editClose(false);
+      toast.error(error?.response?.data?.message || "Profile update failed");
+      editClose(false);
     }
   };
-
 
   return (
     <div className="m-4">
       <form onSubmit={handleSubmit}>
-        <div className="flex">
-          <div className="p-4 w-[65%] grid grid-cols-2 gap-6">
+        <div className="flex md:flex-row flex-col">
+          <div className="p-4 md:w-[65%] grid sm:grid-cols-2 gap-6">
             <div>
-              <h1 className="pb-1 font-bold text-blue-950">Full Name</h1>
+              <label className="pb-1 font-medium text-blue-950 dark:text-gray-200">
+                Full Name
+              </label>
               <Input
                 name="name"
                 type="text"
                 placeholder="Name"
                 value={formData.name}
                 onChange={handleChange}
+                className={"mt-1"}
                 required
               />
             </div>
 
             <div>
-              <h1 className="pb-1 font-bold text-blue-950">Job Title</h1>
+              <label className="pb-1  font-medium text-blue-950 dark:text-gray-200">
+                Job Title
+              </label>
               <Input
                 name="designation"
                 type="text"
                 placeholder="Job title"
                 value={formData.designation}
                 onChange={handleChange}
+                className={"mt-1"}
               />
             </div>
 
             <div>
-              <h1 className="pb-1 font-bold text-blue-950">Email</h1>
+              <label className="pb-1 font-medium  text-blue-950 dark:text-gray-200">
+                Email
+              </label>
               <Input
                 name="email"
                 type="email"
                 placeholder="Email"
                 value={formData.email}
+                className={"mt-1"}
                 onChange={handleChange}
                 required
               />
             </div>
 
-            {/* Phone */}
             <div>
-              <h1 className="pb-1 font-bold text-blue-950">Phone Number</h1>
+              <label className="pb-1 font-medium  text-blue-950 dark:text-gray-200">
+                Phone Number
+              </label>
               <Input
                 name="phoneNumber"
                 type="tel"
                 placeholder="Phone Number"
+                className={"mt-1"}
                 value={formData.phoneNumber}
                 onChange={handleChange}
               />
             </div>
 
-            {/* Bio */}
             <div className="">
-              <h1 className="font-bold text-blue-950">Bio</h1>
+              <label className=" font-medium text-blue-950 dark:text-gray-200">
+                Bio
+              </label>
               <textarea
                 name="bio"
-                className="h-[100px] w-[775px] rounded-md block p-2 border border-gray-300"
+                className="h-[100px] max-w-[775px] rounded-md block p-2 border  border-gray-300 mt-1"
                 placeholder="Write your bio . . ."
                 value={formData.bio}
                 onChange={handleChange}
@@ -151,8 +158,10 @@ const initialData = useMemo(
             </div>
           </div>
 
-          <div className="p-4 w-[35%]">
-            <h1 className="font-bold pb-3 text-blue-950">Task Summary</h1>
+          <div className="p-4 md:w-[35%]">
+            <h1 className="  pb-3 text-blue-950 font-bold dark:text-gray-200">
+              Task Summary
+            </h1>
             <div className="pb-6">
               <Tasksummary
                 status={"Completed Tasks"}
@@ -184,10 +193,11 @@ const initialData = useMemo(
           </div>
         </div>
 
-        {/* Skills section */}
         <div className="ml-4">
-          <h1 className="pb-2 text-blue-950 font-bold">Skills</h1>
-          <div className="flex justify-start gap-2">
+          <h1 className="pb-2 text-blue-950 dark:text-gray-200  ">
+            Skills
+          </h1>
+          <div className="flex justify-start gap-2 flex-wrap">
             {[
               "UI Design",
               "UX Research",
@@ -209,58 +219,68 @@ const initialData = useMemo(
           </div>
         </div>
 
-        {/* Add new skill input */}
         <div className="p-4 w-[65%]">
-          <Input type="text" placeholder="Add new skill..." />
+          <Input
+            type="text"
+            placeholder="Add new skill..."
+            className={"mt-1"}
+          />
         </div>
 
-        {/* Change Password */}
-        <div className="p-4 w-[65%]">
-          <h1 className="font-bold text-black text-[18px] pb-3">
+        <div className="p-4 w-auto sm:w-[65%]">
+          <h1 className="  text-black font-bold  dark:text-gray-200 text-[18px] pb-4">
             Change Password
           </h1>
-          <div>
-            <h1 className="py-3 font-bold text-blue-950">Current Password</h1>
+          <div className={"mt-2 ms-3"}>
+            <label className="py-3  font-medium text-blue-950 dark:text-gray-200">
+              Current Password
+            </label>
             <Input
               name="currentPassword"
               type="password"
               value={formData.currentPassword}
               onChange={handleChange}
+              className={"mt-1"}
             />
           </div>
-          <div>
-            <h1 className="py-3 font-bold text-blue-950">New Password</h1>
+          <div className={"mt-4 ms-3"}>
+            {" "}
+            <label className="py-3 font-medium  text-blue-950 dark:text-gray-200">
+              New Password
+            </label>
             <Input
               name="newPassword"
               type="password"
               value={formData.newPassword}
               onChange={handleChange}
+              className={"mt-1"}
             />
           </div>
-          <div>
-            <h1 className="py-3 font-bold text-blue-950">
+          <div className={"mt-4 ms-3"}>
+            {" "}
+            <label className="py-3 font-medium text-blue-950 dark:text-gray-200">
               Confirm New Password
-            </h1>
+            </label>
             <Input
               name="confirmPassword"
               type="password"
               value={formData.confirmPassword}
               onChange={handleChange}
+              className={"mt-1"}
             />
           </div>
         </div>
 
-        {/* Buttons */}
         <div className="p-4 flex justify-start gap-3.5">
           <button
             type="submit"
-            className="bg-blue-500 text-white rounded-sm py-2 px-3.5 font-bold"
+            className="bg-blue-500 text-white rounded-sm py-2 px-3.5  "
           >
             Save Changes
           </button>
           <button
             type="button"
-            className="border border-gray-300 text-gray-500 py-2 px-3.5 rounded-sm"
+            className="border border-gray-300 dark:border-gray-600 dark:text-gray-200 text-gray-500 py-2 px-3.5 rounded-sm"
           >
             Cancel
           </button>

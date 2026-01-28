@@ -12,10 +12,9 @@ export default function TeamLayout({ children }) {
     <div className="flex min-h-screen relative">
       <SideNavBar nav={nav} setnavOpen={setnavOpen} />
 
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 min-w-0">
         <TopNavbar tooglenav={() => setnavOpen((pre) => !pre)} />
-        <main className="flex-1">
-          {" "}
+        <main className=" flex-1 overflow-auto min-w-0">
           <LoadingProvider>
             <GlobalLoader />
             {children}

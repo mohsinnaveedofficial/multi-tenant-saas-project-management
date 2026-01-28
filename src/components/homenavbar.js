@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import Link from "next/link";
+import { NavbarToogle } from "./navbarToggle";
 
 function Homenavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,7 +31,7 @@ function Homenavbar() {
   return (
     <div
       className={` fixed top-0 z-50  right-0 left-0 w-full p-4 font-sans transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-md" : ""
+        isScrolled ? "bg-white dark:bg-gray-800 shadow-md" : ""
       }`}
     >
       <div className="flex justify-between  items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,63 +40,63 @@ function Homenavbar() {
         <div className="text-gray-800 text-sm  items-center justify-between mt-1 gap-8 hidden md:flex">
           <a
             href="#home"
-            className="hover:text-blue-600 transition-all ease-in-out duration-200 cursor-pointer"
+            className={`hover:text-blue-600 dark:text-gray-200 dark:hover:text-gray-300 transition-all ease-in-out duration-200 cursor-pointer`}
           >
             Home
           </a>
           <a
             href="#features"
-            className="hover:text-blue-600 transition-all ease-in-out duration-200 cursor-pointer"
+            className="hover:text-blue-600 dark:text-gray-200 dark:hover:text-gray-300 transition-all ease-in-out duration-200 cursor-pointer"
           >
             Features
           </a>
           <a
             href="#pricing"
-            className="hover:text-blue-600 transition-all ease-in-out duration-200 cursor-pointer"
+            className="hover:text-blue-600 dark:text-gray-200 dark:hover:text-gray-300 transition-all ease-in-out duration-200 cursor-pointer"
           >
             Pricing
           </a>
           <a
             href="#about"
-            className="hover:text-blue-600 transition-all ease-in-out duration-200 cursor-pointer"
+            className="hover:text-blue-600 dark:text-gray-200 dark:hover:text-gray-300 transition-all ease-in-out duration-200 cursor-pointer"
           >
             About
           </a>
           <Link
             href="./auth/signin"
-            className="hover:text-blue-600 transition-all ease-in-out duration-200 cursor-pointer"
+            className="hover:text-blue-600 dark:text-gray-200 dark:hover:text-gray-300 transition-all ease-in-out duration-200 cursor-pointer"
           >
             Login
           </Link>
           <Link
             href={"./auth/signup"}
-            className="hover:text-blue-600 transition-all ease-in-out duration-200 cursor-pointer"
+            className="hover:text-blue-600 dark:text-gray-200 dark:hover:text-gray-300 transition-all ease-in-out duration-200 cursor-pointer"
           >
             Register
           </Link>
           <Link
             href={"./auth/signup"}
-            className="text-white bg-blue-700 py-2.5 px-5 rounded-lg"
+            className="text-white dark:text-gray-200 dark:hover:text-gray-300 bg-blue-700 py-2.5 px-5 rounded-lg"
           >
             Get Started
           </Link>
+          <NavbarToogle/>
         </div>
         <div className="md:hidden ">
           <Sheet>
-            <SheetTrigger>
-              <AiOutlineMenu />
+            <SheetTrigger asChild>
+             <div className="flex justify-center items-center gap-3"> <NavbarToogle  />
+              <AiOutlineMenu /></div>
             </SheetTrigger>
             <SheetContent className={"p-5"}>
               <SheetHeader>
                 <SheetTitle></SheetTitle>
                 <SheetDescription></SheetDescription>
               </SheetHeader>
-              <h2 className="hover:text-blue-600 transition-all ease-in-out duration-200 cursor-pointer">
-                Home
-              </h2>
+              
               <a
                 href="#home"
-                className="hover:text-blue-600 transition-all ease-in-out duration-200 cursor-pointer"
+                className="hover:text-blue-600 transition-all ease-in-out duration-200 cursor-pointer "
               >
                 Home
               </a>

@@ -29,20 +29,22 @@ function Page() {
     getData();
   }, []);
 
-  if(!data){return null}
- 
-  const projectTaskBreakDown=(data.lastThreeProjects || []).map((item,idx)=>(
-    {
+  if (!data) {
+    return null;
+  }
+
+  const projectTaskBreakDown = (data.lastThreeProjects || []).map(
+    (item, idx) => ({
       name: item.projectName,
-      color:  ["#3b82f6", "#22c55e", "#f59e0b"][idx % 3],
+      color: ["#3b82f6", "#22c55e", "#f59e0b"][idx % 3],
       tasks: [
         { status: "Completed", value: item.completed, color: "#16a34a" },
         { status: "In Progress", value: item.inProgress, color: "#3b82f6" },
         { status: "To Do", value: item.todo, color: "#fbbf24" },
         { status: "Delayed", value: item.delayed, color: "#ef4444" },
       ],
-    }
-  ))
+    }),
+  );
 
   const performanceData = [
     {
@@ -118,97 +120,103 @@ function Page() {
   ];
 
   return (
-        <ProtectedTeam>
+    <ProtectedTeam>
+      <div className="px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4  mt-4 mb-2 ">
+          <ReportStats
+            value={data.reportStats.totalTasksAssigned}
+            desc={"This Month"}
+            title={"Total Tasks Completed"}
+          />
+          <ReportStats
+            value={data?.reportStats?.avgCompletionTime || "" + " days"}
+            title={"Average Completion Time"}
+            desc={"Per Task"}
+          />
+          <ReportStats
+            value={data?.reportStats?.projectsAssigned || ""}
+            title={"Project Involved"}
+            desc={"Active"}
+          />
+          <ReportStats
+            value={data.reportStats.performanceScore + " %"}
+            title={"Performance Score"}
+            desc={"This Quarter"}
+          />
+        </div>
+        <div className="grid  grid-cols-1 lg:grid-cols-2 gap-8  my-8 ">
+          <ReportsTaskCompletedChart data={data.monthlyChartData || []} />
 
-    <div className="px-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4  mt-4 mb-2 ">
-        <ReportStats
-          value={data.reportStats.totalTasksAssigned }
-          desc={"This Month"}
-          title={"Total Tasks Completed"}
-        />
-        <ReportStats
-          value={data?.reportStats?.avgCompletionTime || "" + " days"}
-          title={"Average Completion Time"}
-          desc={"Per Task"}
-        />
-        <ReportStats
-          value={data?.reportStats?.projectsAssigned || ""}
-          title={"Project Involved"}
-          desc={"Active"}
-        />
-        <ReportStats
-          value={data.reportStats.performanceScore + " %"}
-          title={"Performance Score"}
-          desc={"This Quarter"}
-        />
-      </div>
-      <div className="grid  grid-cols-1 lg:grid-cols-2 gap-8  my-8 ">
-        <ReportsTaskCompletedChart data={data.monthlyChartData || []}/>
-        
-<ReportsTaskBreakdownChart chartData={projectTaskBreakDown || []} />
-      </div>
+          <ReportsTaskBreakdownChart chartData={projectTaskBreakDown || []} />
+        </div>
 
-      <Card className="font-sans  my-8">
-        <CardHeader>
-          <CardTitle>Weekly Performance Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table className={""}>
-            <TableHeader className={"bg-gray-50"}>
-              <TableRow>
-                <TableHead className={"text-gray-500"}>WEEK</TableHead>
-                <TableHead className={"text-gray-500"}>
-                  TASK COMPLETED
-                </TableHead>
-                <TableHead className={"text-gray-500"}>AVERAGE TIME</TableHead>
-                <TableHead className={"text-gray-500"}>PROJECTS</TableHead>
-                <TableHead className={"text-gray-500"}>PERFORMANCE</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {performanceData.map((item, idx) => (
-                <TableRow key={idx} className={" border-gray-100"}>
-                  <TableCell
-                    className={"px-1.5 py-2 md:px-4 md:py-3 text-gray-950 "}
-                  >
-                    {item.week}
-                  </TableCell>
-                  <TableCell
-                    className={"px-1.5 py-2 md:px-4 md:py-3 text-gray-700 "}
-                  >
-                    {item.tasksCompleted}
-                  </TableCell>
-                  <TableCell
-                    className={"px-1.5 py-2 md:px-4 md:py-3 text-gray-700 "}
-                  >
-                    {item.averageTime} days
-                  </TableCell>
-                  <TableCell
-                    className={"px-1.5 py-2 md:px-4 md:py-3 text-gray-700"}
-                  >
-                    {item.projects}
-                  </TableCell>
-                  <TableCell className={"px-1.5 py-2 md:px-4 md:py-3 "}>
-                    {item.performance == "Good" ? (
-                      <Badge className={"bg-blue-500 text-white"}>
-                        {item.performance}
-                      </Badge>
-                    ) : item.performance == "Excellent" ? (
-                      <Badge className={"bg-green-200 text-green-700"}>
-                        {item.performance}
-                      </Badge>
-                    ) : (
-                      <Badge variant={"destructive"}>{item.performance}</Badge>
-                    )}
-                  </TableCell>
+        <Card className="font-sans  my-8 dark:bg-gray-800">
+          <CardHeader>
+            <CardTitle>Weekly Performance Summary</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table className={""}>
+                    <TableCaption></TableCaption>
+
+              <TableHeader className={"bg-gray-50 dark:bg-gray-700"}>
+                <TableRow>
+                  <TableHead className={"text-gray-500 dark:text-gray-300"}>WEEK</TableHead>
+                  <TableHead className={"text-gray-500 dark:text-gray-300"}>
+                    TASK COMPLETED
+                  </TableHead>
+                  <TableHead className={"text-gray-500 dark:text-gray-300"}>
+                    AVERAGE TIME
+                  </TableHead>
+                  <TableHead className={"text-gray-500 dark:text-gray-300"}>PROJECTS</TableHead>
+                  <TableHead className={"text-gray-500 dark:text-gray-300"}>PERFORMANCE</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-    </div>
+              </TableHeader>
+              <TableBody>
+                {performanceData.map((item, idx) => (
+                  <TableRow key={idx} className={" border-gray-100 dark:border-gray-700"}>
+                    <TableCell
+                      className={"px-1.5 py-2 md:px-4 md:py-3 text-gray-950 dark:text-gray-200 "}
+                    >
+                      {item.week}
+                    </TableCell>
+                    <TableCell
+                      className={"px-1.5 py-2 md:px-4 md:py-3 text-gray-700 dark:text-gray-200"}
+                    >
+                      {item.tasksCompleted}
+                    </TableCell>
+                    <TableCell
+                      className={"px-1.5 py-2 md:px-4 md:py-3 text-gray-700 dark:text-gray-200 "}
+                    >
+                      {item.averageTime} days
+                    </TableCell>
+                    <TableCell
+                      className={"px-1.5 py-2 md:px-4 md:py-3 text-gray-700 dark:text-gray-200"}
+                    >
+                      {item.projects}
+                    </TableCell>
+                    <TableCell className={"px-1.5 py-2 md:px-4 md:py-3 "}>
+                      {item.performance == "Good" ? (
+                        <Badge className={"bg-blue-500 text-white"}>
+                          {item.performance}
+                        </Badge>
+                      ) : item.performance == "Excellent" ? (
+                        <Badge className={"bg-green-200 text-green-700"}>
+                          {item.performance}
+                        </Badge>
+                      ) : (
+                        <Badge variant={"destructive"}>
+                          {item.performance}
+                        </Badge>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter></TableFooter>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
     </ProtectedTeam>
   );
 }

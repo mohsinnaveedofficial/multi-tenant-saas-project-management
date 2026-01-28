@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { RiLayoutGrid2Line } from "react-icons/ri";
 import { FaList } from "react-icons/fa";
 import { RiFilterLine } from "react-icons/ri";
@@ -10,23 +10,28 @@ import api from "@/lib/api";
 import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
 import { EmptyDemoProject } from "@/components/emptyProject";
 import { toast } from "sonner";
+import FilterProject from "@/components/filterProject";
 function Projects() {
   const [table, settable] = useState(false);
   const [CreateForm, setOpenForm] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
 
   const [data, setdata] = useState([]);
+  const [filter, setFilters] = useState({
+    Status: "all",
+    Client: "all",
+    DateRange: "all",
+  });
 
   let getData = async () => {
-   try {
-     const res = await api.get("/project");
-    setdata(res.data);
-   } catch (error) {
-    toast.error("Failed to Load")
-   }finally{
-    setIsFetching(false)
-   }
-
+    try {
+      const res = await api.get("/project");
+      setdata(res.data);
+    } catch (error) {
+      toast.error("Failed to Load");
+    } finally {
+      setIsFetching(false);
+    }
   };
   useEffect(() => {
     getData();
@@ -40,6 +45,45 @@ function Projects() {
     completed: 100,
     cancelled: 100,
   };
+
+  const filterData = useMemo(() => {
+    return data.filter((project) => {
+      if (filter.Status !== "all" && project.status !== filter.Status) {
+        return false;
+      }
+      if (filter.Client !== "all" && project.client?.id !== filter.Client) {
+        return false;
+      }
+
+      if (filter.DateRange !== "all") {
+        const startDate = new Date(project.createdAt);
+        const now = new Date();
+        switch (filter.DateRange) {
+          case "today":
+            return startDate.toDateString() === now.toDateString();
+          case "week": {
+            const weekAgo = new Date();
+            weekAgo.setDate(now.getDate() - 7);
+            return startDate >= weekAgo;
+          }
+          case "month":
+            return (
+              startDate.getMonth() === now.getMonth() &&
+              startDate.getFullYear() === now.getFullYear()
+            );
+          case "quarter":
+            const quarter = Math.floor(now.getMonth() / 3);
+            return (
+              Math.floor(startDate.getMonth() / 3) === quarter &&
+              startDate.getFullYear() === now.getFullYear()
+            );
+          default:
+            return true;
+        }
+      }
+      return true;
+    });
+  }, [data, filter]);
 
   if (!data) return null;
 
@@ -55,10 +99,10 @@ function Projects() {
               + Add Project
             </button>
 
-            <div className="rounded-lg bg-gray-100 flex py-1 gap-2 px-1 items-center w-full sm:w-auto">
+            <div className="rounded-lg bg-gray-100 dark:bg-gray-700 flex py-1 gap-2 px-1 items-center w-full sm:w-auto">
               <button
                 className={`py-1.5 px-3 rounded-lg flex items-center justify-center text-center transition-all duration-300 ease-in-out cursor-pointer ${
-                  !table ? "bg-white text-black" : "text-gray-500"
+                  !table ? "bg-white dark:bg-gray-800 text-black dark:text-gray-200" : "text-gray-500 dark:text-gray-400"
                 }`}
                 onClick={() => settable(false)}
               >
@@ -67,7 +111,7 @@ function Projects() {
               </button>
               <button
                 className={`py-1.5 px-3 rounded-lg flex items-center justify-center text-center transition-all duration-300 ease-in-out cursor-pointer ${
-                  table ? "bg-white text-black" : "text-gray-500"
+                  table ?"bg-white dark:bg-gray-800 text-black dark:text-gray-200" : "text-gray-500 dark:text-gray-400"
                 }`}
                 onClick={() => settable(true)}
               >
@@ -76,18 +120,16 @@ function Projects() {
               </button>
             </div>
           </div>
-
-          <div className="w-full sm:w-auto hidden sm:inline">
-            <button className="py-1.5 px-3 bg-white text-black border border-gray-300 rounded-lg flex items-center justify-center gap-1 transition-all duration-300">
-              <RiFilterLine className="text-xl" />
-              Filter
-            </button>
+          <div className="w-full ">
+            <div className="flex justify-end items-end">
+              <FilterProject setFilters={setFilters} filter={filter} />
+            </div>
           </div>
         </div>
-        { isFetching ? null : data.length>0 ? (
+        {isFetching ? null : filterData.length > 0 ? (
           !table ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 m-4">
-              {data?.map((project, idx) => (
+              {filterData?.map((project, idx) => (
                 <AdminProjectCard
                   key={idx}
                   projectname={project?.name}
@@ -101,9 +143,9 @@ function Projects() {
               ))}
             </div>
           ) : (
-            <div className="m-4 overflow-x-auto rounded-lg border border-gray-300 shadow-sm">
+            <div className="m-4 overflow-x-auto rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm">
               <table className="min-w-[700px] w-full text-left border-separate border-spacing-x-0">
-                <thead className="text-gray-500 font-sans">
+                <thead className="text-gray-500 dark:text-gray-200 font-sans">
                   <tr>
                     <th className="font-semibold px-4 py-3">PROJECT</th>
                     <th className="font-semibold  px-4 py-3">CLIENT</th>
@@ -114,8 +156,8 @@ function Projects() {
                     <th className="font-semibold  px-4 py-3">ACTION</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-100 text-black">
-                  {data?.map((item, idx) => (
+                <tbody className="bg-white dark:bg-gray-700 divide-y dark:divide-gray-600 divide-gray-100 text-black">
+                  {filterData?.map((item, idx) => (
                     <AdminProjectCardTable
                       key={idx}
                       projectname={item?.name}

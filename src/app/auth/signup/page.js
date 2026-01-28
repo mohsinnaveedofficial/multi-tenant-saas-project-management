@@ -1,5 +1,6 @@
 "use client"
 import Loader2 from '@/components/loader2';
+import { NavbarToogle } from '@/components/navbarToggle';
 import api from '@/lib/api';
 import { Home } from 'lucide-react';
 import Link from 'next/link'
@@ -28,8 +29,8 @@ const handleChange = (e) => {
   };
 
   const handleSubmit=async(e)=>{
-    setLoading(true)
     e.preventDefault();
+    setLoading(true)
     try{
     if(formData.confirmpassword===formData.password){
 const sendData = {
@@ -68,7 +69,9 @@ if(loading)
   return (
   
 
-    <div className='text-center flex flex-col justify-center items-center font-sans bg-gradient-to-br from-blue-200 via-white to-purple-200  '>
+    <div className='text-center flex flex-col justify-center items-center font-sans bg-gradient-to-br from-blue-200 via-white to-purple-200 dark:from-blue-900 dark:via-purple-800 dark:to-gray-900 '>
+         <div className='fixed top-4 right-4'> <NavbarToogle/></div>
+    
     <button
         onClick={() => router.push("/")}
         className="fixed top-20 left-0 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-r-lg shadow-lg flex items-center gap-2 z-50 transition-colors"
@@ -76,10 +79,10 @@ if(loading)
         <Home size={20} /> 
       </button>
 
-      <div className=' border border-gray-200 px-4 sm:px-6 md:px-10 py-10 rounded-2xl m-7 shadow-lg bg-white'>
+      <div className=' border border-gray-200 dark:border-gray-700 dark:bg-gray-700/40  dark:backdrop-blur-sm px-4 sm:px-6 md:px-10 py-10 rounded-2xl m-7 shadow-lg bg-white'>
         <h1 className='text-3xl font-bold text-[#3663eb]'>Project Hub</h1>
         <h2 className='text-2xl pt-1 font-semibold'>Create your account</h2>
-        <h3 className='text-base pt-1 text-gray-500'>Start managing your projects today</h3>
+        <h3 className='text-base pt-1 text-gray-500 dark:text-gray-300'>Start managing your projects today</h3>
 
       
         <div className='w-full '>
@@ -87,29 +90,29 @@ if(loading)
 
         
           <div className='pt-9  text-start'>
-            <label htmlFor="company" className="font-semibold text-gray-500" >Company Name</label><br />
+            <label htmlFor="company" className="font-semibold text-gray-500 dark:text-gray-200" >Company Name</label><br />
             <input id='company' value={formData.companyName} onChange={handleChange} name='companyName' type="text" placeholder='Enter your company name' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
           <div className='pt-5  text-start'>
-            <label htmlFor="admin" className="font-semibold text-gray-500" >Admin Name</label><br />
+            <label htmlFor="admin" className="font-semibold text-gray-500 dark:text-gray-200" >Admin Name</label><br />
             <input id='admin' type="text" name="name" value={formData.name} onChange={handleChange} placeholder='Enter your full name' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
          
           <div className='pt-5  text-start'>
-            <label htmlFor="email" className="font-semibold text-gray-500" >Email Address</label><br />
+            <label htmlFor="email" className="font-semibold text-gray-500 dark:text-gray-200" >Email Address</label><br />
             <input id='email' type="email" name="email" value={formData.email} onChange={handleChange} placeholder='Enter your email' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
           <div className='pt-5 text-start'>
-            <label htmlFor="password" className="font-semibold text-gray-500" >Password</label><br />
+            <label htmlFor="password" className="font-semibold text-gray-500 dark:text-gray-200" >Password</label><br />
             <input id='password' type="password" value={formData.password} onChange={handleChange} name="password" placeholder='Create a password' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
          
           <div className='pt-5 text-start'>
-            <label htmlFor="confirmPassword" className="font-semibold text-gray-500" >Password</label><br />
+            <label htmlFor="confirmPassword" className="font-semibold text-gray-500 dark:text-gray-200" >Password</label><br />
             <input id='confirmPassword' type="password" value={formData.confirmpassword} onChange={handleChange} name="confirmpassword" placeholder='Confirm your password' required className='border border-gray-300 w-full rounded-lg mt-1 py-2 px-3 input-style' />
           </div>
 
@@ -120,13 +123,13 @@ if(loading)
             </form>
           
           <div className='flex justify-center flex-wrap   items-center gap-1 py-8 pt-5'>
-            <p className='text-start text-gray-700   '>Already have an account?</p>
+            <p className='text-start text-gray-700 dark:text-gray-300   '>Already have an account?</p>
             <Link href="./signin" className='text-blue-600 font-semibold'> Sign in</Link>
           </div>
 
         
           <hr className='text-gray-300  ' />
-          <p className='text-xs pt-8 text-gray-700'>By signing in, you agree to our <a href="#" className='text-blue-500'>Terms of Service</a> and <a href="#" className='text-blue-500'>Privacy Policy</a></p>
+          <p className='text-xs pt-8 text-gray-700 dark:text-gray-300   '>By signing in, you agree to our <a href="#" className='text-blue-500'>Terms of Service</a> and <a href="#" className='text-blue-500'>Privacy Policy</a></p>
 
         </div>
 

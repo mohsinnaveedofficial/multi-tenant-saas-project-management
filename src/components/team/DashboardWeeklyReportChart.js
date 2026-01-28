@@ -31,7 +31,7 @@ function DashboardWeeklyReportChart({ chartData }) {
   };
 
   return (
-    <Card>
+    <Card className={"dark:bg-gray-800"}>
       <CardHeader>
         <CardTitle>Weekly Productivity</CardTitle>
       </CardHeader>

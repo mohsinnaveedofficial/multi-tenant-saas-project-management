@@ -32,7 +32,7 @@ function ReportClientProjectCountChart({chartData}) {
 
   return (
     <div>
-      <Card>
+      <Card className={"dark:bg-gray-800"}>
         <CardHeader className="flex justify-between items-center">
             <CardTitle>Clients by Project Count</CardTitle>
             <CardDescription>Distribution overview</CardDescription>

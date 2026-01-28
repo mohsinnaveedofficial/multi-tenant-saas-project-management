@@ -29,7 +29,7 @@ function ReportTeamProductivityChart({chartData}) {
   };
 
   return (
-    <Card >
+      <Card className={"dark:bg-gray-800"}>
       <CardHeader className="flex justify-between items-center">
         <CardTitle>Team Productivity</CardTitle>
         <CardDescription>Weekly task completion per member</CardDescription>

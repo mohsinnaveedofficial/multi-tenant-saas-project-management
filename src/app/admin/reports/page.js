@@ -15,7 +15,7 @@ import api from "@/lib/api";
 import ProtectedAdmin from "@/components/admin/ProtectedAdmin";
 
 function Page() {
-  const [reportData ,setdata]=useState({}); 
+  const [reportData ,setdata]=useState(); 
 
   const getData=async()=>{
     const res=api.get("/admin/report");
@@ -26,7 +26,7 @@ useEffect(()=>{
 },[])
 
   
-
+if(!reportData) return null;
 
   
     const logs = [
@@ -94,7 +94,7 @@ useEffect(()=>{
         />
       </div>
 
-      <Card>
+      <Card className={"dark:bg-gray-800"}>
         <CardHeader>
           <CardTitle className={"text-xl font-sans"}>Recent Activity</CardTitle>
         </CardHeader>

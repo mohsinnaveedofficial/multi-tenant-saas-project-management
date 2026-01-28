@@ -4,14 +4,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 function AssignedRoleDropdown({value,onChange}) {
   return (
 <div className="pt-2  text-start">
-      <label htmlFor="phone" className="font-semibold text-gray-800">
+      <label htmlFor="phone" className="font-semibold text-gray-800 dark:text-gray-200">
         Assigned Role
       </label>
       
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger
           id="priority"
-          className="border border-gray-300  mt-1  w-full rounded-lg p-1.5 data-[placeholder]:text-black"
+          className="border border-gray-300  mt-1  w-full rounded-lg p-1.5 data-[placeholder]:text-black dark:data-[placeholder]:text-gray-400"
         >
           <SelectValue placeholder="Select team member role" />
         </SelectTrigger>

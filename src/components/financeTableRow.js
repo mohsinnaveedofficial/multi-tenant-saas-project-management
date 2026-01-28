@@ -23,12 +23,12 @@ function FinanceTableRow({ project, revenue, cost, profit, margin, status, id, o
   };
 
   return (
-    <tr className="text-center bg-white h-12">
-      <td className="text-gray-900">{project}</td>
+    <tr className="text-center dark:bg-gray-800 bg-white h-12">
+      <td className="text-gray-900 dark:text-gray-200">{project}</td>
       <td className="font-medium text-green-600 text-sm">{revenue}</td>
       <td className="font-medium text-red-600">{cost}</td>
       <td className="font-medium text-blue-600">{profit}</td>
-      <td className="text-center font-medium text-gray-900">{margin}</td>
+      <td className="text-center font-medium text-gray-900 dark:text-gray-200">{margin}</td>
       <td>
         <StatusTag status={status} />
       </td>

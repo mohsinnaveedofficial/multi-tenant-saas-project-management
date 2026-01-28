@@ -35,7 +35,7 @@ const chartConfig = {
 };
 
 return (
-  <Card >
+      <Card className={"dark:bg-gray-800"}>
     <CardHeader className={"flex justify-between items-center"}> 
       <CardTitle>Project Completion Rate</CardTitle>
       <CardDescription>Last 6 months</CardDescription>

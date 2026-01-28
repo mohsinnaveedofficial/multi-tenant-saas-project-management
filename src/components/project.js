@@ -27,9 +27,9 @@ function Project({ project }) {
 
   return (
     <>
-      <div className="rounded-2xl border border-gray-300 shadow-lg p-6 cursor-pointer hover:shadow-md transition">
+      <div className="rounded-2xl border border-gray-300 dark:border-gray-700 dark:bg-gray-800 shadow-lg p-6 cursor-pointer hover:shadow-md transition">
         <div className="flex justify-between">
-          <h1 className="text-black font-bold">{project.name}</h1>
+          <h1 className="text-black dark:text-gray-200 font-bold">{project.name}</h1>
           <h1
             className="text-green-800 bg-green-200 rounded-2xl text-sm px-1 py-0.5"
             style={{
@@ -42,17 +42,17 @@ function Project({ project }) {
         </div>
 
         <div>
-          <h2 className="text-sm text-gray-500 mt-3">
+          <h2 className="text-sm text-gray-500 dark:text-gray-400 mt-3">
             {project.client.companyName}
           </h2>
-          <p className="text-sm text-blue-700 mt-2">
+          <p className="text-sm text-blue-700 mt-2 capitalize">
             {project.assignedUsers?.[0]?.roleInProject}
           </p>
         </div>
 
         <div className="flex justify-between">
-          <h1 className="text-gray-500 text-sm mt-2.5">Progress</h1>
-          <h1 className="text-black text-sm font-bold mt-2.5">
+          <h1 className="text-gray-500 text-sm mt-2.5 dark:text-gray-300">Progress</h1>
+          <h1 className="text-black dark:text-gray-200 text-sm font-bold mt-2.5">
             {progress}%
           </h1>
         </div>
@@ -66,7 +66,7 @@ function Project({ project }) {
           </div>
         </div>
 
-        <div className="flex justify-between text-gray-500 text-sm mt-2.5">
+        <div className="flex justify-between text-gray-500 dark:text-gray-300 text-sm mt-2.5">
           <h1>
             {project.start
               ? new Date(project.start).toLocaleDateString()
@@ -89,8 +89,8 @@ function Project({ project }) {
       </div>
 
       {detailsOpen && (
-        <div className="fixed inset-0 z-50 w-full h-full bg-black/35 flex justify-center items-start overflow-auto">
-          <div className="pt-8 pb-8 w-full flex justify-center">
+        <div className="fixed inset-0  z-50 w-full h-full bg-black/35 flex justify-center items-start overflow-auto">
+          <div className="pt-20 pb-8 w-full flex justify-center">
             <Projectdetails
               openDetail={closeProjectDetails}
               project={project.id}

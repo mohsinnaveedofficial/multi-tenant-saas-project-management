@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { DashboardCard } from "@/components/card";
 import React, { useEffect, useState } from "react";
 import { FaRegFolder } from "react-icons/fa6";
@@ -16,15 +16,15 @@ import ProtectedTeam from "@/components/team/ProtectedTeam";
 import api from "@/lib/api";
 
 function Page() {
+  const [data, setData] = useState({});
+  const getData = async () => {
+    const res = await api.get("/team/dashboard");
+    setData(await res.data);
+  };
 
-
-  const [data,setData]=useState({})
-  const getData=async () => {
-    const res=await api.get('/team/dashboard');
-    setData(await(res).data);
-  }
-
-  useEffect(()=>{getData()},[])
+  useEffect(() => {
+    getData();
+  }, []);
 
   const activityLogs = [
     {
@@ -61,75 +61,76 @@ function Page() {
     },
   ];
 
-  if(!data) return null
+  if (!data) return null;
 
   return (
     <ProtectedTeam>
+      <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-8 m-4">
+          <DashboardCard
+            name={"Assigned Projects"}
+            value={data.assignedProjects?.value ?? 0}
+            Color={"blue"}
+            Icon={FaRegFolder}
+            amount_change={data.assignedProjects?.growth ?? 0}
+            UpOrDown={"increase"}
+          />
 
-    <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-8 m-4">
-        <DashboardCard
-          name={"Assigned Projects"}
-          value={data.assignedProjects?.value??0}
-          Color={"blue"}
-          Icon={FaRegFolder}
-          amount_change={data.assignedProjects?.growth??0}
-          UpOrDown={"increase"}
-        />
+          <DashboardCard
+            name={"Total Tasks"}
+            value={data.totalTasks?.value ?? 0}
+            Color={"green"}
+            Icon={FaRegCheckSquare}
+            amount_change={data.totalTasks?.growth ?? 0}
+            UpOrDown={"increase"}
+          />
 
-        <DashboardCard
-          name={"Total Tasks"}
-          value={data.totalTasks?.value??0}
-          Color={"green"}
-          Icon={FaRegCheckSquare}
-          amount_change={data.totalTasks?.growth??0}
-          UpOrDown={"increase"}
-        />
+          <DashboardCard
+            name={"Tasks In Progress"}
+            value={data.tasksInProgress?.value ?? 0}
+            Color={"orange"}
+            Icon={LuClock3}
+            amount_change={data.tasksInProgress?.growth ?? 0}
+            UpOrDown={"increase"}
+          />
+          <DashboardCard
+            name={"Tasks Completed"}
+            value={data.tasksCompleted?.value ?? 0}
+            Color={"purple"}
+            Icon={MdOutlineTaskAlt}
+            amount_change={data.tasksCompleted?.growth ?? 0}
+            UpOrDown={"increase"}
+          />
+        </div>
 
-        <DashboardCard
-          name={"Tasks In Progress"}
-          value={data.tasksInProgress?.value??0}
-          Color={"orange"}
-          Icon={LuClock3}
-          amount_change={data.tasksInProgress?.growth??0}
-          UpOrDown={"increase"}
-        />
-        <DashboardCard
-          name={"Tasks Completed"}
-          value={data.tasksCompleted?.value??0}
-          Color={"purple"}
-          Icon={MdOutlineTaskAlt}
-          amount_change={data.tasksCompleted?.growth??0}
-          UpOrDown={"increase"}
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 m-4 gap-4  ">
+          <DashboardTaskStatusChart
+            todo={data.totalTaskSummary?.todo ?? 0}
+            completed={data.totalTaskSummary?.completed ?? 0}
+            delayed={data.totalTaskSummary?.delayed ?? 0}
+            inProgress={data.totalTaskSummary?.inProgress ?? 0}
+          />
+          <DashboardWeeklyReportChart chartData={data.weeklyReport ?? []} />
+        </div>
+
+        <Card className={"m-4 dark:bg-gray-800"}>
+          <CardHeader>
+            <CardTitle className={"text-xl font-sans"}>
+              Recent Activity
+            </CardTitle>
+          </CardHeader>
+          <Separator></Separator>
+          <CardContent
+            className={
+              "max-h-[325px] overflow-auto custom-scrollbar scroll-smooth"
+            }
+          >
+            {activityLogs.map((item, idx) => (
+              <Logs key={idx} time={item.time} title={item.message} />
+            ))}
+          </CardContent>
+        </Card>
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 m-4 gap-4  ">
-        <DashboardTaskStatusChart
-          todo={data.totalTaskSummary?.todo??0}
-          completed={data.totalTaskSummary?.completed??0}
-          delayed={data.totalTaskSummary?.delayed??0}
-          inProgress={data.totalTaskSummary?.inProgress??0}
-        />
-        <DashboardWeeklyReportChart chartData={data.weeklyReport ??[] } />
-      </div>
-
-      <Card className={"m-4"}>
-        <CardHeader>
-          <CardTitle className={"text-xl font-sans"}>Recent Activity</CardTitle>
-        </CardHeader>
-        <Separator></Separator>
-        <CardContent
-          className={
-            "max-h-[325px] overflow-auto custom-scrollbar scroll-smooth"
-          }
-        >
-          {activityLogs.map((item, idx) => (
-            <Logs key={idx} time={item.time} title={item.message} />
-          ))}
-        </CardContent>
-      </Card>
-    </div>
     </ProtectedTeam>
   );
 }

@@ -21,13 +21,13 @@ function ProjectTaskBox({
   };
   const selectedStatusColor = statusmain[priority] || statusmain.medium;
   return (
-    <tr className="bg-white transition font-sans">
-      <td className="flex flex-col py-4 px-6 w-80 text-gray-700 ">
+    <tr className="bg-white dark:bg-gray-700 transition font-sans">
+      <td className="flex flex-col py-4 px-6 w-80 text-gray-700 dark:text-gray-200 ">
         <span className="font-bold">{task} </span>
 
         {description}
       </td>
-      <td className="py-4 px-6 text-gray-700">{project}</td>
+      <td className="py-4 px-6 text-gray-700 dark:text-gray-200">{project}</td>
       <td className="py-4 px-6">
         <span
           className={`px-3 py-1 rounded-full text-sm font-semibold ${selectedStatusColor.text} ${selectedStatusColor.bg}   `}

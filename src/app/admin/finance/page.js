@@ -68,8 +68,8 @@ function  Finance() {
 
       <FinanceChart chartData={dashboard?.monthlyPerformance ?? []} />
 
-      <div className="border border-gray-200 m-4 mb-8 rounded-2xl ">
-        <div className="bg-white p-4 flex justify-between items-center  rounded-t-2xl">
+      <div className="border border-gray-200  overflow-hidden dark:border-gray-600  m-4 mb-8 rounded-2xl ">
+        <div className="bg-white dark:bg-gray-800 p-4 flex justify-between items-center  rounded-t-2xl">
           <h3 className="font-sans font-semibold text-lg">Projects Financials</h3>
         
           <CreateFinancials onAdd={loadData} />
@@ -77,8 +77,8 @@ function  Finance() {
 
     <div className="overflow-x-auto">
 
-        <table className="text-gray-400 border-separate  table-auto border-spacing-x-0 border-spacing-y-[3px] w-full pt-1 rounded-lg">
-          <thead className="font-normal font-sans">
+        <table className="text-gray-400 dark:text-gray-200  border-separate table-auto border-spacing-x-0 border-spacing-y-[3px] w-full pt-1 rounded-lg">
+          <thead className="font-normal font-sans bg-gray-200 dark:bg-gray-900">
             <tr>
               <th className="px-2 py-2 text-center">PROJECT</th>
               <th className="px-2 py-2 text-center">REVENUE</th>

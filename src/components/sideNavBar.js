@@ -14,6 +14,7 @@ import { CgLoadbarSound } from "react-icons/cg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiOutlineUser } from "react-icons/ai";
+import Image from "next/image";
 
 function SideNavBar({ setnavOpen, nav }) {
   const [admin, setadmin] = useState(false);
@@ -47,7 +48,7 @@ function SideNavBar({ setnavOpen, nav }) {
   return (
     <aside
       className={`
-    transition-all duration-500 ease-in-out bg-white border border-gray-200 min-h-full overflow-hidden z-50
+    transition-all duration-500 ease-in-out  bg-white border  border-gray-200 dark:bg-gray-800 dark:border-gray-700 min-h-full overflow-hidden z-50
     fixed lg:relative
     ${nav ? "w-[70%] sm:w-[50%] md:w-[40%] lg:w-[16.6%]" : "w-0 lg:w-[5%]"}
     ${nav ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
@@ -60,19 +61,19 @@ function SideNavBar({ setnavOpen, nav }) {
               WorkHub
             </h1>
             <RiMenuFoldLine
-              className="text-black text-xl  cursor-pointer"
+              className="text-black dark:text-white text-xl  cursor-pointer"
               onClick={() => setnavOpen(false)}
             />
           </>
         ) : (
           <RiMenuFold2Line
-            className="text-black text-xl cursor-pointer "
+            className="text-black dark:text-white text-xl cursor-pointer "
             onClick={() => setnavOpen(true)}
           />
         )}
       </div>
       <hr className="text-gray-200"></hr>
-      <div className="text-gray-600 ps-2 pt-2">
+      <div className="text-gray-600 dark:text-gray-400 ps-2 pt-2">
         {menulist.map((menu, idx) => (
           <Link
             href={menu.page}

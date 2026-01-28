@@ -5,7 +5,7 @@ function Homefooter() {
   return (
     <footer className="bg-gray-900 text-white font-sans  ">
       <div className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-4 gap-8    ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8    ">
           <div className="space-y-4  ">
             <h1 className="font-bold text-blue-400 text-2xl font-['Pacifico'] ">
               Workhub
