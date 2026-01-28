@@ -101,7 +101,7 @@ function AdminCreateProject({ closeform,refreshData }) {
             Client
           </label>
           <Select onValueChange={(val) => setformData((prev) => ({ ...prev, clientId: val }))}>
-            <SelectTrigger className="text-black border shadow w-full input-style">
+            <SelectTrigger className="text-black dark:text-gray-200 border shadow w-full input-style">
               <SelectValue placeholder="Select Client" />
             </SelectTrigger>
             <SelectContent>
