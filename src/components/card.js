@@ -16,9 +16,9 @@ function DashboardCard({name,value,amount_change,Icon,Color}) {
 const color=colorMap[Color]||colorMap.blue;
   return (
     <div className="flex justify-between items-center shadow-sm  bg-white dark:bg-gray-800  border  border-gray-200 dark:border-gray-700 rounded-2xl px-8 py-5">
-      <div className="space-y-1">
-        <h3 className="text-gray-400  font-sans font-semibold text-sm  ">{name}</h3>
-        <h4 className="font-bold text-2xl">{value}</h4>
+      <div className="space-y-1 flex min-w-0 flex-col">
+        <h3 className="text-gray-400  font-sans font-semibold text-sm ">{name}</h3>
+        <h4 className="font-bold text-2xl truncate" title={value} >{value}</h4>
         <p className={`${color.text} font-semibold text-xs` }>
           <span className="flex items-center gap-1">
              {value > 0 ? <><FaArrowUp />+</>:value<0?<><FaArrowDown />-</>:<><FaArrowUp/></>}
@@ -40,11 +40,11 @@ const color=colorMap[Color]||colorMap.blue;
 function DashboardActiveProjects({title,company,progress,status,date}){
     return(
         <tr className="text-center bg-white dark:bg-gray-800 h-12  ">
-        <td>{title}</td>
-        <td>{company}</td>
-        <td className='text-center'><Progress width={progress}/></td>
+        <td className="text-nowrap  px-2">{title}</td>
+        <td className="text-nowrap  px-2">{company}</td>
+        <td className='text-center px-2'><Progress width={progress}/></td>
         <td> <StatusTag status={status}/> </td>
-        <td className="whitespace-nowrap">{date}</td>
+        <td className="whitespace-nowrap px-2">{date}</td>
      
     </tr>
     )

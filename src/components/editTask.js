@@ -154,17 +154,17 @@ function EditComponent({
           </div>
 
           <DialogFooter>
-            <div className="w-full flex justify-between gap-3 mt-4">
+            <div className="w-full flex justify-between flex-col sm:flex-row gap-3 mt-4">
               <DialogClose asChild>
                 <button 
-              className="border w-1/2 border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white">                  Cancel
+              className="border border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white">                  Cancel
                 </button>
               </DialogClose>
               <button
                 type="submit"
-                className="bg-blue-600 text-white w-1/2 rounded-lg py-2"
+                className="bg-blue-600 text-white  rounded-lg py-2"
               >
-                Update Task
+                Save Changes
               </button>
             </div>
           </DialogFooter>

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { CgArrowLongRight } from "react-icons/cg";
 import Projectdetails from "./projectdetails";
+import ProjectStatus from "./projectStatus";
 
 const STATUS_PROGRESS = {
   notStarted: 0,
@@ -30,15 +31,7 @@ function Project({ project }) {
       <div className="rounded-2xl border border-gray-300 dark:border-gray-700 dark:bg-gray-800 shadow-lg p-6 cursor-pointer hover:shadow-md transition">
         <div className="flex justify-between">
           <h1 className="text-black dark:text-gray-200 font-bold">{project.name}</h1>
-          <h1
-            className="text-green-800 bg-green-200 rounded-2xl text-sm px-1 py-0.5"
-            style={{
-              backgroundColor: project.statusbg || "#DCFCE7",
-              color: project.statuscolor || "#166534",
-            }}
-          >
-            {project.status}
-          </h1>
+        <ProjectStatus Status={project.status}/>
         </div>
 
         <div>

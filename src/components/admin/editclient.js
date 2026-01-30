@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 
 function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
   const [open, setOpen] = useState(false);
-  const router=useRouter();
+  const router = useRouter();
 
   let [formData, setformData] = useState({
     Fullname: Fullname,
@@ -42,7 +42,6 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      
       const res = await api.patch(`/client/${id}`, {
         name: formData.Fullname,
         companyName: formData.Company,
@@ -50,22 +49,22 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
         phone: formData.phone,
         status: formData.status,
       });
-     
+
       if (res.status === 200) {
         toast.success("Update Successfully");
-      setOpen(false);     
-      router.refresh();
+        setOpen(false);
+        router.refresh();
       }
     } catch (error) {
       toast.error(
-        error.response?.data?.message || error.message || "Unable to Update"
+        error.response?.data?.message || error.message || "Unable to Update",
       );
     }
   };
 
   return (
     <div>
-<Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <button>
             <AiOutlineEdit className="text-blue-600 cursor-pointer" />
@@ -80,7 +79,10 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
           <form onSubmit={handleSubmit}>
             <div>
               <div className="pt-2  text-start">
-                <label htmlFor="name" className="font-semibold text-gray-800 dark:text-gray-200">
+                <label
+                  htmlFor="name"
+                  className="font-semibold text-gray-800 dark:text-gray-200"
+                >
                   Full Name
                 </label>
                 <br />
@@ -117,7 +119,10 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
               </div>
 
               <div className="pt-2  text-start">
-                <label htmlFor="email" className="font-semibold text-gray-800 dark:text-gray-200">
+                <label
+                  htmlFor="email"
+                  className="font-semibold text-gray-800 dark:text-gray-200"
+                >
                   Email
                 </label>
                 <br />
@@ -134,7 +139,10 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
               </div>
 
               <div className="pt-2  text-start">
-                <label htmlFor="phone" className="font-semibold text-gray-800 dark:text-gray-200">
+                <label
+                  htmlFor="phone"
+                  className="font-semibold text-gray-800 dark:text-gray-200"
+                >
                   Phone
                 </label>
                 <br />
@@ -150,7 +158,10 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
                 />
               </div>
               <div className="pt-2 text-start">
-                <label htmlFor="status" className="font-semibold text-gray-800 dark:text-gray-200">
+                <label
+                  htmlFor="status"
+                  className="font-semibold text-gray-800 dark:text-gray-200"
+                >
                   Status
                 </label>
                 <Select
@@ -169,15 +180,15 @@ function EditClientDialog({ id, Fullname, Company, Email, phone, status }) {
                 </Select>
               </div>
 
-              <div className="flex items-center  justify-between pt-8 gap-3">
+              <div className="flex justify-between flex-col sm:flex-row pt-6 gap-3">
                 <DialogClose asChild>
-                  <button className="border border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 text-gray-800 text-lg w-1/2 rounded-lg px-3 py-2">
+                  <button className="border  border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 text-gray-800 text-lg w-full rounded-lg px-3 py-2">
                     Cancel
                   </button>
                 </DialogClose>
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white w-1/2 text-md rounded-lg px-3 py-2.5 "
+                  className="bg-blue-600 w-full hover:bg-blue-700 text-white  text-md rounded-lg px-3 py-2.5 "
                 >
                   Save Changes
                 </button>

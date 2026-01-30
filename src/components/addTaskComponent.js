@@ -96,9 +96,9 @@ function AddTaskComponent({ refreshData }) {
           Add Task
         </DialogTrigger>
 
-        <DialogContent className="w-1/2 md:w-1/3 lg:w-1/3">
+        <DialogContent className="w-9/12 overflow-y-auto h-[90vh] custom-scrollbar overflow-x-hidden   md:w-1/3 lg:w-1/3">
           <DialogHeader>
-            <DialogTitle>Add Task</DialogTitle>
+            <DialogTitle className={"text-start"}>Add Task</DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
 
@@ -143,8 +143,8 @@ function AddTaskComponent({ refreshData }) {
                 }
               />
 
-              <div className="flex gap-4 pt-2 items-center justify-center">
-                <div className="w-1/2 text-start">
+              <div className="flex flex-col sm:flex-row gap-4 pt-2 items-center justify-center">
+                <div className="  w-full sm:w-1/2 text-start">
                   <label
                     htmlFor="priority"
                     className="font-semibold text-gray-800 dark:text-gray-200"
@@ -168,7 +168,7 @@ function AddTaskComponent({ refreshData }) {
                   </Select>
                 </div>
 
-                <div className="text-start w-1/2">
+                <div className="text-start w-full sm:w-1/2">
                   <label
                     htmlFor="deadline"
                     className="font-semibold text-gray-800 dark:text-gray-200"
@@ -207,16 +207,16 @@ function AddTaskComponent({ refreshData }) {
               </div>
 
               <DialogFooter>
-                <div className="flex w-full items-center justify-between pt-5 gap-3">
+                <div className="flex w-full items-center flex-col sm:flex-row justify-between pt-5 gap-3">
                   <DialogClose asChild>
                     <button 
-              className="border w-1/2 border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
+              className="border w-full border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
 >                      Cancel
                     </button>
                   </DialogClose>
                   <button
                     type="submit"
-                    className="bg-blue-600 text-white w-1/2 text-md rounded-lg p-2"
+                    className="bg-blue-600 text-white w-full text-md rounded-lg p-2"
                   >
                     Add Task
                   </button>

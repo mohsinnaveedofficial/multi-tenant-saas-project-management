@@ -89,7 +89,7 @@ function EditAdminProject({
   };
 
   return (
-    <div className="p-5 rounded-lg border-gray-300  dark:border-gray-700 dark:shadow-gray-800 dark:shadow-sm dark:bg-neutral-950 bg-white font-sans mb-10 lg:w-1/3">
+    <div className="p-5 rounded-lg border-gray-300  dark:border-gray-700 dark:shadow-gray-800 dark:shadow-sm dark:bg-neutral-950 bg-white font-sans mb-10 w-9/12 sm:w-1/2 md:w-1/2 lg:w-1/3">
       <div className="flex justify-between items-center gap-8">
         <h3 className="text-xl font-semibold text-black dark:text-gray-200">Edit Project</h3>
         <RxCross2
@@ -173,7 +173,7 @@ function EditAdminProject({
             </Popover>
           </div>
 
-          <div className="mt-4 w-full flex justify-center items-center gap-3">
+          <div className="mt-4 w-full flex flex-col sm:flex-row justify-center items-center gap-3">
             <button
               type="button"
               onClick={() => closeform(false)}
@@ -185,7 +185,7 @@ function EditAdminProject({
               type="submit"
               className="border w-full whitespace-nowrap border-blue-300 hover:bg-blue-600 transition-all duration-300 ease-in-out px-10 rounded-lg text-white py-2 bg-blue-500"
             >
-              Update Project
+              Save Changes
             </button>
           </div>
         </form>

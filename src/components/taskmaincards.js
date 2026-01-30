@@ -32,7 +32,7 @@ function Taskmaincards({
   return (
     <div className="rounded-2xl border bg-white border-gray-200 dark:border-gray-700 dark:bg-gray-800 shadow p-6">
       <div className="flex justify-between">
-        <h1 className="text-black dark:text-gray-200 font-bold">{title}</h1>
+        <h1 className="text-black dark:text-gray-200 font-bold capitalize">{title}</h1>
         <h1
           className={`rounded-2xl text-sm font-medium px-1.5 py-0.5 ${selectedStatusColor.text} ${selectedStatusColor.bg}`}
         >

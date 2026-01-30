@@ -5,6 +5,7 @@ import ProjectMemberIcon from "../ProjectMemberIcon";
 import { AiOutlineEdit } from "react-icons/ai";
 import ProjectDetailsCard from "./ProjectDetailsCard";
 import EditAdminProject from "./editProject";
+import ProjectStatus from "../projectStatus";
 
 function AdminProjectCardTable({
   projectname,
@@ -42,9 +43,7 @@ function AdminProjectCardTable({
         </div>
       </td>
       <td className=" px-4 py-3 flex justify-start items-center">
-        <div className="bg-blue-100 text-blue-500 font-semibold text-center rounded-2xl py-1 w-24 whitespace-nowrap text-[13px] capitalize">
-          {status}
-        </div>
+         <ProjectStatus Status={status}/>
       </td>
       <td className=" px-4 py-3 text-left">
         {new Date(deadline).toLocaleDateString()}

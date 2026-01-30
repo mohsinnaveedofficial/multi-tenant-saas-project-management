@@ -78,7 +78,7 @@ function AdminCreateProject({ closeform,refreshData }) {
   };
 
   return (
-    <div className="p-5 rounded-lg border-gray-300  dark:border-gray-700 dark:shadow-gray-800 dark:shadow-sm dark:bg-neutral-950 bg-white font-sans mb-10 lg:w-1/3">
+    <div className="p-5 rounded-lg border-gray-300  dark:border-gray-700 dark:shadow-gray-800 dark:shadow-sm dark:bg-neutral-950 bg-white font-sans mb-10 w-9/12 sm:w-1/2 lg:w-1/3">
       <div className="flex justify-between items-center gap-8">
         <h3 className="text-xl font-semibold text-black dark:text-gray-200">Add new Project</h3>
         <RxCross2
@@ -86,7 +86,7 @@ function AdminCreateProject({ closeform,refreshData }) {
           onClick={() => closeform(false)}
         />
       </div>
-      <div className="m-4">
+      <div className=" m-2 sm:m-4">
         <form onSubmit={handleSubmit}>
           <Textinput
             name="projectName"
@@ -151,7 +151,7 @@ function AdminCreateProject({ closeform,refreshData }) {
             </Popover>
           </div>
 
-          <div className="mt-4 w-full flex justify-center items-center gap-3">
+          <div className="mt-4 w-full flex flex-wrap md:flex-nowrap justify-center items-center gap-3">
             <button
               type="button"
               onClick={() => closeform(false)}

@@ -67,19 +67,19 @@ function ProjectDetailsCard({ project }) {
         </DialogHeader>
         <Separator className=" bg-gray-200 dark:bg-gray-400 " />
         <div className="grid grid-cols-3 gap-8 p-4">
-          <Card className={"border-0 bg-gray-50  dark:bg-gray-900 shadow-none"}>
+          <Card className={"border-0 bg-gray-50  dark:bg-gray-900 shadow-none flex flex-col min-w-0"}>
             <CardContent>
               <h5 className=" font-semibold">Client</h5>
-              <p className="text-gray-500 dark:text-gray-400 mt-2 ">
+              <p className="text-gray-500 dark:text-gray-400 mt-2 truncate " title={project?.client?.companyName}>
                 {project?.client?.companyName || "N/A"}
               </p>
             </CardContent>
           </Card>
 
-          <Card className={"border-0 bg-gray-50 dark:bg-gray-900 shadow-none"}>
+          <Card className={"border-0 bg-gray-50 dark:bg-gray-900 shadow-none flex flex-col min-w-0"}>
             <CardContent>
               <h5 className=" font-semibold">Budget</h5>
-              <p className="text-gray-500 dark:text-gray-400 mt-2 ">${project?.budget || 0}</p>
+              <p className="text-gray-500 dark:text-gray-400 mt-2 " title={project?.budget}>${project?.budget || 0}</p>
             </CardContent>
           </Card>
 

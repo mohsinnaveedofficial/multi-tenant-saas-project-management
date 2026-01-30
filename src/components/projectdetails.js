@@ -45,7 +45,7 @@ const [projectdetail,setProjectDetail]=useState();
         <h1 className="font-bold">{projectdetail?.name}</h1>
         <button
           onClick={() => openDetail(false)}
-          className="text-gray-600 dark:text-gray-200 text-sm font-bold"
+          className="text-gray-600 dark:text-gray-200 text-sm font-bold cursor-pointer"
         >
           <RxCross2 size={20} />
         </button>

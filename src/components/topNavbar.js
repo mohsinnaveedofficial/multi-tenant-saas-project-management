@@ -17,27 +17,25 @@ import { toast } from "sonner";
 import { FaUser } from "react-icons/fa";
 import { NavbarToogle } from "./navbarToggle";
 
-
 function TopNavbar({ tooglenav }) {
   const pathname = usePathname();
   const segment = pathname.split("/").filter(Boolean);
 
   let formattedSegement = segment.map(
-    (seg) => seg.charAt(0).toUpperCase() + seg.slice(1)
+    (seg) => seg.charAt(0).toUpperCase() + seg.slice(1),
   );
-  const { signOut,user } = useAuth();
-  const handleLogout=async()=>{
+  const { signOut, user } = useAuth();
+  const handleLogout = async () => {
     try {
-      const res=await api.post("/auth/signout")
-      if(res.status=201){
-        signOut()
-      toast.success("Successfully logout") 
-      
-    }
+      const res = await api.post("/auth/signout");
+      if ((res.status = 201)) {
+        signOut();
+        toast.success("Successfully logout");
+      }
     } catch (error) {
-      toast.error(error.message ||"Unable to logut")
+      toast.error(error.message || "Unable to logut");
     }
-  }
+  };
 
   const pageTitle =
     formattedSegement[formattedSegement.length - 1] || "Dashboard";
@@ -61,9 +59,11 @@ function TopNavbar({ tooglenav }) {
           </h3>
         </div>
         <div className="flex items-center justify-start flex-row gap-1 text-sm md:text-lg">
-        <NavbarToogle/>
+          <div className="hidden sm:inline">
+            <NavbarToogle />
+          </div>
 
-          <div className="text-blue-700 flex justify-center font-sans items-center rounded-full h-10 w-10 bg-blue-50 ms-1 sm:ms-5">
+          <div className="  text-blue-700 flex justify-center font-sans items-center rounded-full h-10 w-10 bg-blue-50 ms-1 sm:ms-5">
             {/* <p>
               { user?.name?.split(" ")
                 .map((word) => word.charAt(0))
@@ -71,21 +71,36 @@ function TopNavbar({ tooglenav }) {
                 .toUpperCase()}
             </p> */}
             <FaUser />
-
           </div>
-          <h4 className="font-sans capitalize truncate">{user?.name}</h4>
+          {/* <h4 className="font-sans capitalize truncate">{user?.name}</h4> */}
 
           <DropdownMenu>
             <DropdownMenuTrigger>
               <FaAngleDown />
             </DropdownMenuTrigger>
-            <DropdownMenuContent className={"mr-8 mt-3 ps-2 backdrop-blur-sm  bg-white/70 dark:bg-neutral-900/90"}>
+            <DropdownMenuContent
+              className={
+                "mr-8 mt-3   backdrop-blur-sm w-40 bg-white/70 dark:bg-neutral-900/90"
+              }
+            >
+              <DropdownMenuLabel
+                className={"flex min-w-0 ps-3 pe-1 mt-2 mb-1 max-w-32 capitalize"}
+              >
+                <span className="truncate"> {user?.name}</span>
+              </DropdownMenuLabel>
 
-              <DropdownMenuLabel className={"truncate capitalize"}>{user?.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleLogout}  className="cursor-pointer mt-1">Logout</DropdownMenuItem>
-             
+              <DropdownMenuItem className="ps-3 pe-1 my-2 ">Profile</DropdownMenuItem>
+              <DropdownMenuItem
+                className="ps-3 pe-1 cursor-pointer mt-1 mb-3 "
+                onClick={handleLogout}
+              >
+                Logout
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className={" sm:hidden block"} />
+              <div className="flex justify-end items-end  sm:hidden mx-3 mt-3 mb-2">
+                <NavbarToogle />
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

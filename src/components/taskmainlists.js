@@ -20,10 +20,20 @@ function ProjectTaskBox({
     low: { text: "text-green-500", bg: "bg-green-100" },
   };
   const selectedStatusColor = statusmain[priority] || statusmain.medium;
+   const completionStatusStyles = {
+    todo: "bg-gray-200 text-gray-600",
+    inProgress: "bg-blue-100 text-blue-600",
+    review: "bg-yellow-100 text-yellow-600",
+    completed: "bg-green-100 text-green-600",
+    delayed: "bg-red-100 text-red-600",
+  };
+
+  const selectedCompletionStatusClass =
+    completionStatusStyles[status] || completionStatusStyles.todo;
   return (
     <tr className="bg-white dark:bg-gray-700 transition font-sans">
       <td className="flex flex-col py-4 px-6 w-80 text-gray-700 dark:text-gray-200 ">
-        <span className="font-bold">{task} </span>
+        <span className="font-bold capitalize">{task} </span>
 
         {description}
       </td>
@@ -40,8 +50,8 @@ function ProjectTaskBox({
           {deadline}
         </span>
       </td>
-      <td className="py-4 px-6 text-blue-700 font-semibold text-sm ">
-        <span className="rounded-full bg-blue-200 px-2 py-0.5 ">{status}</span>
+      <td className="py-4 px-6  font-semibold text-sm ">
+        <span className={`rounded-full bg-blue-200 capitalize px-2 py-0.5 ${selectedCompletionStatusClass} `}>{status}</span>
       </td>
 
       <td className="py-4 px-6 text-center">

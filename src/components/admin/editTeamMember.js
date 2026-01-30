@@ -63,7 +63,7 @@ function EditTeamMember({ FullName, EmailAddress, Role, id, refreshData }) {
           </button>
         </DialogTrigger>
 
-        <DialogContent className="w-1/2 md:w-1/3">
+        <DialogContent className="w-9/12 sm:w-1/2 md:w-1/2 lg:w-1/3">
           <DialogHeader>
             <DialogTitle>Edit Employee</DialogTitle>
             <DialogDescription />
@@ -119,11 +119,11 @@ function EditTeamMember({ FullName, EmailAddress, Role, id, refreshData }) {
               />
             </div>
 
-            <div className="flex justify-between pt-5 gap-3">
+              <div className="flex justify-between flex-col sm:flex-row pt-6 gap-3">
               <DialogClose asChild>
                 <button
                   type="button"
-                  className="border w-1/2 border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
+                  className="border w-full border-gray-300 dark:bg-gray-200 dark:hover:bg-gray-300 hover:bg-gray-100 transition-all duration-300 ease-in-out px-10 rounded-lg text-black py-2 bg-white"
                 >
                   Cancel
                 </button>
@@ -131,7 +131,7 @@ function EditTeamMember({ FullName, EmailAddress, Role, id, refreshData }) {
 
               <button
                 type="submit"
-                className="bg-blue-600 text-white w-1/2 rounded-lg p-2"
+                className="bg-blue-600 w-full text-white  rounded-lg p-2"
               >
                 Save Changes
               </button>

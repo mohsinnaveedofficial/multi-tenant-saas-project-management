@@ -1,6 +1,7 @@
 import React from "react";
 import ProjectMemberIcon from "../ProjectMemberIcon";
 import Progress, { Progress2 } from "../progress";
+import ProjectStatus from "../projectStatus";
 
 function AdminProjectCard({
   projectname,
@@ -18,9 +19,7 @@ function AdminProjectCard({
           {projectname}
         </h3>
         <div>
-          <div className="bg-blue-100 rounded-2xl px-3 py-1 font-semibold text-blue-500 text-[13px]">
-            <span className="capitalize">{Status}</span>
-          </div>
+          <ProjectStatus Status={Status}/>
         </div>
       </div>
 

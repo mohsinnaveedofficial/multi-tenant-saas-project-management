@@ -143,15 +143,15 @@ function AddClientComponent({refreshData}) {
                 />
               </div>
 
-              <div className="flex items-center  justify-between pt-8 gap-3">
+              <div className="flex items-center flex-col sm:flex-row  justify-between pt-8 gap-3">
                 <DialogClose asChild>
-                  <button className="border border-gray-300 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800 dark:bg-gray-700 text-gray-800 text-lg w-1/2 rounded-lg px-3 py-2">
+                  <button className="border  border-gray-300 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-800 dark:bg-gray-700 text-gray-800 text-lg w-full  rounded-lg px-3 py-2">
                     Cancel
                   </button>
                 </DialogClose>
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white w-1/2 text-md rounded-lg px-3 py-2.5 "
+                  className="bg-blue-600 hover:bg-blue-700 text-white w-full text-md rounded-lg px-3 py-2.5 "
                 >
                   Add Client
                 </button>

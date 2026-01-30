@@ -56,7 +56,7 @@ function ProjectTaskBox({
   return (
     <tr className="bg-white dark:bg-gray-700 transition font-sans">
       <td className="flex flex-col py-4 px-6 w-80 text-gray-700 dark:text-gray-200 ">
-        <span className="font-bold text-nowrap">{task}</span>
+        <span className="font-bold text-nowrap capitalize">{task}</span>
         {description}
       </td>
 

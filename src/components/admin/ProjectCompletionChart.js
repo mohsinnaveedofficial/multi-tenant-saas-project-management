@@ -27,7 +27,7 @@ function ProjectCompletionChart({ statusCounts }) {
       </h2>
      <div className="h-0.5  bg-gray-200 dark:bg-gray-700 "></div>
 
-      <div className="flex flex-row justify-between items-center ps-8   ">
+      <div className="flex mt-3 sm:mt-0 sm:flex-row flex-col-reverse justify-between items-center ps-8   ">
         <div className="space-y-2">
           {data.map((item, idx) => (
             <div
@@ -47,8 +47,8 @@ function ProjectCompletionChart({ statusCounts }) {
             </div>
           ))}
         </div>
-        <div className="w-0.5  bg-gray-200 dark:bg-gray-700 h-72 "></div>
-        <div className="w-1/2 h-64 mt-5 "  >
+        <div className="w-0.5 hidden sm:inline bg-gray-200 dark:bg-gray-700 h-72 "></div>
+        <div className=" w-full sm:w-1/2 h-64 mt-5 "  >
           <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
             <PieChart>
               <Pie
@@ -59,7 +59,6 @@ function ProjectCompletionChart({ statusCounts }) {
                 paddingAngle={5}
                 dataKey={"value"}
                 isAnimationActive={true}
-               
                 activeShape={null}
                 style={{outline:"none"}}
                 // stroke="#c4c3c2"

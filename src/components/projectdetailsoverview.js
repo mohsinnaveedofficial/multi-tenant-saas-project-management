@@ -2,6 +2,7 @@
 import api from "@/lib/api";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import ProjectStatus from "./projectStatus";
 
 function Projectdetailsoverview({ project, roleInProject }) {
 
@@ -63,10 +64,8 @@ function Projectdetailsoverview({ project, roleInProject }) {
         </div>
 
         <div className="rounded-lg border border-gray-100 bg-gray-50 p-4 flex-1 dark:border-gray-600 dark:bg-gray-800 ">
-          <h1 className="font-bold ">Status</h1>
-          <span className="text-green-800 bg-green-100 border border-green-200 rounded-2xl text-sm px-2 py-0.5 mt-2 inline-block">
-            {project?.status}
-          </span>
+          <h1 className="font-bold mb-2 ">Status</h1>
+          <ProjectStatus Status={project?.status}/>
         </div>
       </div>
 

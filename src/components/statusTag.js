@@ -35,7 +35,7 @@ function StatusTag({status}) {
 let finalstatus=projectStatuses[status]|| projectStatuses["not started"];
   return (
     <div >
-      <h4 className={`${finalstatus.text} ${finalstatus.bg} rounded-2xl inline px-3 py-1 whitespace-nowrap`}>{status}</h4>
+      <h4 className={`${finalstatus.text} ${finalstatus.bg}  capitalize rounded-2xl inline px-3 py-1 whitespace-nowrap`}>{status}</h4>
     </div>
   )
 }

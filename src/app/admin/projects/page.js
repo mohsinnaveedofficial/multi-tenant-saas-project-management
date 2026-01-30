@@ -144,7 +144,7 @@ function Projects() {
             </div>
           ) : (
             <div className="m-4 overflow-x-auto rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm">
-              <table className="min-w-[700px] w-full text-left border-separate border-spacing-x-0">
+              <table className="min-w-[700px] w-full text-left border-separate border-spacing-x-0 ">
                 <thead className="text-gray-500 dark:text-gray-200 font-sans">
                   <tr>
                     <th className="font-semibold px-4 py-3">PROJECT</th>

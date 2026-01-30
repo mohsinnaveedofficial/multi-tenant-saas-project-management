@@ -30,7 +30,6 @@ function Dashboard() {
     fetchDashboard();
   }, []);
 
-  // 🔑 Important: render NOTHING until data exists
   if (!data) return null;
 
   const chartData = (data.monthlyChartData || []).map((m) => ({
@@ -54,24 +53,13 @@ function Dashboard() {
     }
   };
 
-  const formatStatus = (status) => {
-    switch (status) {
-      case "notStarted": return "Not Started";
-      case "inProgress": return "In Progress";
-      case "pending": return "Pending";
-      case "onHold": return "On Hold";
-      case "completed": return "Completed";
-      case "cancelled": return "Cancelled";
-      default: return status;
-    }
-  };
-
+ 
   
   return (
     <ProtectedAdmin>
 
     <div className="text-black dark:text-white">
-      <div className="grid grid-cols-2 gap-8 m-5 md:grid-cols-3 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 m-5 md:grid-cols-3 ">
         <DashboardCard
           name={"Total Client"}
           value={data.totalClient.value}
@@ -124,10 +112,10 @@ function Dashboard() {
 
 </div>
 
-      <div className=" border border-gray-200 dark:border-gray-700 m-4 rounded-2xl  overflow-y-hidden overflow-x-scroll lg:overflow-x-auto  mb-10">
-        <div className="bg-white dark:bg-gray-800 p-4  rounded-t-2xl">
+        <div className="bg-white dark:bg-gray-800 p-4  mx-4 mt-4  rounded-t-2xl border border-gray-200 border-b-0 dark:border-gray-700 ">
           <h3 className="font-sans font-semibold text-lg"> Active Projects</h3>
         </div>
+      <div className=" border border-gray-200 dark:border-gray-700 mx-4 border-t-0  rounded-b-2xl  overflow-y-hidden lg:overflow-x-auto  mb-14">
         <table className="text-gray-400 border-separate border-spacing-x-0 border-spacing-y-[3px]  w-full overflow-x-scroll  pt-1   rounded-lg">
           <thead className="font-normal font-sans dark:bg-gray-900 bg-gray-50" >
             <tr>
@@ -145,7 +133,7 @@ function Dashboard() {
                 title={p.name}
                 company={p.client?.companyName || p.client?.name}
                 progress={mapStatusProgress(p.status)}
-                status={  formatStatus(p.status)}
+                status={  p.status}
                 date={new Date(p.end).toLocaleDateString()}
               />
             ))}
